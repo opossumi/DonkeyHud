@@ -14,7 +14,7 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 
 # Getting Started:
 
-  - Download this [GSI Config File](https://drive.google.com/file/d/1_GvudI1GroWY8hpBTcqbvNWcbOlf-iRS/view?usp=sharing) and place it in your `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
+  - Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at  `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
   - Open integrated terminal for the Server folder and run `npm install`. This downloads all the needed modules for the server
   - Open integrated terminal for the Client folder and run `npm install` This downloads all the needed modules for the client.
   - Start the GSI server by running `npm start` in the integrated terminal for the Server folder. This gets the server up and running listening for data from CS2.
