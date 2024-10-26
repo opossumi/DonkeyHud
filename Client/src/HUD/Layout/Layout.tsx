@@ -18,11 +18,6 @@ interface LayoutProps {
   match?: Match | null;
 }
 
-/**
- * TODO: Fix raw data from CS2 GSI, specifically observer slots (start from 1 instead of 0, replace 10 with 0)
- * TODO: Fix TeamBox left/right orientation
- */
-
 export const Layout = ({game, match}: LayoutProps) => {
   const [forceHide, setForceHide] = useState(false);
   
@@ -34,17 +29,6 @@ export const Layout = ({game, match}: LayoutProps) => {
   const isFreezetime = (game.round && game.round.phase === "freezetime") || game.phase_countdowns.phase === "freezetime";
 
   return (
-    // <div className='layout'>
-    //   <Matchbar map={game.map} match={match ? match : null} phase={game.phase_countdowns}/>
-    //   <Pause  phase={game.phase_countdowns}/>
-    //   <Timeout map={game.map} phase={game.phase_countdowns} />
-    //   <SeriesBox map={game.map} match={match ? match : null}/>
-
-    //   <TeamBox team={right} players={rightPlayers} side='right' current={game.player}/>
-    //   <TeamBox team={left} players={leftPlayers} side='left' current={game.player}/>
-
-    //   <Observed player={game.player}/>
-    // </div>
     <div className="layout">
       <div className={`players_alive`}>
         <div className="title_container">Players alive</div>
@@ -70,7 +54,6 @@ export const Layout = ({game, match}: LayoutProps) => {
       <TeamBox team={right} players={rightPlayers} side="right" current={game.player} />
 
       {/* <Trivia /> */}
-      {/* <Scout left={left.side} right={right.side} /> */}
       <MapSeries teams={[left, right]} match={match ? match : null} isFreezetime={isFreezetime} map={game.map} /> 
       <div className={"boxes left"}>
         <UtilityLevel side={left.side} players={game.players} show={isFreezetime && !forceHide} />

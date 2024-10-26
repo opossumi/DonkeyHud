@@ -113,52 +113,50 @@ export const getTeamLogo = (id, callback) => {
 
 export const createMatch = (current, left, right, matchType, vetos, callback) => {
     const sql = `INSERT INTO matches(current, left, right, matchType, vetos) VALUES(?,?,?,?,?)`;
-
-    // Serialize left, right, and vetos to JSON
-    const serializedLeft = JSON.stringify(left);
-    const serializedRight = JSON.stringify(right);
-    const serializedVetos = JSON.stringify(vetos);
-
-    // Convert boolean `current` to integer (0 or 1)
-    const currentValue = current ? 1 : 0;
-
-    db.run(sql, [currentValue, serializedLeft, serializedRight, matchType, serializedVetos], function(err) {
+    // Convert objects to JSON strings
+    const leftJson = JSON.stringify(left);
+    const rightJson = JSON.stringify(right);
+    const vetosJson = JSON.stringify(vetos);
+    db.run(sql, [current ? 1 : 0, leftJson, rightJson, matchType, vetosJson], function (err) {
         if (err) {
-            console.error(err.message);
-            return callback(err, null);
+            return callback(err);
         }
-        callback(null, { id: this.lastID });
+        callback(null, this.lastID); 
     });
 };
+
 
 export const readMatches = (callback) => {
     const sql = `SELECT * FROM matches`;
 
     db.all(sql, [], (err, rows) => {
         if (err) {
-            console.error(err.message);
-            return callback(err, null);
+            return callback(err);
         }
 
-        // Deserialize and convert current to boolean
-        const matches = rows.map((row) => {
-            return {
-                ...row,
-                current: row.current === 1, // Convert integer to boolean
-                left: JSON.parse(row.left),
-                right: JSON.parse(row.right),
-                vetos: JSON.parse(row.vetos)
-            };
-        });
-        // console.log("Matches sent: ", matches);
+        // Parse JSON fields back to objects
+        const matches = rows.map(row => ({
+            id: row.id,
+            current: Boolean(row.current),
+            left: JSON.parse(row.left),
+            right: JSON.parse(row.right),  
+            matchType: row.matchType,
+            vetos: JSON.parse(row.vetos)
+        }));
 
         callback(null, matches);
     });
 };
 
+
+
+
 export const updateMatch = (id, current, left, right, matchType, vetos, callback) => {
+    const leftJson = JSON.stringify(left);
+    const rightJson = JSON.stringify(right);
+    const vetosJson = JSON.stringify(vetos);
     const sql = `UPDATE matches SET current = ?, left = ?, right = ?, matchType = ?, vetos = ? WHERE id = ?`;
-    db.run(sql, [current, left, right, matchType, vetos, id], function(err) {
+    db.run(sql, [current, leftJson, rightJson, matchType, vetosJson, id], function(err) {
         callback(err);
         if (err) {
             return console.error(err.message);
@@ -167,14 +165,30 @@ export const updateMatch = (id, current, left, right, matchType, vetos, callback
 };
 
 export const updateCurrentMatch = (id, current, callback) => {
-    const sql = `UPDATE matches SET current = ? WHERE id = ?`;
-    db.run(sql, [current, id], function(err) {
-        callback(err);
+    const checkCurrentSql = `SELECT id FROM matches WHERE current = 1`;
+
+    // First, check if there's already a current match
+    db.get(checkCurrentSql, [], (err, row) => {
         if (err) {
-            return console.error(err.message);
+            return callback(err);
         }
+
+        // If a current match exists and we're trying to set a new one
+        if (row && current) {
+            return callback(new Error("There is already a current match"));
+        }
+
+        // Proceed with the update if no current match exists or if setting current to false
+        const updateSql = `UPDATE matches SET current = ? WHERE id = ?`;
+        db.run(updateSql, [current, id], function (err) {
+            callback(err);
+            if (err) {
+                console.error(err.message);
+            }
+        });
     });
 };
+
 
 export const deleteMatch = (id, callback) => {
     const sql = `DELETE FROM matches WHERE id = ?`;
@@ -188,10 +202,52 @@ export const deleteMatch = (id, callback) => {
 
 export const getMatchById = (id, callback) => {
     const sql = `SELECT * FROM matches WHERE id = ?`;
+
     db.get(sql, [id], (err, row) => {
-        callback(err, row);
         if (err) {
-            return console.error(err.message);
+            return callback(err);
         }
+
+        if (!row) {
+            return callback(new Error('Match not found'));
+        }
+
+        // Parse JSON fields back to objects
+        const match = {
+            id: row.id,
+            current: Boolean(row.current),
+            left: JSON.parse(row.left),
+            right: JSON.parse(row.right),  
+            matchType: row.matchType,
+            vetos: JSON.parse(row.vetos)
+        };
+
+        callback(null, match);
+    });
+};
+
+export const getCurrentMatch = (callback) => {
+    const sql = `SELECT * FROM matches WHERE current = 1`;
+
+    db.get(sql, (err, row) => {
+        if (err) {
+            return callback(err);
+        }
+
+        if (!row) {
+            return callback(null, null);
+        }
+
+        // Parse JSON fields back to objects
+        const match = {
+            id: row.id,
+            current: Boolean(row.current),
+            left: JSON.parse(row.left),
+            right: JSON.parse(row.right),  
+            matchType: row.matchType,
+            vetos: JSON.parse(row.vetos)
+        };
+
+        callback(null, match);
     });
 };

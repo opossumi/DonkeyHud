@@ -2,37 +2,67 @@ import React, { useEffect, useState } from 'react';
 import { CSGO } from 'csgogsi-socket';
 import { Layout } from './Layout/Layout';
 import './hud.scss';
-import { Match } from '../api/interfaces';
+import { Match, Veto } from '../api/interfaces';
 import { socket } from '../App';
 import axios from 'axios';
+import api, { port } from '../api/api';
+import { GSI } from '../App';
 
 interface HUDProps {
     gameData?: CSGO | null;
 }
 
-export const getMatch = async (id: string): Promise<Match> => {
-    const { data } = await axios.get(`http://localhost:4000/matches/${id}`);
-    return data;
+export const getCurrentMatch = async () => {
+    const match = await axios.get('http://localhost:4000/current_match');
+    const currentMatch: Match = match.data;
+    return currentMatch;
 };
 
 export const HUD = ({ gameData }: HUDProps) => {
     const [currentMatch, setMatchCurrent] = useState<Match | null>(null);
 
-    // Listen for 'match-update' events and fetch match data based on the ID
     useEffect(() => {
-        const handleMatchUpdate = async (id: string) => {
-            const matchData = await getMatch(id);
-            // console.log('Match data:', matchData);
+        const fetchCurrentMatch = async () => {
+            const matchData = await getCurrentMatch();
             setMatchCurrent(matchData);
         };
 
-        socket.on('match-update', handleMatchUpdate);
+        fetchCurrentMatch();
+    }, []);
+    // useEffect(() => {
+    //     const loadMatch = async () => {
+    //         const matchData = await getCurrentMatch();
+    //         if (!matchData) setMatchCurrent(null);
+    //         if (matchData.left.id) {
+    //             api.teams.getOne(matchData.left.id).then(left => {
+    //                 console.log('Left:', left.name);
+    //                 const gsiTeamData = { id: matchData.left.id || '', name: left.name, country: left.country, logo: left.logo, map_score: matchData.left.wins, extra: left.extra };
+    //                 GSI.teams.left = gsiTeamData;
+    //             })
+    //         }
 
-        // Cleanup socket listener on component unmount
+
+    //         setMatchCurrent(matchData);
+    //     };
+
+    //     loadMatch();
+    // }, []);
+
+    useEffect(() => {
+        const handleMatchUpdate = async (id: string) => {
+            const matchData = await getCurrentMatch();
+            if (!matchData) setMatchCurrent(null);
+            setMatchCurrent(matchData);
+        };
+
+        socket.on('match-update', (data) => {
+            console.log('Match update:', data);
+            handleMatchUpdate(data);
+        });
         return () => {
             socket.off('match-update', handleMatchUpdate);
         };
-    }, []); // Empty dependency array to run once on mount
+    }, []); 
 
     if (!gameData) return <div></div>;
 

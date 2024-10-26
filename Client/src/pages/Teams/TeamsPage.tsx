@@ -34,6 +34,7 @@ export const TeamsPage = () => {
   useEffect(() => {
     // Fetch players data when the component mounts
     getTeams().then((data) => {
+      console.log('Teams data:', data);
       setTeams(data);
     });
   }, []);

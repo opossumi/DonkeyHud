@@ -24,7 +24,13 @@ export let db = new sqlite3.Database(database, (err) => {
         }
         console.log('Matches Table Ready.');
     });
-    // db.run(`DROP TABLE IF EXISTS matches`, (err) => {
+    // db.run(`CREATE TABLE IF NOT EXISTS current_match(id INTEGER PRIMARY KEY)`, (err) => {
+    //     if (err) {
+    //         console.error(err.message);
+    //     }
+    //     console.log('Current Match Table Ready.');
+    // });
+    // db.run(`DROP TABLE IF EXISTS current_match`, (err) => {
     //     if (err) {
     //         console.error(err.message);
     //     }

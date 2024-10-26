@@ -5,8 +5,9 @@ import StartIcon from '@mui/icons-material/Start';
 import { Edit } from '@mui/icons-material';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import ToggleButton from '@mui/material/ToggleButton';
-import { useEffect, useState } from 'react';
-import { socket } from '../../App';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { useState } from 'react';
 import axios from 'axios';
 
 
@@ -19,7 +20,6 @@ interface MatchCardProps {
   
   export const MatchCard = ({ match, deleteMatch, onEdit, refreshMatches }: MatchCardProps) => {
   const [displayVeto, setDisplayVeto] = useState(false);
-
 
   const handleEditClick = () => {
     if (onEdit) {
@@ -53,8 +53,9 @@ interface MatchCardProps {
   return (
     <Box key={match.id} sx={{ marginBottom: 2, border: '1px solid #ccc', padding: 2, position: 'relative' }}>
       <Typography variant="h5" sx={{ fontWeight: 'bold' }}>
-        {match.left.id} VS {match.right.id} {match.current ? 'MATCH IS LIVE' : ''}
+        {match.left.id} VS {match.right.id}
       </Typography>
+      {match.current && <Typography variant="h6" sx={{ color: 'secondary.main' }}>MATCH IS LIVE</Typography>}
       <Typography variant="h6">{match.matchType}</Typography>
       <Typography>Team one: {match.left.id} - Wins: {match.left.wins}</Typography>
       <Typography>Team two: {match.right.id} - Wins: {match.right.wins}</Typography>
@@ -80,12 +81,12 @@ interface MatchCardProps {
           <Delete />
         </IconButton>
         {match.current ? (
-          <IconButton aria-label="cancel" onClick={handleStopMatch} sx={{ color: 'text.primary', p: '4px' }}>
-            <StopCircleIcon />
+          <IconButton aria-label="cancel" onClick={handleStopMatch} sx={{ p: '4px' }}>
+            <CancelIcon color='error' />
           </IconButton>
         ) : (
-          <IconButton aria-label="confirm" onClick={handleStartMatch} sx={{ color: 'text.primary', p: '4px' }}>
-            <StartIcon />
+          <IconButton aria-label="confirm" onClick={handleStartMatch} sx={{ p: '4px' }}>
+            <PlayArrowIcon  color='success' />
           </IconButton>
         )}
       </Box>

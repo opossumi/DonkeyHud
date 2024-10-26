@@ -303,6 +303,24 @@ app.get('/matches/:id', (req, res) => {
     });
 });
 
+app.get('/current_match', (req, res) => {
+    // GET the current match
+    console.log("Current Match requested");
+    API.getCurrentMatch((err, row) => {
+        if (err) {
+            res.status(500).send(err.message);
+        }
+        else if (!row) {
+            res.send(null);
+            // console.log(`Current Match not found`);
+        }
+        else {
+            res.status(200).send(row);
+            // console.log(`Current Match sent`);
+        }
+    });
+});
+
 
 // Export the app and io instances for testing
 export { app, io, server };
