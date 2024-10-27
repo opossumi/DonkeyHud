@@ -4,25 +4,25 @@ import WinIndicator from "./WinIndicator";
 import { Timer } from "./Matchbar";
 import { TeamLogo } from "./TeamLogo";
 import PlantDefuse from "../Timers/PlantDefuse"
+import { ONGSI } from "../../api/contexts/actions";
 
 interface TeamScoreProps {
   team: I.Team;
   orientation: "left" | "right";
   timer: Timer | null;
-//   showWin: boolean;
 }
 
 export const TeamScore = ({team, orientation, timer}: TeamScoreProps) => {
   const [ show, setShow ] = useState(false);
 
-  // onGSI("roundEnd", result => {
-  //   if(result.winner.orientation !== orientation) return;
-  //   setShow(true);
+  ONGSI("roundEnd", result => {
+    if(result.winner.orientation !== orientation) return;
+    setShow(true);
 
-  //   setTimeout(() => {
-  //     setShow(false);
-  //   }, 5000);
-  // }, [orientation]);
+    setTimeout(() => {
+      setShow(false);
+    }, 5000);
+  }, [orientation]);
 
     return (
       <>

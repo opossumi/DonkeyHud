@@ -101,6 +101,16 @@ export const getTeamByName = (name, callback) => {
     });
 };
 
+export const getTeamById = (id, callback) => {
+    const sql = `SELECT * FROM teams WHERE id = ?`;
+    db.get(sql, [id], (err, row) => {
+        callback(err, row);
+        if (err) {
+            return console.error(err.message);
+        }
+    });
+};
+
 export const getTeamLogo = (id, callback) => {
     const sql = `SELECT logo FROM teams WHERE id = ?`;
     db.get(sql, [id], (err, row) => {

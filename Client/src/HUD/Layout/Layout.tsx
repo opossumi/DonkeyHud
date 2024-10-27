@@ -41,7 +41,7 @@ export const Layout = ({game, match}: LayoutProps) => {
       {/* <Killfeed /> */}
       {/* <Overview match={match} map={game.map} players={game.players || []} /> */}
       <RadarMaps match={match ? match : null} map={game.map} game={game} />
-      <Matchbar map={game.map} match={match ? match : null} phase={game.phase_countdowns}/>
+      <Matchbar map={game.map} match={match ? match : null} phase={game.phase_countdowns} bomb={game.bomb}/>
       <Pause  phase={game.phase_countdowns}/>
       <Timeout map={game.map} phase={game.phase_countdowns} />
       <SeriesBox map={game.map} match={match ? match : null}/>

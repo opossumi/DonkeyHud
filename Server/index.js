@@ -127,6 +127,20 @@ app.get('/players/:steam_id', (req, res) => {
     });
 });
 
+app.get('/teams/:id', (req, res) => {
+    // GET a team by id
+    API.getTeamById(req.params.id, (err, row) => {
+        if (err) {
+            res.status(500).send(err.message);
+        } else if (!row) {
+            res.status(404).send(`Team with ID: ${req.params.id} not found`);
+        } else {
+            res.status(200).send(row);
+            console.log(`Team with ID: ${req.params.id} sent`);
+        }
+    });
+});
+
 app.get('/teams', (req, res) => {
     // GET a team
     API.readTeams((err, rows) => {
