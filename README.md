@@ -15,10 +15,8 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 # Getting Started:
 
   - Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at  `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
-  - Open integrated terminal for the Server folder and run `npm install`. This downloads all the needed modules for the server
-  - Open integrated terminal for the Client folder and run `npm install` This downloads all the needed modules for the client.
-  - Start the GSI server by running `npm start` in the integrated terminal for the Server folder. This gets the server up and running listening for data from CS2.
-  - Run `npm start` in the integrated terminal for the Client folder.
+  - FIRST TIME RUNNING: Open the integrated terminal in main directory and run `npm install`. This will install needed files for both the server and client.
+  - Open the integrated terminal in the main directory and run `npm start`. This will run the Server and Client concurrently.
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
