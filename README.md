@@ -7,10 +7,9 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
 
 # To Do:
-- Teams API
-- Matches API
-- Dashboard API
-- Fully integrate all APIs with HUD
+- Rework Teams, Players, and Matches components to display data better (using tables)
+- Reverse Team Sides
+- Start Supporting uploading local files for team logos and player pictures.
 
 # Getting Started:
   - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
