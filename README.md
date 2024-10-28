@@ -10,6 +10,7 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 - Rework Teams, Players, and Matches components to display data better (using tables)
 - Reverse Team Sides
 - Start Supporting uploading local files for team logos and player pictures.
+- Work on readability of code
 
 # Getting Started:
   - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
