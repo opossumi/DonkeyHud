@@ -7,7 +7,7 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
 
 # To Do:
-- Fuull Screen overlay fully functioning
+- Full Screen overlay fully functioning
 - Rework Teams, Players, and Matches components to display data better (using tables)
 - Reverse Team Sides
 - Start Supporting uploading local files for team logos and player pictures.
