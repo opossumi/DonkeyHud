@@ -14,10 +14,19 @@ html, body, #root {
 }
 
 .dark {
-  --background-primary: 5, 25, 35;
-  --background-secondary: 15, 44, 62;
+  --background-primary: 17,  19, 24;
+  --background-secondary: 26, 28, 32;
   --text-color: 255, 255, 255;
-  --border-color: 5, 130, 202;
-  --button-color: 0, 100, 148;
+  --border-color: 8, 106, 57;
+  --button-color: 60, 172, 116;
+  --primary: '#0c9852';
+  --primary-light: 'rgb(60, 172, 116)';
+  --primary-dark: 'rgb(8, 106, 57)';
+  --secondary: '#f50057';
+  --secondary-light: 'rgb(247, 51, 120)';
+  --secondary-dark: 'rgb(171, 0, 60)';
+  --text: '#fff';
+  --text-secondary: 'rgba(255, 255, 255, 0.7)';
+  --text-disabled: 'rgba(255, 255, 255, 0.5)';
   background: rgba(var(--background-primary));
 }

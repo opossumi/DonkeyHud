@@ -7,34 +7,40 @@ import { Outlet } from 'react-router-dom';
 
 const theme = createTheme({
     palette: {
-        primary: {
-          main: '#0582ca',
-          light: '#00a6fb',
-          dark: '#003554',
-        },
-        secondary: {
-          main: '#f50057',
-        },
-        text: {
-          primary: 'rgba(255,255,255,0.87)',
-          secondary: 'rgba(241,241,241,0.6)',
-          disabled: 'rgba(115,115,115,0.38)',
-        },
-        background: {
-          default: '#051923',
-          paper: '#051923',
-        },
+      primary: {
+        main: '#0c9852',
+        light: 'rgb(60, 172, 116)',
+        dark: 'rgb(8, 106, 57)',
       },
+      secondary: {
+        main: '#f50057',
+        light: 'rgb(247, 51, 120)',
+        dark: 'rgb(171, 0, 60)'
+      },
+      text: {
+              primary: '#fff',
+              secondary: 'rgba(255, 255, 255, 0.7)',
+              disabled: 'rgba(255, 255, 255, 0.5)',
+            },
+      background: {
+        default: '#111318',
+        paper: '#1a1c20',
+      },
+    },
+    spacing: 8,
+    shape: {
+      borderRadius: 4,
+    },
   });
 
 export const AdminPanel = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline/>
-      <div className='lg:grid gap-4 p-4 grid-cols-[220px,_1fr]'>
-        <Sidebar/>
-        <MainPanel/>
-    </div>
+        <div id='AdminPanel' className='lg:grid p-1 rounded-lg grid-cols-[220px,_1fr] bg-background h-full'>
+          <Sidebar/>
+          <MainPanel/>
+        </div>
     </ThemeProvider>
   )
 }

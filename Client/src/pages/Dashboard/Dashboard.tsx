@@ -40,6 +40,7 @@ const team2 = {
 export const Dashboard = () => {
   return (
     <Box sx={{ padding: 4 }}>
+      <Typography  color='warning' variant="h4" gutterBottom>THIS DOES NOT WORK YET, ALL DATA IS FAKE AND WILL BE WORKED ON LATER</Typography>
       <Grid container spacing={3}>
         {/* Server Connect Info */}
         <Grid item xs={12} md={4}>

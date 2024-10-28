@@ -103,7 +103,7 @@ interface MatchFormProps {
       };
 
     return (
-        <Paper sx={{p: 2}}>
+        <Paper elevation={1} sx={{p: 2}}>
             <Typography variant="h6" gutterBottom>
             {isEditing ? `Updating: ${match?.left.id} vs ${match?.right.id} (${match?.id})` : 'Create Match'}
             </Typography>

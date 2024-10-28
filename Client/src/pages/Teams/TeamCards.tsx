@@ -36,7 +36,7 @@ export const TeamCards = ({team, deleteTeam, onEdit }: TeamCardProps) => {
 
 
     return (
-        <Card sx={{ display: "flex", position: "relative", width: {xs: "100%"}, height: "150px"  }}>
+        <Card sx={{ display: "flex", position: "relative", width: {xs: "100%"}, maxWidth: '400px', height: "150px"  }}>
           <Box sx={{ display: "flex", flexDirection: "column", width: { xs: "100%", xl: "50%" } }}>
             <CardContent sx={{ flex: "1 0 auto", display: "flex", flexDirection: "column", justifyContent: "space-evenly" }}>
               <Typography component="div" variant="h5">
@@ -58,7 +58,7 @@ export const TeamCards = ({team, deleteTeam, onEdit }: TeamCardProps) => {
           </Box>
             <CardMedia
                 component="img"
-                sx={{ width: 151 }}
+                sx={{ objectFit: 'contain' }}
                 image={team.logo}
                 alt={team.name}
             />

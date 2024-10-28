@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 export const AccountToggle = () => {
   return (
-    <div className='border-b mb-4 pb-4 border-border'>
+    <div>
         {/* <button className='flex p-0.5 hover:bg-stone-200 rounded transition-colors relative gap-2 w-full items-center'>
             <img
             src='https://i.pravatar.cc/150?img=3'

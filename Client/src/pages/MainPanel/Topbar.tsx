@@ -5,7 +5,7 @@ import { Search } from './Search';
 const date = new Date();
 export const Topbar = () => {
   return (
-    <div id='TopBar' className='border-b px-4 mb-4 mt-2 pb-4 border-border'>
+    <div id='TopBar' className='border-b px-4 mb-4 mt-2 pb-4 border-background2'>
         <div className='flex items-center justify-between p-0.5'>
             <div className='flex flex-col justify-center'>
                 <span className='text-xl block text-textcolor'>{date.toLocaleTimeString()}</span>

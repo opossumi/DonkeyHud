@@ -31,7 +31,7 @@ export const Sidebar: React.FC = () => {
 
   return (
     <>
-      <Button className='fixed top-1 left-1 lg:hidden z-10 size-12 bg-border hover:bg-border rounded text-textcolor' onClick={toggleDrawer(true)}><MenuIcon/></Button>
+      <Button className='fixed top-1 left-1 lg:hidden z-10 size-12 bg-primary hover:bg-border rounded text-textcolor' onClick={toggleDrawer(true)}><MenuIcon/></Button>
       {/* Drawer for mobile view */}
       <Drawer
         anchor="left"
@@ -42,7 +42,7 @@ export const Sidebar: React.FC = () => {
       </Drawer>
 
       {/* Sidebar for larger screens */}
-      <nav id='sidebar' className='lg:block hidden'>
+      <nav id='sidebar' className='lg:block hidden border-r border-background2 px-2'>
         <div className='sticky top-4 h-[calc(100vh-32px-48px)]'>
           <AccountToggle />
           <RouteSelect />

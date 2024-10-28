@@ -174,6 +174,46 @@ export const updateMatch = (id, current, left, right, matchType, vetos, callback
     });
 };
 
+export const updateScore = (id, team, action, callback) => {
+    const getMatchSql = `SELECT * FROM matches WHERE id = ?`;
+
+    db.get(getMatchSql, [id], (err, row) => {
+        if (err) {
+            return callback(err);
+        }
+
+        if (!row) {
+            return callback(new Error('Match not found'));
+        }
+
+        const match = {
+            id: row.id,
+            current: Boolean(row.current),
+            left: JSON.parse(row.left),
+            right: JSON.parse(row.right),
+            matchType: row.matchType,
+            vetos: JSON.parse(row.vetos)
+        };
+
+        if (team === 'left') {
+            match.left.wins = action === 'add' ? match.left.wins + 1 : Math.max(match.left.wins - 1, 0);
+        } else if (team === 'right') {
+            match.right.wins = action === 'add' ? match.right.wins + 1 : Math.max(match.right.wins - 1, 0);
+        }
+
+        const leftJson = JSON.stringify(match.left);
+        const rightJson = JSON.stringify(match.right);
+        const updateSql = `UPDATE matches SET left = ?, right = ? WHERE id = ?`;
+
+        db.run(updateSql, [leftJson, rightJson, id], function (err) {
+            callback(err);
+            if (err) {
+                return console.error(err.message);
+            }
+        });
+    });
+};
+
 export const updateCurrentMatch = (id, current, callback) => {
     const checkCurrentSql = `SELECT id FROM matches WHERE current = 1`;
 

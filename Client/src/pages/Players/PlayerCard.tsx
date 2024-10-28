@@ -35,7 +35,7 @@ export const PlayerCard = ({ player, deletePlayer, onEdit }: PlayerCardProps) =>
   };
 
   return (
-    <Card sx={{ display: "flex", position: "relative", width: {xs: "100%"}, height: "150px" }}>
+    <Card sx={{ display: "flex", position: "relative", width: {xs: "100%"}, maxWidth: '400px', height: "150px"}}>
       <Box sx={{ display: "flex", flexDirection: "column", width: { xs: "100%", xl: "50%" } }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">

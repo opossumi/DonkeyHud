@@ -25,6 +25,18 @@ export const getTeams = async () => {
     return teams.data;
 }
 
+export const getTeamsById = async (id: string) => {
+  const team = await axios.get(`http://localhost:4000/teams/${id}`);
+  if (axios.isAxiosError(team)) {
+    console.log('Error fetching team data')
+    return []
+  }
+  if (!team) {
+    return null
+  }
+  return team.data;
+};
+
 export const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
@@ -34,7 +46,6 @@ export const TeamsPage = () => {
   useEffect(() => {
     // Fetch players data when the component mounts
     getTeams().then((data) => {
-      console.log('Teams data:', data);
       setTeams(data);
     });
   }, []);

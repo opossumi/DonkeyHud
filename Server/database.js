@@ -10,19 +10,19 @@ export let db = new sqlite3.Database(database, (err) => {
         if (err) {
             console.error(err.message);
         }
-        console.log('Players Table Ready.');
+        // console.log('Players Table Ready.');
     });
     db.run(`CREATE TABLE IF NOT EXISTS teams(id INTEGER PRIMARY KEY,name,shortName,logo,country,last_updated)`, (err) => {
         if (err) {
             console.error(err.message);
         }
-        console.log('Teams Table Ready.');
+        // console.log('Teams Table Ready.');
     });
     db.run(`CREATE TABLE IF NOT EXISTS matches(id INTEGER PRIMARY KEY, current, left, right, matchType, vetos)`, (err) => {
         if (err) {
             console.error(err.message);
         }
-        console.log('Matches Table Ready.');
+        // console.log('Matches Table Ready.');
     });
     // db.run(`CREATE TABLE IF NOT EXISTS current_match(id INTEGER PRIMARY KEY)`, (err) => {
     //     if (err) {

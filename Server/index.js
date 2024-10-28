@@ -63,7 +63,7 @@ app.get('/players', (req, res) => {
         }
         else {
             res.status(200).send(rows);
-            console.log("Players sent");
+            // console.log("Players sent");
         }
     });
 });
@@ -136,7 +136,7 @@ app.get('/teams/:id', (req, res) => {
             res.status(404).send(`Team with ID: ${req.params.id} not found`);
         } else {
             res.status(200).send(row);
-            console.log(`Team with ID: ${req.params.id} sent`);
+            // console.log(`Team with ID: ${req.params.id} sent`);
         }
     });
 });
@@ -149,7 +149,7 @@ app.get('/teams', (req, res) => {
         }
         else {
             res.status(200).send(rows);
-            console.log("Teams sent");
+            // console.log("Teams sent");
         }
     });
 });
@@ -238,7 +238,7 @@ app.get('/matches', (req, res) => {
         }
         else {
             res.status(200).send(rows);
-            console.log("Matches sent");
+            // console.log("Matches sent");
         }
     });
 });
@@ -333,6 +333,24 @@ app.get('/current_match', (req, res) => {
             // console.log(`Current Match sent`);
         }
     });
+});
+
+app.put('/matches/:id/:team', (req, res) => {
+    const { id, team } = req.params;
+    const { action } = req.body;
+
+    if (!['left', 'right'].includes(team) || !['add', 'subtract'].includes(action)) {
+        return res.status(400).send('Invalid team or action');
+    }
+
+    API.updateScore(id, team, action, (err) => {
+        if (err) {
+            return res.status(500).send(err.message);
+        }
+        res.status(200).send('Score updated');
+    });
+
+    io.emit('match-update', req.params.id);
 });
 
 

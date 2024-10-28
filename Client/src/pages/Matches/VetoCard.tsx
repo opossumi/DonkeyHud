@@ -14,7 +14,7 @@ interface VetoCardProps {
 
 export const VetoCard = ({index, veto, leftTeamId, rightTeamId, onVetoChange}: VetoCardProps) => {
     return (
-        <Paper key={index} elevation={3} sx={{p: 1, display: 'flex', flexDirection: 'column', gap: 1}} className='!bg-background2/30'>
+        <Box key={index} sx={{p: 1, display: 'flex', flexDirection: 'column', gap: 1}}>
             <Typography variant="subtitle1" gutterBottom>Veto {(index + 1)}</Typography>
             <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2 }}>
             <FormControl fullWidth>
@@ -69,6 +69,6 @@ export const VetoCard = ({index, veto, leftTeamId, rightTeamId, onVetoChange}: V
                 </Select>
             </FormControl>
             </Box>
-        </Paper>
+        </Box>
     );
 };
