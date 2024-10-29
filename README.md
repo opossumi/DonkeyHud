@@ -7,13 +7,14 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
 
 # To Do:
-- Teams API
-- Matches API
-- Dashboard API
-- Fully integrate all APIs with HUD
+- Full Screen overlay fully functioning
+- Rework Teams, Players, and Matches components to display data better (using tables)
+- Reverse Team Sides
+- Start Supporting uploading local files for team logos and player pictures.
+- Work on readability of code
 
 # Getting Started:
-
+  - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
   - Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at  `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
   - FIRST TIME RUNNING: Open the integrated terminal in main directory and run `npm install`. This will install needed files for both the server and client.
   - Open the integrated terminal in the main directory and run `npm start`. This will run the Server and Client concurrently.
@@ -26,5 +27,6 @@ Hopefully it ends up looking very nice and lets a lot of people use it in their 
 
 
 # Admin Panel
-![AdminPanel/Players](https://i.imgur.com/fSnKhOt.png)
-![AdminPanel/Teams](https://i.imgur.com/N0cPSeH.png)
+![AdminPanel/Players](https://i.imgur.com/asUDqEv.png)
+![AdminPanel/Teams](https://i.imgur.com/ra7nQe7.png)
+![AdminPanel/Matches](https://i.imgur.com/qMB74cu.png)
