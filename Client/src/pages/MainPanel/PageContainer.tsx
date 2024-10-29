@@ -1,8 +1,8 @@
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-export const Grid = () => {
+export const PageContainer = () => {
   return (
-    <div id='Page' className='px-4 flex justify-center size-full items-center'>
+    <div id='PageContainer' className='p-8 flex justify-center size-full items-center relative overflow-scroll'>
         <Outlet />
     </div>
   )

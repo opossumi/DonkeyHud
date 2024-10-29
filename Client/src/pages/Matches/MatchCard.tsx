@@ -1,25 +1,16 @@
-import { Delete } from '@mui/icons-material';
+import { useEffect, useState } from 'react';
+import {  Box, Typography, Card, Button, Container, CardContent, Table, TableHead, TableRow, TableCell, TableBody, ButtonGroup } from '@mui/material';
 import { Match } from '../../api/interfaces';
-import {  Box, IconButton, Typography, Card, Button } from '@mui/material';
-import { Edit } from '@mui/icons-material';
-import ToggleButton from '@mui/material/ToggleButton';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import CancelIcon from '@mui/icons-material/Cancel';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import { useEffect, useState } from 'react';
 import axios from 'axios';
-
 
 interface MatchCardProps {
     match: Match;
-    deleteMatch: (id: string) => void;
-    onEdit?: (match: Match) => void; // Added onEdit prop
     refreshMatches: () => void;
   }
   
-  export const MatchCard = ({ match, deleteMatch, onEdit, refreshMatches }: MatchCardProps) => {
-  const [displayVeto, setDisplayVeto] = useState(false);
+export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
   const [teamOneName, setTeamOneName] = useState('');
   const [teamOneLogo, setTeamOneLogo] = useState('');
   const [teamTwoName, setTeamTwoName] = useState('');
@@ -42,24 +33,6 @@ interface MatchCardProps {
 
     fetchTeamNames();
   }, []);
-
-  const handleEditClick = () => {
-    if (onEdit) {
-      onEdit(match);
-    }
-  };
-
-  const handleStartMatch = async () => {
-    try {
-      await axios.put(`http://localhost:4000/matches/${match.id}/current`, {
-        current: true,
-      });
-
-      refreshMatches();
-    } catch (error) {
-      console.error('Error updating match:', error);
-    }
-  };
 
   const handleStopMatch = async () => {
     try {
@@ -84,74 +57,62 @@ interface MatchCardProps {
   };
 
   return (
-    <Card key={match.id} sx={{ marginBottom: 2, padding: 2, position: 'relative', maxWidth: '400px', }}>
-      <Box sx={{display: 'flex', gap: 2}}>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', display: 'flex' }}>
-          {teamOneName}
-        </Typography>
-        <Typography variant="h5">vs</Typography>
-        <Typography variant="h5" sx={{ fontWeight: 'bold', display: 'flex' }}>
-          {teamTwoName}
-        </Typography>
-      </Box>
-      {match.current && <Typography variant="h6" sx={{ color: 'secondary.main' }}>MATCH IS LIVE</Typography>}
-      <Typography variant="h6">{match.matchType}</Typography>
-      <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <img src={teamOneLogo} alt="team1" width="50" />
-        <Box sx={{display: 'flex', gap: '4px', alignItems: 'center'}}>
-        <Typography variant="h6">{match.left.wins}</Typography>
-        -
-        <Typography variant="h6">{match.right.wins}</Typography>
-        </Box>
-        <img src={teamTwoLogo} alt="team2" width="50" />
-      </Box>
-      <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-        <Box sx={{display: 'flex', gap: 4}}>
-          <Box sx={{display: 'flex', gap: '2px', justifyContent: 'center', alignItems: 'center'}}>
-            <IconButton onClick={() => handleChangeScore("left", "add")} color='primary' aria-label="add" size='small'>
-              <AddIcon />
-            </IconButton>
-            <IconButton onClick={() => handleChangeScore("left", "subtract")} color='primary' aria-label="subtract" size='small'>
-              <RemoveIcon />
-            </IconButton>
+    <Container>
+      <Card key={match.id} sx={{ position: 'relative'}}>
+        <CardContent sx={{display: 'flex', justifyContent: 'center', gap: 6}}>
+          <Box sx={{display: 'flex', flexDirection: 'column', p: 2}}>
+            <Box sx={{mb: 2}}>
+              <Typography variant="h3" color='info' style={{fontWeight: 'bold'}}>MATCH LIVE</Typography>
+              <Typography variant="h4">{teamOneName} vs {teamTwoName}</Typography>
+              <Typography variant="h6">{match.matchType}</Typography>
+            </Box>
+            <Box id="Score" sx={{display: 'flex', flexDirection: 'column', bgcolor: 'background.default', p: 2, mb: 2}}>
+              <Typography variant="h4" textAlign={'center'}>Score</Typography>
+              <Box id="Teams" sx={{display: 'flex', gap: 2}}>
+                <Box id="TeamOne" sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', gap: 1}}>
+                    <Typography variant="h2" fontWeight={'bold'}>{match.left.wins}</Typography>
+                    <img src={teamOneLogo} alt="team1" width="50" />
+                    <ButtonGroup>
+                      <Button onClick={() => handleChangeScore("left", "add")} color='primary'><AddIcon/></Button>
+                      <Button onClick={() => handleChangeScore("left", "subtract")} color='primary'><RemoveIcon/></Button>
+                    </ButtonGroup>
+                  </Box>
+                  <Box id="TeamTwo" sx={{display: 'flex', justifyContent: 'center', flexDirection: 'column', alignItems: 'center', gap: 1}}>
+                    <Typography variant="h2" fontWeight={'bold'}>{match.right.wins}</Typography>
+                    <img src={teamTwoLogo} alt="team2" width="50" />
+                    <ButtonGroup>
+                      <Button onClick={() => handleChangeScore("right", "add")} color='primary'><AddIcon/></Button>
+                      <Button onClick={() => handleChangeScore("right", "subtract")} color='primary'><RemoveIcon/></Button>
+                    </ButtonGroup>
+                  </Box>
+              </Box>
+            </Box>
+            <Button onClick={handleStopMatch} variant='contained' color='secondary'>Stop Match</Button>
           </Box>
-          <Box sx={{display: 'flex', gap: '2px', justifyContent: 'center', alignItems: 'center'}}>
-            <IconButton onClick={() => handleChangeScore("right", "add")} color='primary' aria-label="add" size='small'>
-              <AddIcon />
-            </IconButton>
-            <IconButton onClick={() => handleChangeScore("right", "subtract")} color='primary' aria-label="subtract" size='small'>
-              <RemoveIcon />
-            </IconButton>
-          </Box>
-        </Box>
-        <Button variant='contained' color={displayVeto ? 'secondary' : 'primary'} onClick={() => setDisplayVeto((displayVeto) => !displayVeto)}>
-          {displayVeto ? 'Hide Vetos' : 'Show Vetos'}
-        </Button>
-      </Box>
-      <Box sx={{ display: `${displayVeto ? 'block' : 'none'}` }}>
-          {Object.values(match.vetos).map((veto, index) => (
-            <li key={index}>
-              <strong>{veto.teamId} {veto.type}</strong> {veto.mapName}, <strong>Side:</strong> {veto.side}
-            </li>
-          ))}
-        </Box>
-      <Box sx={{ position: 'absolute', display: 'flex', flexDirection: 'column', alignItems: 'end', top: 0, right: 0, width: '50%', fontSize: '12px', borderRadius: '6px', color: 'text.primary' }}>
-        <IconButton aria-label="edit" sx={{ color: 'text.primary', p: '4px' }} onClick={handleEditClick}>
-          <Edit />
-        </IconButton>
-        <IconButton aria-label="delete" onClick={() => deleteMatch(match.id)} sx={{ color: 'text.primary', p: '4px' }}>
-          <Delete />
-        </IconButton>
-        {match.current ? (
-          <IconButton aria-label="cancel" onClick={handleStopMatch} sx={{ p: '4px' }}>
-            <CancelIcon color='error' />
-          </IconButton>
-        ) : (
-          <IconButton aria-label="confirm" onClick={handleStartMatch} sx={{ p: '4px' }}>
-            <PlayArrowIcon  color='info' />
-          </IconButton>
-        )}
-      </Box>
-    </Card>
+          <Table sx={{flex: '1'}}>
+            <TableHead>
+              <TableRow>
+                <TableCell>Team</TableCell>
+                <TableCell>Type</TableCell>
+                <TableCell>Map</TableCell>
+                <TableCell>Side?</TableCell>
+                <TableCell>Winner</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {Object.values(match.vetos).filter(veto => veto.teamId || veto.type === "decider").map((veto, index) => (
+                <TableRow key={index}>
+                    <TableCell>{veto.teamId} </TableCell>
+                    <TableCell>{veto.type}</TableCell>
+                    <TableCell>{veto.mapName}</TableCell>
+                    <TableCell>{veto.side === "NO" ? "" : veto.side}</TableCell>
+                    <TableCell>{veto.winner}</TableCell>
+                  </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
+      </Card>
+    </Container>
   );
 };

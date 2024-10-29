@@ -1,4 +1,3 @@
-import { Container, Typography } from '@mui/material';
 import Box from '@mui/material/Box'
 import { NavLink, Outlet, useLocation } from 'react-router-dom'
 import BackgroundVideo from '../../assets/Background.mp4'

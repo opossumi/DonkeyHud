@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import {Typography, Container, Box } from '@mui/material';
+import {Typography, Container, Box, Button } from '@mui/material';
 import { PlayerCard } from './PlayerCard';
 import Grid from '@mui/material/Grid2';
 import { PlayerForm } from './PlayerForm';
@@ -77,7 +77,8 @@ export const PlayersPage = () => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: "column", lg: "row" }, width: '100%', height: '100%', gap: 4 }}>
+    <Box sx={{position: 'relative', display: 'flex', flexDirection: { xs: "column", lg: "row" }, width: '100%', height: '100%', gap: 4 }}>
+      <Typography variant='h3' fontWeight={'bold'}>Players</Typography>
       <Container>
         <Typography variant="h4" gutterBottom>
               Player Form
@@ -102,6 +103,9 @@ export const PlayersPage = () => {
           ))}
         </Grid>
       </Container>
+      <Box sx={{ position: 'absolute', width: '100%', right: 4, bottom: 0, display: 'flex', justifyContent: 'flex-end', p: 1}}>
+        <Button disabled variant='contained' onClick={() => {}}>Create Player</Button>
+      </Box>
     </Box>
   );
 };

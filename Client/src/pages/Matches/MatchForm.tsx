@@ -15,6 +15,10 @@ interface MatchFormProps {
     onCancel?: () => void; // Optional prop with default behavior (e.g., handleReset)
     
   };
+
+  /* 
+  TODO: Need to fix the editing functionality
+  */
   
   export const MatchForm = ({teams, match, createMatch, updateMatch, onCancel}: MatchFormProps) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -104,9 +108,9 @@ interface MatchFormProps {
 
     return (
         <Paper elevation={1} sx={{p: 2}}>
-            <Typography variant="h6" gutterBottom>
+            {/* <Typography variant="h6" gutterBottom>
             {isEditing ? `Updating: ${match?.left.id} vs ${match?.right.id} (${match?.id})` : 'Create Match'}
-            </Typography>
+            </Typography> */}
             <Box marginY={2} sx={{display: 'flex', gap: 3}}>
                 <FormControl fullWidth>
                 <InputLabel>Team one</InputLabel>
@@ -162,7 +166,7 @@ interface MatchFormProps {
             }
 
 
-            <Box sx={{ display: 'flex', justifyContent: 'start', gap: 1, mt: 1 }}>
+            {/* <Box sx={{ display: 'flex', justifyContent: 'start', gap: 1, mt: 1 }}>
             {isSubmitting ? (
             <Button variant="contained" disabled>
                 Submitting...
@@ -181,7 +185,7 @@ interface MatchFormProps {
             </Button>
             )}
             </Box>
-            {errorMessage && <Typography variant="body2" color="error" sx={{my: 1}}>{errorMessage}</Typography>}
+            {errorMessage && <Typography variant="body2" color="error" sx={{my: 1}}>{errorMessage}</Typography>} */}
     </Paper>
     )
   };

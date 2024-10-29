@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Match} from '../../api/interfaces';
 import { MatchCard } from './MatchCard';
-import { MatchForm } from './MatchForm';
 import { TeamProps } from '../Teams';
 import { getTeams } from '../Teams';
+import {  Box, Button, Typography } from '@mui/material';
+import { MatchesTable } from './MatchesTable';
+import { MatchForm2 } from './MatchForm2';
+import { getCurrentMatch } from '../../HUD/HUD';
 import axios from 'axios';
-import {  Box, Typography, Container} from '@mui/material';
-import Grid from '@mui/material/Grid2';
+import { socket } from '../../App';
 
 export const MatchTypes = ['bo1', 'bo2', 'bo3', 'bo5'];
 export const maps = [
@@ -42,6 +44,8 @@ export const MatchesPage = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null); // Store selected player for editing
+  const [open, setOpen] = useState(false);
+  const [currentMatch, setCurrentMatch] = useState<Match | null>(null);
 
   // Fetch teams data when the component mounts
   useEffect(() => {
@@ -51,6 +55,22 @@ export const MatchesPage = () => {
 
     getMatches().then((data) => {
       setMatches(data);
+    });
+
+    const loadMatch = async () => {
+      const matchData = await getCurrentMatch();
+      if (!matchData) {
+          setCurrentMatch(null);
+          return;
+      };
+      setCurrentMatch(matchData);
+    }
+
+    loadMatch();
+
+    socket.on('match-update', (data) => {
+      console.log('Match update:', data);
+      loadMatch();
     });
   }, []);
 
@@ -79,6 +99,7 @@ export const MatchesPage = () => {
   };
 
   const handleEditMatch = (match: Match) => {
+    setOpen(true);
     setIsEditing(true);
     setSelectedMatch(match);
     console.log('Selected match:', match)
@@ -96,31 +117,23 @@ export const MatchesPage = () => {
 
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: "column", lg: "row" }, width: '100%', height: '100%', gap: 4 }}>
-      <Container>
-        <Typography variant="h4" gutterBottom>
-              Match form
-        </Typography>
-        {isEditing && selectedMatch ? ( 
-          <MatchForm teams={teams} match={selectedMatch} updateMatch={handleUpdateMatch} isEditing={isEditing} onCancel={() => setIsEditing(false)} />
-        )
+    <Box sx={{position: 'relative', display: 'flex', flexDirection: 'column', width: '100%', height: '100%', gap: 4 }}>
+      <Typography variant='h3' fontWeight={'bold'}>Matches</Typography>
+      {currentMatch && <MatchCard match={currentMatch} refreshMatches={getMatches} />}
+      <MatchesTable matches={matches} deleteMatch={handleDeleteMatch} onEdit={handleEditMatch} refreshMatches={fetchMatches}/>
+      {
+        isEditing && selectedMatch ? 
+        (
+          <MatchForm2 teams={teams} match={selectedMatch} updateMatch={handleUpdateMatch} isEditing={isEditing} onCancel={() => setIsEditing(false)} setOpen={setOpen} open={open} />
+        ) 
         : 
-        (<MatchForm teams={teams} createMatch={handleCreateMatch} />
-        )}
-      </Container>
-      <Container sx={{ display: 'flex', flexDirection: 'column', overflowX: 'hidden', width: '100%', height: '100%' }}>
-        <Typography variant="h4" gutterBottom>
-          Matches List
-        </Typography>
-        <Grid container spacing={2} columns={2}>
-          {matches.length === 0 && <Typography variant="h6">No matches created</Typography>}
-          {matches.map((match: Match, index) => (
-            <Grid key={index} size={1}>
-              <MatchCard key={match.id} match={match} deleteMatch={handleDeleteMatch} onEdit={handleEditMatch} refreshMatches={fetchMatches} />
-            </Grid>
-          ))}
-        </Grid>
-      </Container>
+        (
+          <MatchForm2 teams={teams} createMatch={handleCreateMatch} setOpen={setOpen} open={open}/>
+        )
+      }
+      <Box sx={{ position: 'absolute', width: '100%', right: 4, bottom: 0, display: 'flex', justifyContent: 'flex-end', p: 1}}>
+        <Button variant='contained' onClick={() => setOpen(true)}>Create Match</Button>
+      </Box>
     </Box>
   );
 };

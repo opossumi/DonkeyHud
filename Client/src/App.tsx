@@ -8,6 +8,9 @@ import { Dashboard } from './pages/Dashboard';
 import { MatchesPage } from './pages/Matches/MatchPage';
 import { PlayersPage } from './pages/Players/PlayersPage';
 import { TeamsPage } from './pages/Teams';
+import ResponsiveDrawer from './pages/Sidebar/Sidebar2';
+import { createTheme, CssBaseline, ThemeProvider } from '@mui/material'
+
 
 export const {GSI, socket} = GSISocket('http://localhost:4000', "update");
 
@@ -41,8 +44,8 @@ export const App = () => {
   }, []);
 
   return (
-    <div className={`App size-full`}>
-      <RouterProvider router={router}/>
-    </div>
+      <div className={`App size-full`}>
+        <RouterProvider router={router}/>
+      </div>
   );
 }

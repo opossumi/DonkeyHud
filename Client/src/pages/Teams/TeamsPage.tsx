@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {  Container, Typography, Box} from '@mui/material';
+import {  Container, Typography, Box, Button} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { TeamsForm } from './TeamForm';
 import { TeamCards } from './TeamCards';
@@ -87,7 +87,8 @@ export const TeamsPage = () => {
 
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: { xs: "column", lg: "row" }, width: '100%', height: '100%', gap: 4 }}>
+    <Box sx={{position: 'relative', display: 'flex', flexDirection: { xs: "column", lg: "row" }, width: '100%', height: '100%', gap: 4 }}>
+      <Typography variant='h3' fontWeight={'bold'}>Teams</Typography>
       <Container>
         <Typography variant="h4" gutterBottom>
               Team Form
@@ -99,7 +100,7 @@ export const TeamsPage = () => {
         (<TeamsForm createTeam={handleCreateTeam} />
         )}
       </Container>
-      <Container sx={{ display: 'flex', flexDirection: 'column', overflowX: 'hidden', width: '100%', height: '100%' }}>
+      <Container sx={{ display: 'flex', flexDirection: 'column', overflowX: 'hidden', width: '100%'}}>
         <Typography variant="h4" gutterBottom>
           Teams List
         </Typography>
@@ -112,6 +113,9 @@ export const TeamsPage = () => {
           ))}
         </Grid>
       </Container>
+      <Box sx={{ position: 'absolute', width: '100%', right: 4, bottom: 0, display: 'flex', justifyContent: 'flex-end', p: 1}}>
+        <Button disabled variant='contained' onClick={() => {}}>Create Team</Button>
+      </Box>
     </Box>
   );
 };
