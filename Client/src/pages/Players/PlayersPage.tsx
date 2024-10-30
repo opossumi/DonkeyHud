@@ -1,11 +1,10 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import {Typography, Container, Box, Button } from '@mui/material';
-import { PlayerCard } from './PlayerCard';
-import Grid from '@mui/material/Grid2';
-import { PlayerForm } from './PlayerForm';
-import PlayerSilhouette from '../../assets/player_silhouette.webp'
-
+import React, { useEffect, useState } from "react";
+import { PlayerCard } from "./PlayerCard";
+import Grid from "@mui/material/Grid2";
+import PlayerSilhouette from "../../assets/player_silhouette.webp";
+import { PlayerForm } from "./PlayersForm";
+import axios from "axios";
+import { ButtonContained, Container } from "../Components";
 
 export interface PlayerProps {
   id: string;
@@ -16,23 +15,27 @@ export interface PlayerProps {
   team?: string;
 }
 
-export const getPlayers = async () => { //Async Function Expression
-  const players = await axios.get('http://localhost:4000/players')
+export const getPlayers = async () => {
+  //Async Function Expression
+  const players = await axios.get("http://localhost:4000/players");
   if (axios.isAxiosError(players)) {
-    console.log('Error fetching players data')
-    return []
+    console.log("Error fetching players data");
+    return [];
   }
   if (!players) {
-    return []
+    return [];
   }
-  return players.data
-}
+  return players.data;
+};
 
 export const PlayersPage = () => {
   const [players, setPlayers] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedPlayer, setSelectedPlayer] = useState<PlayerProps | null>(null); // Store selected player for editing
+  const [selectedPlayer, setSelectedPlayer] = useState<PlayerProps | null>(
+    null,
+  ); // Store selected player for editing
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     // Fetch players data when the component mounts
@@ -41,11 +44,10 @@ export const PlayersPage = () => {
     });
   }, []);
 
-
   const handleCreatePlayer = async (player: PlayerProps) => {
     // Handle create or update player logic
     setIsLoading(true);
-    await axios.post('http://localhost:4000/players', player)
+    await axios.post("http://localhost:4000/players", player);
     await getPlayers().then((data) => {
       setPlayers(data);
     });
@@ -61,52 +63,62 @@ export const PlayersPage = () => {
   const handleUpdatePlayer = async (player: PlayerProps) => {
     // Handle update player logic
     setIsLoading(true);
-    await axios.put(`http://localhost:4000/players/${player.id}`, player)
+    await axios.put(`http://localhost:4000/players/${player.id}`, player);
     await getPlayers().then((data) => {
       setPlayers(data);
     });
     setIsLoading(false);
-  }
+  };
 
   const handleDeletePlayer = async (id: string) => {
     // Handle delete player logic
     setIsLoading(true);
-    await axios.delete(`http://localhost:4000/players/${id}`)
+    await axios.delete(`http://localhost:4000/players/${id}`);
     setPlayers(players.filter((player: PlayerProps) => player.id !== id));
     setIsLoading(false);
   };
 
   return (
-    <Box sx={{position: 'relative', display: 'flex', flexDirection: { xs: "column", lg: "row" }, width: '100%', height: '100%', gap: 4 }}>
-      <Typography variant='h3' fontWeight={'bold'}>Players</Typography>
+    <div className="relative flex h-full w-full flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <h1 className="font-bold">Players</h1>
+        <ButtonContained onClick={() => setOpen(true)}>
+          Create Player
+        </ButtonContained>
+      </div>
+      {isEditing && selectedPlayer ? (
+        <PlayerForm
+          player={selectedPlayer}
+          updatePlayer={handleUpdatePlayer}
+          isEditing={isEditing}
+          onCancel={() => setIsEditing(false)}
+          open={open}
+          setOpen={setOpen}
+        />
+      ) : (
+        <PlayerForm
+          createPlayer={handleCreatePlayer}
+          open={open}
+          setOpen={setOpen}
+        />
+      )}
       <Container>
-        <Typography variant="h4" gutterBottom>
-              Player Form
-        </Typography>
-        {isEditing && selectedPlayer ? ( // Conditionally render PlayerForm for editing
-          <PlayerForm player={selectedPlayer} updatePlayer={handleUpdatePlayer} isEditing={isEditing} onCancel={() => setIsEditing(false)}/>
-        )
-        : 
-        (<PlayerForm createPlayer={handleCreatePlayer} />
-        )}
-      </Container>
-      <Container sx={{ display: 'flex', flexDirection: 'column', overflowX: 'hidden', width: '100%', height: '100%' }}>
-        <Typography variant="h4" gutterBottom>
-          Players List
-        </Typography>
-        <Grid container spacing={2} columns={2}>
-          {players.length === 0 && <Typography variant="h6">No players created</Typography>}
+        <Grid container spacing={2} columns={{ xs: 1, sm: 2, lg: 3 }}>
+          {players.length === 0 && (
+            <h6 className="font-semibold">No Players created</h6>
+          )}
           {players.map((player: PlayerProps, index) => (
             <Grid key={index} size={1}>
-              <PlayerCard player={player} deletePlayer={handleDeletePlayer} onEdit={handleEditPlayer} />
+              <PlayerCard
+                player={player}
+                deletePlayer={handleDeletePlayer}
+                onEdit={handleEditPlayer}
+              />
             </Grid>
           ))}
         </Grid>
       </Container>
-      <Box sx={{ position: 'absolute', width: '100%', right: 4, bottom: 0, display: 'flex', justifyContent: 'flex-end', p: 1}}>
-        <Button disabled variant='contained' onClick={() => {}}>Create Player</Button>
-      </Box>
-    </Box>
+    </div>
   );
 };
 

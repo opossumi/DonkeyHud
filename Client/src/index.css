@@ -2,32 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  h1 {
+    @apply text-5xl;
+  }
+  h2 {
+    @apply text-4xl;
+  }
+  h3 {
+    @apply text-3xl;
+  }
+  h4 {
+    @apply text-2xl;
+  }
+  h5 {
+    @apply text-xl;
+  }
+  h6 {
+    @apply text-lg;
+  }
+}
 
-html, body, #root {
-    width: 100%;
-    height: 100%;
-    font-family: 'Roboto', sans-serif;
-    background-color: transparent !important;
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  background-color: transparent !important;
 }
 .hud {
-    position: fixed;
-    line-height: normal;
+  position: fixed;
+  line-height: normal;
 }
 
 .dark {
-  --background-primary: 17,  19, 24;
+  --background-primary: 17, 19, 24;
   --background-secondary: 26, 28, 32;
   --text-color: 255, 255, 255;
   --border-color: 63 63 70;
   --button-color: 60, 172, 116;
-  --primary: '#0c9852';
-  --primary-light: 'rgb(60, 172, 116)';
-  --primary-dark: 'rgb(8, 106, 57)';
-  --secondary: '#f50057';
-  --secondary-light: 'rgb(247, 51, 120)';
-  --secondary-dark: 'rgb(171, 0, 60)';
-  --text: '#fff';
-  --text-secondary: 'rgba(255, 255, 255, 0.7)';
-  --text-disabled: 'rgba(255, 255, 255, 0.5)';
+  --primary: "#0c9852";
+  --primary-light: "rgb(60, 172, 116)";
+  --primary-dark: "rgb(8, 106, 57)";
+  --secondary: "#f50057";
+  --secondary-light: "rgb(247, 51, 120)";
+  --secondary-dark: "rgb(171, 0, 60)";
+  --text: "#fff";
+  --text-secondary: "rgba(255, 255, 255, 0.7)";
+  --text-disabled: "rgba(255, 255, 255, 0.5)";
   background: rgba(var(--background-primary));
 }

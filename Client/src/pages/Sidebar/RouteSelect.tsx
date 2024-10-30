@@ -1,58 +1,59 @@
-import { SvgIconComponent } from '@mui/icons-material';
-import { NavLink } from 'react-router-dom';
-import PersonIcon from '@mui/icons-material/Person';
-import GroupsIcon from '@mui/icons-material/Groups';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import { SvgIconComponent } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
+import PersonIcon from "@mui/icons-material/Person";
+import GroupsIcon from "@mui/icons-material/Groups";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 interface RouteProps {
-    Icon: SvgIconComponent;
-    title: string;
-    target?: string;
+  Icon: SvgIconComponent;
+  title: string;
+  target?: string;
 }
 
 const routes: RouteProps[] = [
-    {Icon: AddCircleIcon, title: 'Matches'},
-    {Icon: PersonIcon, title: 'Players'},
-    {Icon: GroupsIcon, title: 'Teams'},
-    {Icon: DashboardIcon, title: 'Dashboard'},
-]
-
+  { Icon: AddCircleIcon, title: "Matches" },
+  { Icon: PersonIcon, title: "Players" },
+  { Icon: GroupsIcon, title: "Teams" },
+  { Icon: DashboardIcon, title: "Dashboard" },
+];
 
 export const RouteSelect = () => {
   return (
-    <div className='w-full'>
-        <div className='py-4 border-b border-border'>
+    <div className="w-full">
+      <div className="border-b border-border py-4">
         {routes.map((route, index) => (
-            <NavRoutes key={index} {...route} />
+          <NavRoutes key={index} {...route} />
         ))}
-        </div>
-        <div className='w-full mt-4 flex justify-center items-center'>
-            <NavLink to={`/hud`} target='_blank' className={({ isActive }) => 
-        `flex items-center justify-center gap-4 w-3/4 p-2 transition-[box-shadow,_background-color,_color] rounded hover:bg-border bg-secondary-dark text-stone-300 shadow-none`
-        }>
-                <PlayArrowIcon />
-                Hud
-            </NavLink>
-        </div>
+      </div>
+      <div className="mt-4 flex w-full items-center justify-center">
+        <NavLink
+          to={`/hud`}
+          target="_blank"
+          className={({ isActive }) =>
+            `flex w-3/4 items-center justify-center gap-4 rounded bg-secondary p-2 text-textcolor shadow-none transition-[box-shadow,_background-color,_color] hover:bg-secondary-dark`
+          }
+        >
+          <PlayArrowIcon />
+          Hud
+        </NavLink>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-
-const NavRoutes = ({Icon, title, target}: RouteProps) => {
-
-    return (
-        <NavLink 
-        to={`${title.toLowerCase()}`}
-        target={target}
-        className={({ isActive }) => 
-        `flex items-center justify-start gap-4 w-full py-3 px-6 transition-[box-shadow,_background-color,_color] 
-        ${isActive ? 'bg-primary text-textcolor shadow' : 'hover:bg-border bg-transparent text-stone-300 shadow-none'}`
-        }>
-            {<Icon />}
-            {title}
-      </NavLink>
-    )
-}
+const NavRoutes = ({ Icon, title, target }: RouteProps) => {
+  return (
+    <NavLink
+      to={`${title.toLowerCase()}`}
+      target={target}
+      className={({ isActive }) =>
+        `flex w-full items-center justify-start gap-4 px-6 py-3 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-primary text-textcolor shadow" : "bg-transparent text-stone-300 shadow-none hover:bg-border"}`
+      }
+    >
+      {<Icon />}
+      {title}
+    </NavLink>
+  );
+};
