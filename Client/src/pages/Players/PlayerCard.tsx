@@ -1,14 +1,10 @@
 import { PlayerSilhouette } from "./PlayersPage";
 import { PlayerProps } from "./PlayersPage";
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import Delete from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button";
 import { useState } from "react";
 import { ButtonContained } from "../Components";
 

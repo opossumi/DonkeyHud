@@ -22,8 +22,8 @@ const theme = createTheme({
       disabled: "rgba(255, 255, 255, 0.5)",
     },
     background: {
-      default: "#111318",
-      paper: "#1a1c20",
+      default: "rgb(8 10 13)",
+      paper: "rgb(15 20 26)",
     },
   },
   spacing: 8,
@@ -38,7 +38,7 @@ export const AdminPanel = () => {
       <CssBaseline />
       <div
         id="AdminPanel"
-        className="h-full grid-cols-[225px,_1fr] rounded-lg bg-background lg:grid"
+        className="h-full grid-cols-[210px,_1fr] rounded-lg bg-background lg:grid"
       >
         <Sidebar />
         {/* <ResponsiveDrawer/> */}

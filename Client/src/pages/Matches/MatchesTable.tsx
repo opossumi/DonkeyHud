@@ -122,17 +122,30 @@ const MatchRow = ({
   };
 
   return (
-    <tr className="border-b border-border">
-      <td className="p-4" align="left">
-        <h6>
-          {teamOneName} vs {teamTwoName}{" "}
-          {match.current ? <h5 color="secondary">LIVE</h5> : ""}
-        </h6>
+    <tr className="relative border-b border-border">
+      <td className="p-4 text-xl font-semibold md:text-2xl" align="left">
+        <span className="mr-4">
+          {teamOneName} vs {teamTwoName}
+        </span>
+        {match.current ? (
+          <span className="font-semibold text-secondary">LIVE</span>
+        ) : (
+          ""
+        )}
       </td>
       <td className="p-4 text-lg font-semibold" align="center">
         <h6 className="flex items-center justify-center gap-2">
-          <img src={teamOneLogo} alt="Team One Logo" /> {match.left.wins} -{" "}
-          {match.right.wins} <img src={teamTwoLogo} alt="Team Two Logo" />
+          <img
+            src={teamOneLogo}
+            className="hidden md:block"
+            alt="Team One Logo"
+          />{" "}
+          {match.left.wins} - {match.right.wins}{" "}
+          <img
+            className="hidden md:block"
+            src={teamTwoLogo}
+            alt="Team Two Logo"
+          />
         </h6>
       </td>
       <td className="p-4" align="right">

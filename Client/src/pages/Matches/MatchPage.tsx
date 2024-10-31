@@ -69,7 +69,7 @@ export const MatchesPage = () => {
     loadMatch();
 
     socket.on("match-update", (data) => {
-      console.log("Match update:", data);
+      // console.log("Match update:", data);
       loadMatch();
     });
   }, []);

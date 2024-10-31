@@ -57,6 +57,7 @@ export const PlayersPage = () => {
   const handleEditPlayer = (player: PlayerProps) => {
     // Handle edit player logic
     setIsEditing(true);
+    setOpen(true);
     setSelectedPlayer(player); // Set selected player for editing
   };
 
