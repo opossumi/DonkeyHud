@@ -116,16 +116,7 @@ export const MatchesPage = () => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        height: "100%",
-        gap: 4,
-      }}
-    >
+    <div className="relative flex size-full flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="font-bold">Matches</h1>
         <ButtonContained onClick={() => setOpen(true)}>
@@ -159,6 +150,6 @@ export const MatchesPage = () => {
           open={open}
         />
       )}
-    </Box>
+    </div>
   );
 };

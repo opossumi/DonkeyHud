@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { ButtonContained } from "../Components";
 import { Match } from "../../api/interfaces";
 import AddIcon from "@mui/icons-material/Add";
+import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
 import knifeImage from "../../assets/knifeRound.png";
+import { socket } from "../../App";
 
 interface MatchCardProps {
   match: Match;
@@ -18,6 +20,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
   const [teamOneId, setTeamOneId] = useState("");
   const [teamTwoId, setTeamTwoId] = useState("");
+  const [swapTeams, setSwapTeams] = useState(true);
 
   useEffect(() => {
     const fetchTeamNames = async () => {
@@ -67,6 +70,12 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     }
   };
 
+  const handleSwapTeams = () => {
+    setSwapTeams(!swapTeams);
+    socket.emit("swap-teams", swapTeams);
+    console.log("Swapping teams", swapTeams);
+  };
+
   return (
     <div
       key={match.id}
@@ -105,6 +114,14 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                   </button>
                 </div>
               </div>
+              <div className="flex items-center justify-center">
+                <button
+                  className="rounded-lg bg-primary px-4 py-2"
+                  onClick={handleSwapTeams}
+                >
+                  <SwapHorizIcon />
+                </button>
+              </div>
               <div
                 id="TeamTwo"
                 className="flex flex-col items-center justify-center gap-1"
@@ -129,9 +146,12 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
               </div>
             </div>
           </div>
-          <ButtonContained color="secondary" onClick={handleStopMatch}>
+          <button
+            onClick={handleStopMatch}
+            className="rounded bg-secondary px-4 py-2 font-semibold uppercase transition-colors hover:bg-secondary-dark"
+          >
             Stop Match
-          </ButtonContained>
+          </button>
         </div>
       </div>
       <table className="flex-auto table-fixed">

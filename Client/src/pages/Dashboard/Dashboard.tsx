@@ -39,10 +39,13 @@ const team2 = {
 
 export const Dashboard = () => {
   return (
-    <Box sx={{ padding: 4 }}>
-      <Typography color="warning" variant="h4" gutterBottom>
-        THIS DOES NOT WORK YET, ALL DATA IS FAKE AND WILL BE WORKED ON LATER
-      </Typography>
+    <div className="relative flex size-full flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center justify-center gap-5">
+          <h1 className="font-bold">Dashboard -</h1>
+          <h2 className="text-secondary">Work in Progress (dummy data)</h2>
+        </div>
+      </div>
       <Grid container spacing={3}>
         {/* Server Connect Info */}
         <Grid item xs={12} md={4}>
@@ -118,6 +121,6 @@ export const Dashboard = () => {
           </Paper>
         </Grid>
       </Grid>
-    </Box>
+    </div>
   );
 };

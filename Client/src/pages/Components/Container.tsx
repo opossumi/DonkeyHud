@@ -6,7 +6,7 @@ interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Container = ({ children }: ContainerProps) => {
   return (
-    <div className="mx-auto box-border flex size-full flex-col overflow-x-hidden px-6 sm:px-10 md:max-w-7xl">
+    <div className="container flex h-full flex-col items-center overflow-x-hidden">
       {children}
     </div>
   );

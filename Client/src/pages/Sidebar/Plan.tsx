@@ -3,7 +3,7 @@ import Patreon from "../../assets/patreon.svg";
 
 export const Plan = () => {
   return (
-    <div className="sticky top-[calc(100vh_-_48px_-_16px)] flex h-12 flex-col justify-end border-t border-border px-4 text-xs">
+    <div className="sticky top-[calc(100vh_-_48px_-_16px)] flex h-12 flex-col justify-end px-4 text-xs">
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-bold text-textcolor">Free</p>

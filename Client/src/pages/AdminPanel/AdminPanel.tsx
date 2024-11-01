@@ -38,10 +38,9 @@ export const AdminPanel = () => {
       <CssBaseline />
       <div
         id="AdminPanel"
-        className="h-full grid-cols-[210px,_1fr] rounded-lg bg-background lg:grid"
+        className="min-h-full grid-cols-[210px,_1fr] bg-background lg:grid"
       >
         <Sidebar />
-        {/* <ResponsiveDrawer/> */}
         <MainPanel />
       </div>
     </ThemeProvider>

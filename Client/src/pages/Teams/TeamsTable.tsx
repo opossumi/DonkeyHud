@@ -16,8 +16,8 @@ export const TeamsTable = ({
   refreshTeams,
 }: TeamsTableProps) => {
   return (
-    <table className="bg-background2 table-fixed">
-      <thead className="border-border border-b">
+    <table className="table-fixed bg-background2">
+      <thead className="border-b border-border">
         <tr className="p-2">
           <th className="p-4 text-sm" align="left">
             Logo
@@ -36,7 +36,7 @@ export const TeamsTable = ({
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="divide-y divide-border">
         {teams.map((team: TeamProps, index) => (
           <TeamRow
             key={index}
@@ -66,7 +66,7 @@ const TeamRow = ({ team, onEdit, deleteTeam, refreshTeams }: TeamRowProps) => {
   };
 
   return (
-    <tr className="border-border border-b">
+    <tr>
       <td className="p-4" align="left">
         <img src={team.logo} alt="Team Logo" className="size-12" />
       </td>
@@ -82,14 +82,14 @@ const TeamRow = ({ team, onEdit, deleteTeam, refreshTeams }: TeamRowProps) => {
       <td className="p-4" align="right">
         <div className="inline-flex">
           <button
-            className="border-primary/50 hover:bg-primary/10 text-primary relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 p-2 px-4 py-1 transition-colors"
+            className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
             onClick={() => handleEditClick()}
           >
             <Edit />
           </button>
 
           <button
-            className="border-primary/50 hover:bg-primary/10 text-primary relative inline-flex min-w-[40px] items-center justify-center rounded-r border p-2 px-4 py-1 transition-colors"
+            className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
             onClick={() => deleteTeam(team.id)}
           >
             <Delete />

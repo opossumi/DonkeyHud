@@ -16,6 +16,19 @@ import { TeamsPage } from "./pages/Teams";
 
 export const { GSI, socket } = GSISocket("http://localhost:4000", "update");
 
+/*
+  TODO:
+  - Add a new route for the HUD component. Look into React Portals, Server-Side File Uploads, and iFrames (need a way to use tailwindcss for only the admin panel and scss for the hud).
+  - useMem and useContext hooks for cacheing so we don't have to make an api call every action.
+  - Work on an Electron App.
+  - Work on a temp HUD overlay while the Electron app is being developed.
+  - Update ports so they are not using a common port, and also not hardcoded in.
+  - Local file uploads for players and teams.
+  - Better way of handling Reversing Teams.
+  - Add a way to set winners for matches (in the actual vetos).
+  - Look into the defuse progress bar.
+*/
+
 export const App = () => {
   const [gameData, setGameData] = useState<CSGO | null>(null);
 

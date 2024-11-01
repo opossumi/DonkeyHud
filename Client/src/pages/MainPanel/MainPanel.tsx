@@ -25,7 +25,7 @@ export const MainPanel = () => {
       role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
-      sx={{ bgcolor: "background.paper", width: "225px", height: "100%" }}
+      sx={{ bgcolor: "background.paper", width: "210px", height: "100%" }}
     >
       <List>
         <ListItem sx={{ p: 0 }}>
@@ -41,7 +41,7 @@ export const MainPanel = () => {
   return (
     <main
       id="MainPanel"
-      className="relative flex h-full flex-col rounded-lg bg-background text-textcolor shadow"
+      className="relative flex h-full flex-col bg-background text-textcolor shadow"
     >
       {/* Drawer for mobile view */}
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>

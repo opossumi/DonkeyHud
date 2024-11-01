@@ -7,7 +7,7 @@ export const AccountToggle = () => {
   return (
     <NavLink
       to="/"
-      className="relative flex w-full items-center gap-2 border-b border-border transition-colors"
+      className="relative flex w-full items-center gap-2 transition-colors"
     >
       <div className="flex size-full justify-center">
         <img src={Logo} alt="Logo" className="relative flex w-1/2 p-0.5" />

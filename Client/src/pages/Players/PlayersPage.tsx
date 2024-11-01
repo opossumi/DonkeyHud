@@ -80,7 +80,7 @@ export const PlayersPage = () => {
   };
 
   return (
-    <div className="relative flex h-full w-full flex-col gap-4">
+    <div className="relative flex size-full flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="font-bold">Players</h1>
         <ButtonContained onClick={() => setOpen(true)}>
@@ -104,7 +104,12 @@ export const PlayersPage = () => {
         />
       )}
       <Container>
-        <Grid container spacing={2} columns={{ xs: 1, sm: 2, lg: 3 }}>
+        <Grid
+          container
+          spacing={2}
+          columns={{ xs: 1, md: 2, lg: 3 }}
+          sx={{ justifyItems: "center" }}
+        >
           {players.length === 0 && (
             <h6 className="font-semibold">No Players created</h6>
           )}

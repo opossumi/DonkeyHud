@@ -75,13 +75,13 @@ export const PlayerCard = ({
             </ButtonContained>
             <div className="inline-flex">
               <button
-                className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-secondary/50 bg-background p-2 px-4 py-1 text-secondary hover:border-primary/50 hover:text-primary-light"
+                className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
                 onClick={() => handleEditClick()}
               >
                 <EditIcon />
               </button>
               <button
-                className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-secondary/50 bg-background p-2 px-4 py-1 text-secondary transition-colors hover:border-primary/50 hover:text-primary-light"
+                className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
                 onClick={() => deletePlayer(player.id)}
               >
                 <Delete />
