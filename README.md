@@ -21,9 +21,9 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 
 - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
 - Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
-- ~~FIRST TIME RUNNING: Open the integrated terminal in main directory and run `npm install`. This will install needed files for both the server and client.~~
-- ~~Open the integrated terminal in the main directory and run `npm start`. This will run the Server and Client concurrently.~~
 - Run the RUN_OpenHUD.bat file
+- For OBS overlay, create a `Browser Source`, delete all of the custom css, and use the url: `http://localhost:3000/hud`  (port will probably change later)
+- Still working on an overlay for ingame. [Here](https://drive.google.com/drive/folders/1kHaRyzMUZ-qRBBaC0mFb6nQEz5j79bQm?usp=sharing) (run the Overlay.exe) is an EXTEREMELY experimental version that is not tesed at all (use at your own risk). Otherwise you can observe through your OBS scene by running the preview window as fullscreen and have the game on a second monitor
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
