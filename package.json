@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
     "install": "concurrently \"npm run server:install\" \"npm run client:install\"",
-    "server:start": "cd Server  && npm start",
+    "server:start": "cd Server  && node index.js",
     "client:start": "cd Client && npm start",
     "server:install": "cd Server  && npm install",
     "client:install": "cd Client && npm install"

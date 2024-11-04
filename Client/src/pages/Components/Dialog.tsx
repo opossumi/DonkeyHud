@@ -8,7 +8,7 @@ interface DialogProps {
   open?: boolean;
 }
 
-export const Dialog2 = ({ children, onClose, open }: DialogProps) => {
+export const Dialog = ({ children, onClose, open }: DialogProps) => {
   if (!open) return null;
   return createPortal(
     <>

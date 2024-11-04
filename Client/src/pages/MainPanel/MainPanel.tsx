@@ -1,41 +1,25 @@
 import React, { useState } from "react";
 import { Topbar } from "./Topbar";
 import { PageContainer } from "./PageContainer";
-import { Box, Drawer, List, ListItem } from "@mui/material";
-import { AccountToggle } from "../Sidebar/AccountToggle";
+import { NavLogo } from "../Sidebar/NavLogo";
 import { RouteSelect } from "../Sidebar/RouteSelect";
+import { Drawer } from "../Components/Drawer";
+import { Plan } from "../Sidebar/Plan";
 
 export const MainPanel = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-
-  const toggleDrawer =
-    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event &&
-        event.type === "keydown" &&
-        (event as React.KeyboardEvent).key === "Tab"
-      ) {
-        return;
-      }
-      setDrawerOpen(open);
-    };
-
   const drawerContent = (
-    <Box
-      role="presentation"
-      onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-      sx={{ bgcolor: "background.paper", width: "210px", height: "100%" }}
+    <div
+      className="relative flex size-full flex-col justify-between bg-background2"
+      onClick={() => setDrawerOpen(false)}
+      onKeyDown={() => setDrawerOpen(false)}
     >
-      <List>
-        <ListItem sx={{ p: 0 }}>
-          <AccountToggle />
-        </ListItem>
-        <ListItem sx={{ p: 0 }}>
-          <RouteSelect />
-        </ListItem>
-      </List>
-    </Box>
+      <div>
+        <NavLogo />
+        <RouteSelect />
+      </div>
+      <Plan />
+    </div>
   );
 
   return (
@@ -43,12 +27,11 @@ export const MainPanel = () => {
       id="MainPanel"
       className="relative flex h-full flex-col bg-background text-textcolor shadow"
     >
-      {/* Drawer for mobile view */}
-      <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         {drawerContent}
       </Drawer>
 
-      <Topbar toggleDrawer={toggleDrawer} />
+      <Topbar toggleDrawer={setDrawerOpen} />
       <PageContainer />
     </main>
   );

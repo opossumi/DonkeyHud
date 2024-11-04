@@ -14,7 +14,10 @@ import { MatchesPage } from "./pages/Matches/MatchPage";
 import { PlayersPage } from "./pages/Players/PlayersPage";
 import { TeamsPage } from "./pages/Teams";
 
-export const { GSI, socket } = GSISocket("http://localhost:4000", "update");
+export const PORT = 4000;
+export const HOST = `http://localhost`;
+
+export const { GSI, socket } = GSISocket(`${HOST}:${PORT}`, "update");
 
 /*
   TODO:
@@ -23,10 +26,10 @@ export const { GSI, socket } = GSISocket("http://localhost:4000", "update");
   - Work on an Electron App.
   - Work on a temp HUD overlay while the Electron app is being developed.
   - Update ports so they are not using a common port, and also not hardcoded in.
-  - Local file uploads for players and teams.
+  - Local file uploads for players pictures and teams logo.
   - Better way of handling Reversing Teams.
   - Add a way to set winners for matches (in the actual vetos).
-  - Look into the defuse progress bar.
+  - Avatars (players without pictures) not swapping when teams switch sides
 */
 
 export const App = () => {

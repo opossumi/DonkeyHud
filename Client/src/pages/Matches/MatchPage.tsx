@@ -3,7 +3,6 @@ import { Match } from "../../api/interfaces";
 import { MatchCard } from "./MatchCard";
 import { TeamProps } from "../Teams";
 import { getTeams } from "../Teams";
-import { Box } from "@mui/material";
 import { MatchesTable } from "./MatchesTable";
 import { MatchForm } from "./MatchForm";
 import { getCurrentMatch } from "../../HUD/HUD";

@@ -3,7 +3,7 @@ import { Match, Veto } from "../../api/interfaces";
 import { MatchTypes, maps } from "./MatchPage";
 import { TeamProps } from "../Teams";
 import { VetoCard } from "./VetoCard";
-import { Dialog2 } from "../Components/Dialog";
+import { Dialog } from "../Components/Dialog";
 import { ButtonContained } from "../Components";
 
 interface MatchFormProps {
@@ -122,7 +122,7 @@ export const MatchForm = ({
   };
 
   return (
-    <Dialog2 onClose={handleCancel} open={open}>
+    <Dialog onClose={handleCancel} open={open}>
       <div className="flex flex-1 border-b border-zinc-800">
         <h3 className="px-6 py-4 font-semibold">
           {isEditing
@@ -235,6 +235,6 @@ export const MatchForm = ({
           )}
         </div>
       </div>
-    </Dialog2>
+    </Dialog>
   );
 };

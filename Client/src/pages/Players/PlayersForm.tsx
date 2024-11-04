@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PlayerProps } from "./PlayersPage";
-import { Dialog2 } from "../Components/Dialog";
+import { Dialog } from "../Components/Dialog";
 import { ButtonContained, TextInput } from "../Components";
 
 interface PlayerFormProps {
@@ -100,7 +100,7 @@ export const PlayerForm = ({
   };
 
   return (
-    <Dialog2 onClose={handleCancel} open={open}>
+    <Dialog onClose={handleCancel} open={open}>
       <div className="flex flex-1 border-b border-zinc-800">
         <h3 className="px-6 py-4 font-semibold">
           {isEditing ? `Updating: ${alias}` : "Create Player"}
@@ -159,6 +159,6 @@ export const PlayerForm = ({
           )}
         </div>
       </div>
-    </Dialog2>
+    </Dialog>
   );
 };

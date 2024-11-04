@@ -28,21 +28,9 @@
   transform: translateX(-50%);
   .CT {
     color: var(--color-new-ct);
-    .round-thingy {
-      .inner {
-        background-color: #28abff;
-      }
-      background-color: #28abff80;
-    }
   }
   .T {
     color: var(--color-new-t);
-    .round-thingy {
-      .inner {
-        background-color: #ffc600;
-      }
-      background-color: #ffc60080;
-    }
   }
   #timer {
     display: flex;
@@ -133,7 +121,7 @@
       height: 70px;
       align-items: center;
       overflow: hidden;
-      background-color: var(--sub-panel-color);
+      background-color: var(--main-panel-color);
       img {
         max-width: 90%;
         max-height: 65%;

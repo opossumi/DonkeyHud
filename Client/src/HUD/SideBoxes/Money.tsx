@@ -1,15 +1,10 @@
 import React from "react";
 
-const LossBox = React.memo(({ active, side }: { active: boolean; side: "CT" | "T" }) => {
-  return (
-    <div
-      className={`loss-box ${side} ${
-        active ? "active" : ""
-      }`}
-    >
-    </div>
-  );
-});
+const LossBox = React.memo(
+  ({ active, side }: { active: boolean; side: "CT" | "T" }) => {
+    return <div className={`loss-box ${side} ${active ? "active" : ""}`}></div>;
+  },
+);
 
 interface Props {
   side: "left" | "right";
@@ -38,7 +33,7 @@ const Money = ({ side, team, loss, equipment, money, show }: Props) => {
         <div className="value">${money}</div>
       </div>
       <div className="money_container">
-        <div className="title">Equipment Value</div>
+        <div className="title">Equip. Value</div>
         <div className="value">${equipment}</div>
       </div>
     </div>

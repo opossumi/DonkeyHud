@@ -6,9 +6,7 @@ import { NavLink } from "react-router-dom";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
 interface TopbarProps {
-  toggleDrawer: (
-    open: boolean,
-  ) => (event: React.KeyboardEvent | React.MouseEvent) => void;
+  toggleDrawer: (open: boolean) => void;
 }
 
 export const Topbar = ({ toggleDrawer }: TopbarProps) => {
@@ -21,7 +19,7 @@ export const Topbar = ({ toggleDrawer }: TopbarProps) => {
         <div className="flex items-center justify-center gap-2">
           <button
             className="flex items-center justify-center lg:hidden"
-            onClick={toggleDrawer(true)}
+            onClick={() => toggleDrawer(true)}
           >
             <MenuIcon />
           </button>

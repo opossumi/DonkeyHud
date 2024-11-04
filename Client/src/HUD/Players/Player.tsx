@@ -1,43 +1,53 @@
-import React from 'react'
-import * as I from 'csgogsi-socket'
-import './players.scss'
-import { RoundKills } from '../Helpers/RoundKills';
-import Armor from '../Indicators/Armor';
-import { Bomb } from '../Indicators';
-import { Defuse } from '../Indicators/Defuse';
-import { Avatar } from '../Helpers/Avatar';
-import { KillIcon, Skull } from '../assets/Icons';
-import { WeaponImage } from '../Weapons/Weapon';
+import React from "react";
+import * as I from "csgogsi-socket";
+import "./players.scss";
+import { RoundKills } from "../Helpers/RoundKills";
+import Armor from "../Indicators/Armor";
+import { Bomb } from "../Indicators";
+import { Defuse } from "../Indicators/Defuse";
+import { Avatar } from "../Helpers/Avatar";
+import { KillIcon, Skull } from "../assets/Icons";
+import { WeaponImage } from "../Weapons/Weapon";
 
 interface IProps {
-  player: I.Player,
-  isObserved: boolean,
+  player: I.Player;
+  isObserved: boolean;
 }
 
 const compareWeapon = (weaponOne: I.WeaponRaw, weaponTwo: I.WeaponRaw) => {
-  if (weaponOne.name === weaponTwo.name &&
+  if (
+    weaponOne.name === weaponTwo.name &&
     weaponOne.paintkit === weaponTwo.paintkit &&
     weaponOne.type === weaponTwo.type &&
     weaponOne.ammo_clip === weaponTwo.ammo_clip &&
     weaponOne.ammo_clip_max === weaponTwo.ammo_clip_max &&
     weaponOne.ammo_reserve === weaponTwo.ammo_reserve &&
     weaponOne.state === weaponTwo.state
-  ) return true;
+  )
+    return true;
 
   return false;
-}
+};
 
-const compareWeapons = (weaponsObjectOne: { [key: string]: I.WeaponRaw }, weaponsObjectTwo: { [key: string]: I.WeaponRaw }) => {
-  const weaponsOne = Object.values(weaponsObjectOne).sort((a, b) => (a.name as any) - (b.name as any))
-  const weaponsTwo = Object.values(weaponsObjectTwo).sort((a, b) => (a.name as any) - (b.name as any))
+const compareWeapons = (
+  weaponsObjectOne: { [key: string]: I.WeaponRaw },
+  weaponsObjectTwo: { [key: string]: I.WeaponRaw },
+) => {
+  const weaponsOne = Object.values(weaponsObjectOne).sort(
+    (a, b) => (a.name as any) - (b.name as any),
+  );
+  const weaponsTwo = Object.values(weaponsObjectTwo).sort(
+    (a, b) => (a.name as any) - (b.name as any),
+  );
 
   if (weaponsOne.length !== weaponsTwo.length) return false;
 
   return weaponsOne.every((weapon, i) => compareWeapon(weapon, weaponsTwo[i]));
-}
+};
 
 const arePlayersEqual = (playerOne: I.Player, playerTwo: I.Player) => {
-  if (playerOne.name === playerTwo.name &&
+  if (
+    playerOne.name === playerTwo.name &&
     playerOne.steamid === playerTwo.steamid &&
     playerOne.observer_slot === playerTwo.observer_slot &&
     playerOne.defaultName === playerTwo.defaultName &&
@@ -64,25 +74,42 @@ const arePlayersEqual = (playerOne: I.Player, playerTwo: I.Player) => {
     playerOne.country === playerTwo.country &&
     playerOne.realName === playerTwo.realName &&
     compareWeapons(playerOne.weapons, playerTwo.weapons)
-  ) return true;
+  )
+    return true;
 
   return false;
-}
+};
 
-export const AllPlayers = ({player, isObserved}: IProps) => {
-
-  const weapons = Object.values(player.weapons).map(weapon => ({ ...weapon, name: weapon.name.replace("weapon_", "") }));
-  const primary = weapons.filter(weapon => !['C4', 'Pistol', 'Knife', 'Grenade', undefined].includes(weapon.type))[0] || null;
-  const secondary = weapons.filter(weapon => weapon.type === "Pistol")[0] || null;
-  const grenades = weapons.filter(weapon => weapon.type === "Grenade");
+export const AllPlayers = ({ player, isObserved }: IProps) => {
+  const weapons = Object.values(player.weapons).map((weapon) => ({
+    ...weapon,
+    name: weapon.name.replace("weapon_", ""),
+  }));
+  const primary =
+    weapons.filter(
+      (weapon) =>
+        !["C4", "Pistol", "Knife", "Grenade", undefined].includes(weapon.type),
+    )[0] || null;
+  const secondary =
+    weapons.filter((weapon) => weapon.type === "Pistol")[0] || null;
+  const grenades = weapons.filter((weapon) => weapon.type === "Grenade");
   const isLeft = player.team.orientation === "left";
-  const zeus = weapons.find(weapon => weapon.name === "taser");
-
+  const zeus = weapons.find((weapon) => weapon.name === "taser");
 
   return (
-    <div className={`player ${player.state.health === 0 ? "dead" : ""} ${isObserved ? 'active' : ''}`}>
+    <div
+      className={`player ${player.state.health === 0 ? "dead" : ""} ${isObserved ? "active" : ""}`}
+    >
       <div className="player_data">
-        <Avatar teamId={player.team.id} steamid={player.steamid} height={57} width={57} showSkull={false} showCam={false} sidePlayer={true} />
+        <Avatar
+          teamId={player.team.id}
+          steamid={player.steamid}
+          height={57}
+          width={57}
+          showSkull={false}
+          showCam={false}
+          sidePlayer={true}
+        />
         <div className="dead-stats">
           <div className="labels">
             <div className="stat-label">K</div>
@@ -97,43 +124,95 @@ export const AllPlayers = ({player, isObserved}: IProps) => {
         </div>
         <div className="player_stats">
           <div className="row">
-            <div className="health">
-              {player.state.health}
-            </div>
+            <div
+              className={`hp_bar ${player.state.health <= 20 ? "low" : ""}`}
+              style={{ width: `${player.state.health}%` }}
+            ></div>
+            <div className="health">{player.state.health}</div>
             <div className="username">
-              <div>{isLeft ? <span>{player.observer_slot}</span> : null} {player.name} {!isLeft ? <span>{player.observer_slot}</span> : null}</div>
-              {primary || secondary ? <WeaponImage weapon={primary ? primary.name : secondary.name} active={primary ? primary.state === "active" : secondary.state === "active"} /> : ""}
-              {player.state.round_kills ? <div className="roundkills-container">{player.state.round_kills}</div> : null}
+              <div>
+                {isLeft ? <span>{player.observer_slot}</span> : null}{" "}
+                {player.name}{" "}
+                {!isLeft ? <span>{player.observer_slot}</span> : null}
+              </div>
+              {primary || secondary ? (
+                <WeaponImage
+                  weapon={primary ? primary.name : secondary.name}
+                  active={
+                    primary
+                      ? primary.state === "active"
+                      : secondary.state === "active"
+                  }
+                />
+              ) : (
+                ""
+              )}
+              {player.state.round_kills ? (
+                <div className="roundkills-container">
+                  {player.state.round_kills}
+                </div>
+              ) : null}
             </div>
           </div>
-          <div className={`hp_bar ${player.state.health <= 20 ? 'low' : ''}`} style={{ width: `${player.state.health}%` }}></div>
           <div className="row">
             <div className="armor_and_utility">
               <Bomb player={player} />
-              <Armor health={player.state.health} armor={player.state.armor} helmet={player.state.helmet} />
+              <Armor
+                health={player.state.health}
+                armor={player.state.armor}
+                helmet={player.state.helmet}
+              />
               <Defuse player={player} />
             </div>
             <div className="money">${player.state.money}</div>
-            {zeus ? <WeaponImage className={`zeus ${player.team.orientation}`} weapon="taser" active={zeus.state === "active"} /> : null}
+            {zeus ? (
+              <WeaponImage
+                className={`zeus ${player.team.orientation}`}
+                weapon="taser"
+                active={zeus.state === "active"}
+              />
+            ) : null}
             <div className="grenades">
-              {grenades.map(grenade => (
-                [
-                  <WeaponImage key={`${grenade.name}-${grenade.state}`} weapon={grenade.name} active={grenade.state === "active"} isGrenade />,
-                  grenade.ammo_reserve === 2 ? <WeaponImage key={`${grenade.name}-${grenade.state}-double`} weapon={grenade.name} active={false} isGrenade /> : null,
-                ]
-              ))}
+              {grenades.map((grenade) => [
+                <WeaponImage
+                  key={`${grenade.name}-${grenade.state}`}
+                  weapon={grenade.name}
+                  active={grenade.state === "active"}
+                  isGrenade
+                />,
+                grenade.ammo_reserve === 2 ? (
+                  <WeaponImage
+                    key={`${grenade.name}-${grenade.state}-double`}
+                    weapon={grenade.name}
+                    active={false}
+                    isGrenade
+                  />
+                ) : null,
+              ])}
             </div>
-            <div className="secondary_weapon">{primary && secondary ? <WeaponImage weapon={secondary.name} active={secondary.state === "active"} /> : ""}</div>
+            <div className="secondary_weapon">
+              {primary && secondary ? (
+                <WeaponImage
+                  weapon={secondary.name}
+                  active={secondary.state === "active"}
+                />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
           <div className="active_border"></div>
         </div>
       </div>
     </div>
   );
-}
+};
 
-const arePropsEqual = (prevProps: Readonly<IProps>, nextProps: Readonly<IProps>) => {
+const arePropsEqual = (
+  prevProps: Readonly<IProps>,
+  nextProps: Readonly<IProps>,
+) => {
   if (prevProps.isObserved !== nextProps.isObserved) return false;
 
   return arePlayersEqual(prevProps.player, nextProps.player);
-}
+};

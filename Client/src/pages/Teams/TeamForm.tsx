@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { TeamProps } from "./TeamsPage";
 import { ButtonContained, TextInput } from "../Components";
-import { Dialog2 } from "../Components/Dialog";
+import { Dialog } from "../Components/Dialog";
 
 interface TeamsFormProps {
   team?: TeamProps;
   createTeam?: (team: TeamProps) => void;
   updateTeam?: (team: TeamProps) => void;
   isEditing?: boolean;
-  onCancel?: () => void; 
+  onCancel?: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -27,7 +27,7 @@ export const TeamsForm = ({
   const [country, setCountry] = useState("");
   const [logo, setLogo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (isEditing && team) {
@@ -52,7 +52,7 @@ export const TeamsForm = ({
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return; 
+    if (!validateForm()) return;
 
     setIsSubmitting(true);
     const newTeam: TeamProps = {
@@ -91,7 +91,7 @@ export const TeamsForm = ({
   };
 
   return (
-    <Dialog2 onClose={handleCancel} open={open}>
+    <Dialog onClose={handleCancel} open={open}>
       <div className="flex flex-1 border-b border-zinc-800">
         <h3 className="px-6 py-4 font-semibold">
           {isEditing ? `Updating: ${teamName}` : "Create Team"}
@@ -145,6 +145,6 @@ export const TeamsForm = ({
           )}
         </div>
       </div>
-    </Dialog2>
+    </Dialog>
   );
 };

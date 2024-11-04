@@ -25,10 +25,9 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
-# CS2-React-Hud (https://github.com/lexogrine/cs2-react-hud)
+# CS2-React-Hud based on (https://github.com/lexogrine/cs2-react-hud)
 
-![Custom CS2 Hud](https://github.com/lexogrine/cs2-react-hud/raw/main/preview.png)
-(screenshot from complete version of hud in different software. major parts of the hud still need to be implemented.)
+![Custom CS2 Hud](https://i.imgur.com/qRh4IMY.png)
 
 # Admin Panel
 
