@@ -5,7 +5,7 @@ Start of an open source CS2 Custom Hud.
 EXTREMELY EARLY AND EXPERIMENTAL.
 <br/>
 
-- Styling: TailwindCSS / Material UI / Sass
+- Styling: TailwindCSS (admin panel) / Sass (hud)
 - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
 
 # To Do:
@@ -15,6 +15,7 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 - Reverse Team Sides
 - Start Supporting uploading local files for team logos and player pictures.
 - Work on readability of code
+- (others listed under App.tsx)
 
 # Getting Started:
 
@@ -25,7 +26,7 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
-# CS2-React-Hud based on (https://github.com/lexogrine/cs2-react-hud)
+# CS2-React-Hud based on [Lexogrine react hud](https://github.com/lexogrine/cs2-react-hud)
 
 ![Custom CS2 Hud](https://i.imgur.com/qRh4IMY.png)
 
