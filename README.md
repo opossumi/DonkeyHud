@@ -21,8 +21,9 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 
 - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
 - Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
-- FIRST TIME RUNNING: Open the integrated terminal in main directory and run `npm install`. This will install needed files for both the server and client.
-- Open the integrated terminal in the main directory and run `npm start`. This will run the Server and Client concurrently.
+- ~~FIRST TIME RUNNING: Open the integrated terminal in main directory and run `npm install`. This will install needed files for both the server and client.~~
+- ~~Open the integrated terminal in the main directory and run `npm start`. This will run the Server and Client concurrently.~~
+- Run the RUN_OpenHUD.bat file
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
