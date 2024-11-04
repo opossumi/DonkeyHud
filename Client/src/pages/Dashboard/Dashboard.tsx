@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid, Paper, Typography, Box } from "@mui/material";
 
 // Dummy data (replace with real data)
 const serverInfo = {
@@ -39,88 +38,72 @@ const team2 = {
 
 export const Dashboard = () => {
   return (
-    <div className="relative flex size-full flex-col gap-4">
+    <div className="relative flex h-full flex-col gap-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center justify-center gap-5">
-          <h1 className="font-bold">Dashboard -</h1>
-          <h2 className="text-secondary">Work in Progress (dummy data)</h2>
+          <h1 className="text-2xl font-bold">Dashboard -</h1>
+          <h2 className="text-gray-400">Work in Progress (dummy data)</h2>
         </div>
       </div>
-      <Grid container spacing={3}>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
         {/* Server Connect Info */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              Server Connect Info
-            </Typography>
-            <Typography>IP: {serverInfo.ip}</Typography>
-            <Typography>Port: {serverInfo.port}</Typography>
-            <Typography>Status: {serverInfo.status}</Typography>
-          </Paper>
-        </Grid>
+        <div className="rounded-lg bg-background2 p-4 shadow-md">
+          <h3 className="mb-2 text-xl font-bold">Server Connect Info</h3>
+          <p className="text-gray-400">IP: {serverInfo.ip}</p>
+          <p className="text-gray-400">Port: {serverInfo.port}</p>
+          <p className="text-gray-400">Status: {serverInfo.status}</p>
+        </div>
 
         {/* Current Players */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              Current Players
-            </Typography>
-            {/* Replace with actual player data */}
-            <Typography>Player 1, Player 2, Player 3...</Typography>
-          </Paper>
-        </Grid>
+        <div className="rounded-lg bg-background2 p-4 shadow-md">
+          <h3 className="mb-2 text-xl font-bold">Current Players</h3>
+          {/* Replace with actual player data */}
+          <p className="text-gray-400">Player 1, Player 2, Player 3...</p>
+        </div>
 
         {/* Match Information */}
-        <Grid item xs={12} md={4}>
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              Match Information
-            </Typography>
-            <Typography>Round: {matchInfo.round}</Typography>
-            <Typography>Round Time: {matchInfo.roundTime}</Typography>
-            <Typography>Round State: {matchInfo.roundState}</Typography>
-            <Typography>Best of Type: {matchInfo.bestOfType}</Typography>
-          </Paper>
-        </Grid>
+        <div className="rounded-lg bg-background2 p-4 shadow-md">
+          <h3 className="mb-2 text-xl font-bold">Match Information</h3>
+          <p className="text-gray-400">Round: {matchInfo.round}</p>
+          <p className="text-gray-400">Round Time: {matchInfo.roundTime}</p>
+          <p className="text-gray-400">Round State: {matchInfo.roundState}</p>
+          <p className="text-gray-400">Best of Type: {matchInfo.bestOfType}</p>
+        </div>
 
         {/* Team 1 Panel */}
-        <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              {team1.name} - Score: {team1.score}
-            </Typography>
-            <Typography>Team Economy: ${team1.economy}</Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Player Stats:
-            </Typography>
+        <div className="rounded-lg bg-background2 p-4 shadow-md">
+          <h3 className="mb-2 text-xl font-bold">
+            {team1.name} - Score: {team1.score}
+          </h3>
+          <p className="text-gray-400">Team Economy: ${team1.economy}</p>
+          <h4 className="mb-2 font-bold text-gray-400">Player Stats:</h4>
+          <ul>
             {team1.players.map((player, index) => (
-              <Typography key={index}>
+              <li key={index} className="text-gray-400">
                 {player.name}: {player.kills}K / {player.deaths}D, ADR:{" "}
                 {player.adr}
-              </Typography>
+              </li>
             ))}
-          </Paper>
-        </Grid>
+          </ul>
+        </div>
 
         {/* Team 2 Panel */}
-        <Grid item xs={12} md={6}>
-          <Paper elevation={3} sx={{ padding: 2 }}>
-            <Typography variant="h6" gutterBottom>
-              {team2.name} - Score: {team2.score}
-            </Typography>
-            <Typography>Team Economy: ${team2.economy}</Typography>
-            <Typography variant="subtitle1" gutterBottom>
-              Player Stats:
-            </Typography>
+        <div className="rounded-lg bg-background2 p-4 shadow-md">
+          <h3 className="mb-2 text-xl font-bold">
+            {team2.name} - Score: {team2.score}
+          </h3>
+          <p className="text-gray-400">Team Economy: ${team2.economy}</p>
+          <h4 className="mb-2 font-bold text-gray-400">Player Stats:</h4>
+          <ul>
             {team2.players.map((player, index) => (
-              <Typography key={index}>
+              <li key={index} className="text-gray-400">
                 {player.name}: {player.kills}K / {player.deaths}D, ADR:{" "}
                 {player.adr}
-              </Typography>
+              </li>
             ))}
-          </Paper>
-        </Grid>
-      </Grid>
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };

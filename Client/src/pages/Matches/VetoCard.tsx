@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Veto } from "../../api/interfaces";
 import { maps } from "./MatchPage";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  Paper,
-} from "@mui/material";
 
 interface VetoCardProps {
   index: number;
@@ -27,74 +18,71 @@ export const VetoCard = ({
   onVetoChange,
 }: VetoCardProps) => {
   return (
-    <Box
-      key={index}
-      sx={{ p: 1, display: "flex", flexDirection: "column", gap: 1 }}
-    >
-      <Typography variant="subtitle1" gutterBottom>
-        Veto {index + 1}
-      </Typography>
-      <Box sx={{ display: "flex", flexDirection: "row", gap: 2 }}>
-        <FormControl fullWidth>
-          <InputLabel>Type</InputLabel>
-          <Select
+    <div className="flex flex-col gap-1 p-1" key={index}>
+      <h6>Veto {index + 1}</h6>
+      <div className="flex gap-2">
+        <form className="w-full">
+          <label>Type</label>
+          <select
             value={veto.type}
             onChange={(e) => onVetoChange(index, "type", e.target.value)}
-            label="Type"
+            name="Type"
+            className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
-            <MenuItem value="ban">Ban</MenuItem>
-            <MenuItem value="pick">Pick</MenuItem>
-            <MenuItem value="decider">Decider</MenuItem>
-          </Select>
-        </FormControl>
+            <option value="ban">Ban</option>
+            <option value="pick">Pick</option>
+            <option value="decider">Decider</option>
+          </select>
+        </form>
 
-        <FormControl fullWidth>
-          <InputLabel>
-            {veto.type === "decider" ? "Decider" : "Team"}
-          </InputLabel>
-          <Select
+        <form className="w-full">
+          <label>{veto.type === "decider" ? "Decider" : "Team"}</label>
+          <select
             disabled={veto.type === "decider"}
             value={veto.type === "decider" ? "decider" : veto.teamId}
             onChange={(e) => onVetoChange(index, "teamId", e.target.value)}
-            label={veto.type === "decider" ? "Decider" : "Team"}
+            name={veto.type === "decider" ? "Decider" : "Team"}
+            className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
-            <MenuItem value={leftTeamId ? leftTeamId : ""}>
+            <option value={leftTeamId ? leftTeamId : ""}>
               {leftTeamId ? leftTeamId : ""}
-            </MenuItem>
-            <MenuItem value={rightTeamId ? rightTeamId : ""}>
+            </option>
+            <option value={rightTeamId ? rightTeamId : ""}>
               {rightTeamId ? rightTeamId : ""}
-            </MenuItem>
-          </Select>
-        </FormControl>
+            </option>
+          </select>
+        </form>
 
-        <FormControl fullWidth>
-          <InputLabel>Map</InputLabel>
-          <Select
+        <form className="w-full">
+          <label>Map</label>
+          <select
             value={veto.mapName}
             onChange={(e) => onVetoChange(index, "mapName", e.target.value)}
-            label="Map"
+            name="Map"
+            className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
             {maps.map((map) => (
-              <MenuItem key={map} value={map}>
-                {map}
-              </MenuItem>
+              <option key={map} value={map}>
+                {map.substring(3)}
+              </option>
             ))}
-          </Select>
-        </FormControl>
+          </select>
+        </form>
 
-        <FormControl fullWidth>
-          <InputLabel>Side</InputLabel>
-          <Select
+        <form className="w-full">
+          <label>Side</label>
+          <select
             value={veto.side}
             onChange={(e) => onVetoChange(index, "side", e.target.value)}
-            label="Side"
+            name="Side"
+            className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
-            <MenuItem value="NO">No Side</MenuItem>
-            <MenuItem value="CT">CT</MenuItem>
-            <MenuItem value="T">T</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-    </Box>
+            <option value="NO">No Side</option>
+            <option value="CT">CT</option>
+            <option value="T">T</option>
+          </select>
+        </form>
+      </div>
+    </div>
   );
 };

@@ -2,12 +2,11 @@ import React, { useEffect, useState } from "react";
 import { CSGO } from "csgogsi-socket";
 import { Layout } from "./Layout/Layout";
 import "./hud.scss";
-import { Match, Veto } from "../api/interfaces";
+import { Match } from "../api/interfaces";
 import { socket } from "../App";
 import axios from "axios";
 import api, { port } from "../api/api";
 import { GSI } from "../App";
-import { getTeams } from "../pages/Teams";
 
 interface HUDProps {
   gameData?: CSGO | null;

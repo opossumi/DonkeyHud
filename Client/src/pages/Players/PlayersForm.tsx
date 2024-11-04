@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  TextField,
-  Button,
-  Paper,
-  Box,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
 import { PlayerProps } from "./PlayersPage";
+import { Dialog2 } from "../Components/Dialog";
+import { ButtonContained, TextInput } from "../Components";
 
 interface PlayerFormProps {
   player?: PlayerProps;
@@ -109,85 +100,65 @@ export const PlayerForm = ({
   };
 
   return (
-    <Dialog onClose={handleCancel} open={open} maxWidth="lg" fullWidth>
-      <DialogTitle>
-        {isEditing ? `Updating: ${alias}` : "Create Player"}
-      </DialogTitle>
-      <DialogContent>
-        <Box
-          marginY={2}
-          sx={{ display: "flex", gap: 3, flexDirection: "column" }}
-        >
-          <TextField
+    <Dialog2 onClose={handleCancel} open={open}>
+      <div className="flex flex-1 border-b border-zinc-800">
+        <h3 className="px-6 py-4 font-semibold">
+          {isEditing ? `Updating: ${alias}` : "Create Player"}
+        </h3>
+      </div>
+      <div className="flex flex-1 flex-col overflow-y-scroll p-6">
+        <div className="my-2 flex flex-col gap-3">
+          <TextInput
             label="Alias"
             value={alias}
             onChange={(e) => setAlias(e.target.value)}
-            fullWidth
-            margin="normal"
             required
             error={!!errorMessage} // Set error state based on errorMessage
-            helperText={errorMessage} // Show error message below field
+            errorMessage={errorMessage} // Show error message below field
           />
-          <TextField
+          <TextInput
             label="SteamID64"
             value={steamId}
             onChange={(e) => setSteamId(e.target.value)}
-            fullWidth
-            margin="normal"
             required
             error={!!errorMessage} // Set error state based on errorMessage
-            helperText={errorMessage} // Show error message below field
+            errorMessage={errorMessage} // Show error message below field
           />
-          <TextField
+          <TextInput
             label="Avatar URL"
             value={avatar}
             onChange={(e) => setAvatar(e.target.value)}
-            fullWidth
-            margin="normal"
           />
-          <TextField
+          <TextInput
             label="Real Name"
             value={realName}
             onChange={(e) => setRealName(e.target.value)}
-            fullWidth
-            margin="normal"
           />
-          <TextField
+          <TextInput
             label="Team"
             value={team}
             onChange={(e) => setTeam(e.target.value)}
-            fullWidth
-            margin="normal"
           />
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Box sx={{ display: "flex", justifyContent: "start", gap: 1, mt: 1 }}>
-          {isSubmitting ? (
-            <Button variant="contained" disabled>
-              Submitting...
-            </Button>
-          ) : (
-            <Button variant="contained" onClick={handleSubmit}>
-              Submit
-            </Button>
-          )}
-          <Button variant="contained" onClick={handleReset}>
-            Reset
-          </Button>
-          {isEditing && ( // Conditionally render Cancel button if onCancel prop is provided
-            <Button variant="outlined" color="secondary" onClick={handleCancel}>
-              Cancel
-            </Button>
-          )}
-        </Box>
-        {/* Added error message display */}
+        </div>
+      </div>
+      <div className="inline-flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
-          <Typography variant="body2" color="error" sx={{ my: 1 }}>
-            {errorMessage}
-          </Typography>
+          <p className="my-1 text-end text-red-500">{errorMessage}</p>
         )}
-      </DialogActions>
-    </Dialog>
+        <div className="mt-1 flex justify-end gap-1">
+          {isSubmitting ? (
+            <ButtonContained disabled>Submitting...</ButtonContained>
+          ) : (
+            <ButtonContained onClick={handleSubmit}>Submit</ButtonContained>
+          )}
+          <ButtonContained onClick={handleReset}>Reset</ButtonContained>
+          {isEditing && ( // Conditionally render Cancel button if onCancel prop is provided
+            <ButtonContained color="secondary" onClick={handleCancel}>
+              Cancel
+            </ButtonContained>
+          )}
+        </div>
+      </div>
+    </Dialog2>
   );
 };

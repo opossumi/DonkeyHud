@@ -1,12 +1,8 @@
 import { PlayerSilhouette } from "./PlayersPage";
 import { PlayerProps } from "./PlayersPage";
-import Box from "@mui/material/Box";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import EditIcon from "@mui/icons-material/Edit";
 import Delete from "@mui/icons-material/Delete";
 import { useState } from "react";
-import { ButtonContained } from "../Components";
 
 interface PlayerCardProps {
   player: PlayerProps;
@@ -36,60 +32,42 @@ export const PlayerCard = ({
   };
 
   return (
-    <div className="relative flex h-36 w-full min-w-[275px] max-w-[350px] bg-background2">
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-        }}
-      >
-        <CardContent>
-          <img
-            className="absolute bottom-0 right-0 h-full"
-            src={player.avatar ? player.avatar : PlayerSilhouette}
-            alt="Player Avatar"
-          ></img>
-          <Typography component="div" variant="h5">
-            {player.alias}
-          </Typography>
-          <Typography
-            variant="subtitle2"
-            component="div"
-            sx={{ color: "text.secondary" }}
+    <div className="relative flex h-36 w-full bg-background2 px-4 py-2">
+      <div className="flex w-full flex-col">
+        <img
+          className="absolute bottom-0 right-0 h-full"
+          src={player.avatar ? player.avatar : PlayerSilhouette}
+          alt="Player Avatar"
+        ></img>
+        <h4>{player.alias}</h4>
+        {player.real_name && (
+          <p className="text-text-secondary">{player.real_name}</p>
+        )}
+        {player.team && <h6>{player.team}</h6>}
+        <div className="flex justify-between gap-2">
+          <button
+            onClick={() => handleCopyClick(player.steam_id)}
+            className="inline-flex min-w-[115px] items-center justify-center rounded bg-primary px-2 py-1 text-sm font-semibold text-text transition-colors hover:bg-primary-dark"
           >
-            {player.real_name}
-          </Typography>
-          {player.team && (
-            <Typography variant="subtitle1" component="div">
-              {player.team}
-            </Typography>
-          )}
-          <div className="flex justify-between gap-2">
-            <ButtonContained
-              color={isCopied ? "success" : "primary"} // Change color based on copied flag
-              onClick={() => handleCopyClick(player.steam_id)}
+            {!isCopied && player.steam_id}
+            {isCopied && "Copied!"}
+          </button>
+          <div className="inline-flex">
+            <button
+              className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
+              onClick={() => handleEditClick()}
             >
-              {!isCopied && player.steam_id}
-              {isCopied && "Copied!"}
-            </ButtonContained>
-            <div className="inline-flex">
-              <button
-                className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
-                onClick={() => handleEditClick()}
-              >
-                <EditIcon />
-              </button>
-              <button
-                className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
-                onClick={() => deletePlayer(player.id)}
-              >
-                <Delete />
-              </button>
-            </div>
+              <EditIcon />
+            </button>
+            <button
+              className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
+              onClick={() => deletePlayer(player.id)}
+            >
+              <Delete />
+            </button>
           </div>
-        </CardContent>
-      </Box>
+        </div>
+      </div>
     </div>
   );
 };

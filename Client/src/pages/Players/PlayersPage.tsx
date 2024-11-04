@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { PlayerCard } from "./PlayerCard";
-import Grid from "@mui/material/Grid2";
 import PlayerSilhouette from "../../assets/player_silhouette.webp";
 import { PlayerForm } from "./PlayersForm";
 import axios from "axios";
@@ -104,25 +103,19 @@ export const PlayersPage = () => {
         />
       )}
       <Container>
-        <Grid
-          container
-          spacing={2}
-          columns={{ xs: 1, md: 2, lg: 3 }}
-          sx={{ justifyItems: "center" }}
-        >
+        <div className="grid grid-cols-1 justify-items-center gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {players.length === 0 && (
             <h6 className="font-semibold">No Players created</h6>
           )}
           {players.map((player: PlayerProps, index) => (
-            <Grid key={index} size={1}>
-              <PlayerCard
-                player={player}
-                deletePlayer={handleDeletePlayer}
-                onEdit={handleEditPlayer}
-              />
-            </Grid>
+            <PlayerCard
+              key={index}
+              player={player}
+              deletePlayer={handleDeletePlayer}
+              onEdit={handleEditPlayer}
+            />
           ))}
-        </Grid>
+        </div>
       </Container>
     </div>
   );

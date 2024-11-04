@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Dialog } from "@mui/material";
 import { TeamProps } from "./TeamsPage";
 import { ButtonContained, TextInput } from "../Components";
+import { Dialog2 } from "../Components/Dialog";
 
 interface TeamsFormProps {
   team?: TeamProps;
   createTeam?: (team: TeamProps) => void;
   updateTeam?: (team: TeamProps) => void;
   isEditing?: boolean;
-  onCancel?: () => void; // Optional prop with default behavior (e.g., handleReset)
+  onCancel?: () => void; 
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -27,7 +27,7 @@ export const TeamsForm = ({
   const [country, setCountry] = useState("");
   const [logo, setLogo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // Added for error message
+  const [errorMessage, setErrorMessage] = useState(""); 
 
   useEffect(() => {
     if (isEditing && team) {
@@ -52,7 +52,7 @@ export const TeamsForm = ({
   };
 
   const handleSubmit = async () => {
-    if (!validateForm()) return; // Early return if validation fails
+    if (!validateForm()) return; 
 
     setIsSubmitting(true);
     const newTeam: TeamProps = {
@@ -91,10 +91,12 @@ export const TeamsForm = ({
   };
 
   return (
-    <Dialog onClose={handleCancel} open={open} maxWidth="lg" fullWidth>
-      <h5 className="px-6 py-4 font-semibold">
-        {isEditing ? `Updating: ${teamName}` : "Create Team"}
-      </h5>
+    <Dialog2 onClose={handleCancel} open={open}>
+      <div className="flex flex-1 border-b border-zinc-800">
+        <h3 className="px-6 py-4 font-semibold">
+          {isEditing ? `Updating: ${teamName}` : "Create Team"}
+        </h3>
+      </div>
       <div className="flex-1 p-6">
         <div className="my-2 flex flex-col gap-3">
           <TextInput
@@ -125,8 +127,7 @@ export const TeamsForm = ({
           />
         </div>
       </div>
-      <div className="flex w-full justify-end gap-2 p-2">
-        {/* Added error message display */}
+      <div className="flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
           <p className="my-1 text-end text-red-500">{errorMessage}</p>
         )}
@@ -137,13 +138,13 @@ export const TeamsForm = ({
             <ButtonContained onClick={handleSubmit}>Submit</ButtonContained>
           )}
           <ButtonContained onClick={handleReset}>Reset</ButtonContained>
-          {isEditing && ( // Conditionally render Cancel button if onCancel prop is provided
+          {isEditing && (
             <ButtonContained color="secondary" onClick={handleCancel}>
               Cancel
             </ButtonContained>
           )}
         </div>
       </div>
-    </Dialog>
+    </Dialog2>
   );
 };

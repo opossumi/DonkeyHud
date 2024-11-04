@@ -1,7 +1,6 @@
 import React from "react";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Search } from "./Search";
-import { Button } from "@mui/base";
 import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
 import GitHubIcon from "@mui/icons-material/GitHub";
@@ -20,12 +19,12 @@ export const Topbar = ({ toggleDrawer }: TopbarProps) => {
     >
       <div className="flex items-center justify-between p-0.5">
         <div className="flex items-center justify-center gap-2">
-          <Button
+          <button
             className="flex items-center justify-center lg:hidden"
             onClick={toggleDrawer(true)}
           >
             <MenuIcon />
-          </Button>
+          </button>
           <NavLink to="/" className="lg:hidden">
             <span className="text-2xl font-bold text-primary-light">OPEN</span>
             <span className="text-2xl font-bold">HUD</span>

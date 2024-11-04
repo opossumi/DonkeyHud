@@ -3,20 +3,8 @@ import { Match, Veto } from "../../api/interfaces";
 import { MatchTypes, maps } from "./MatchPage";
 import { TeamProps } from "../Teams";
 import { VetoCard } from "./VetoCard";
-import Button from "@mui/material/Button";
-import {
-  Box,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-  Paper,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { Dialog2 } from "../Components/Dialog";
+import { ButtonContained } from "../Components";
 
 interface MatchFormProps {
   teams: TeamProps[];
@@ -134,65 +122,79 @@ export const MatchForm = ({
   };
 
   return (
-    <Dialog onClose={handleCancel} open={open} maxWidth="lg" fullWidth>
-      <DialogTitle>
-        {isEditing
-          ? `Updating: ${leftTeamId} vs ${rightTeamId}`
-          : "Create Match"}
-      </DialogTitle>
-      <DialogContent>
-        <Box marginY={2} sx={{ display: "flex", gap: 3 }}>
-          <FormControl fullWidth>
-            <InputLabel>Team one</InputLabel>
-            <Select
+    <Dialog2 onClose={handleCancel} open={open}>
+      <div className="flex flex-1 border-b border-zinc-800">
+        <h3 className="px-6 py-4 font-semibold">
+          {isEditing
+            ? `Updating: ${leftTeamId} vs ${rightTeamId}`
+            : "Create Match"}
+        </h3>
+      </div>
+      <div className="flex flex-1 flex-col overflow-y-scroll p-6">
+        <div className="my-2 flex items-center justify-center gap-3">
+          <form className="w-full flex-col bg-background">
+            <label htmlFor="Team One" className="text-text">
+              Team One
+            </label>
+            <select
               value={leftTeamId || ""}
               onChange={(e) => setLeftTeamId(e.target.value)}
-              label="Team one"
+              name="Team One"
+              className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+              defaultValue={"Team One"}
             >
+              <option selected>Team One</option>
               {teams.map((team) => (
-                <MenuItem key={team.id} value={team.id}>
+                <option key={team.id} value={team.id} className="p-4 text-text">
                   {team.name}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
-          </FormControl>
+            </select>
+          </form>
+          <h2 className="font-semibold">VS</h2>
 
-          <Typography variant="h3">vs</Typography>
-
-          <FormControl fullWidth>
-            <InputLabel>Team two</InputLabel>
-            <Select
+          <form className="w-full flex-col bg-background">
+            <label htmlFor="" className="text-text">
+              Team Two
+            </label>
+            <select
               value={rightTeamId || ""}
               onChange={(e) => setRightTeamId(e.target.value)}
-              label="Team two"
+              name="Team Two"
+              className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+              defaultValue={"Team Two"}
             >
+              <option selected>Team Two</option>
               {teams.map((team) => (
-                <MenuItem key={team.id} value={team.id}>
+                <option key={team.id} value={team.id} className="p-4 text-text">
                   {team.name}
-                </MenuItem>
+                </option>
               ))}
-            </Select>
-          </FormControl>
-        </Box>
+            </select>
+          </form>
+        </div>
 
-        <FormControl fullWidth sx={{ marginBottom: 2 }}>
-          <InputLabel>Match Type</InputLabel>
-          <Select
+        <form className="w-full flex-col bg-background">
+          <label htmlFor="Match Type" className="text-text">
+            Match Type
+          </label>
+          <select
             value={matchType}
             onChange={(e) =>
               setMatchType(e.target.value as "bo1" | "bo2" | "bo3" | "bo5")
             }
-            label="Match Type"
+            name="Match Type"
+            className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
             {MatchTypes.map((type) => (
-              <MenuItem key={type} value={type}>
+              <option key={type} value={type}>
                 {type}
-              </MenuItem>
+              </option>
             ))}
-          </Select>
-        </FormControl>
+          </select>
+        </form>
 
-        <Typography variant="h6">Set Vetos:</Typography>
+        <h5 className="mt-4">Set Vetos:</h5>
         {match
           ? match.vetos.map((veto, index) => (
               <VetoCard
@@ -214,31 +216,25 @@ export const MatchForm = ({
                 onVetoChange={handleVetoChange}
               />
             ))}
-      </DialogContent>
-      <DialogActions>
-        {isSubmitting ? (
-          <Button variant="contained" disabled>
-            Submitting...
-          </Button>
-        ) : (
-          <Button variant="contained" onClick={handleSubmit}>
-            Submit
-          </Button>
-        )}
-        <Button variant="contained" onClick={handleReset}>
-          Reset
-        </Button>
-        {isEditing && ( // Conditionally render Cancel button if onCancel prop is provided
-          <Button variant="outlined" color="secondary" onClick={handleCancel}>
-            Cancel
-          </Button>
-        )}
+      </div>
+      <div className="inline-flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
-          <Typography variant="body2" color="error" sx={{ my: 1 }}>
-            {errorMessage}
-          </Typography>
+          <p className="my-1 text-end text-red-500">{errorMessage}</p>
         )}
-      </DialogActions>
-    </Dialog>
+        <div className="mt-1 flex justify-end gap-1">
+          {isSubmitting ? (
+            <ButtonContained disabled>Submitting...</ButtonContained>
+          ) : (
+            <ButtonContained onClick={handleSubmit}>Submit</ButtonContained>
+          )}
+          <ButtonContained onClick={handleReset}>Reset</ButtonContained>
+          {isEditing && (
+            <ButtonContained color="secondary" onClick={handleCancel}>
+              Cancel
+            </ButtonContained>
+          )}
+        </div>
+      </div>
+    </Dialog2>
   );
 };
