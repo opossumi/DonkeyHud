@@ -47,6 +47,7 @@ export const Observed = ({ player }: PlayerProps) => {
           width={140}
           showCam={showCam}
           slot={player.observer_slot}
+          teamSide={player.team.side}
         />
       </div>
       <div className={`observed ${player.team.side}`}>

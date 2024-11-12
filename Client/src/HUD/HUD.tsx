@@ -7,6 +7,7 @@ import { socket } from "../App";
 import axios from "axios";
 import api, { port } from "../api/api";
 import { GSI } from "../App";
+import { ONGSI } from "../api/contexts/actions";
 
 interface HUDProps {
   gameData?: CSGO | null;
@@ -19,13 +20,93 @@ export const getCurrentMatch = async () => {
 };
 
 export const HUD = ({ gameData }: HUDProps) => {
-  const [currentMatch, setMatchCurrent] = useState<Match | null>(null);
+  const [game, setGame] = useState<CSGO | null>(null);
+  const [currentMatch, setCurrentMatch] = useState<Match | null>(null);
+
+  useEffect(() => {
+    const onMatchPing = () => {
+      api.match
+        .getCurrent()
+        .then((match) => {
+          if (!match) {
+            GSI.teams.left = null;
+            GSI.teams.right = null;
+            setCurrentMatch(null);
+            return;
+          }
+          setCurrentMatch(match);
+
+          let isReversed = false;
+          if (GSI.last) {
+            const mapName = GSI.last.map.name.substring(
+              GSI.last.map.name.lastIndexOf("/") + 1,
+            );
+            const current = match.vetos.filter(
+              (veto) => veto.mapName === mapName,
+            )[0];
+            if (current && current.reverseSide) {
+              isReversed = true;
+            }
+          }
+          if (match.left.id) {
+            api.teams.getOne(match.left.id).then((left) => {
+              const gsiTeamData = {
+                id: left._id,
+                name: left.name,
+                country: left.country,
+                logo: left.logo,
+                map_score: match.left.wins,
+                extra: left.extra,
+              };
+
+              if (!isReversed) {
+                GSI.teams.left = gsiTeamData;
+              } else GSI.teams.right = gsiTeamData;
+            });
+          }
+          if (match.right.id) {
+            api.teams.getOne(match.right.id).then((right) => {
+              const gsiTeamData = {
+                id: right._id,
+                name: right.name,
+                country: right.country,
+                logo: right.logo,
+                map_score: match.right.wins,
+                extra: right.extra,
+              };
+
+              if (!isReversed) GSI.teams.right = gsiTeamData;
+              else GSI.teams.left = gsiTeamData;
+            });
+          }
+        })
+        .catch(() => {
+          GSI.teams.left = null;
+          GSI.teams.right = null;
+          setCurrentMatch(null);
+        });
+    };
+    socket.on("match", onMatchPing);
+    onMatchPing();
+
+    return () => {
+      socket.off("match", onMatchPing);
+    };
+  }, []);
+
+  ONGSI(
+    "data",
+    (game) => {
+      setGame(game);
+    },
+    [],
+  );
 
   useEffect(() => {
     const loadMatch = async (reverse?: boolean) => {
       const matchData = await getCurrentMatch();
       if (!matchData) {
-        setMatchCurrent(null);
+        setCurrentMatch(null);
         return;
       }
       if (reverse) {
@@ -33,7 +114,7 @@ export const HUD = ({ gameData }: HUDProps) => {
         matchData.left = matchData.right;
         matchData.right = temp;
       }
-      setMatchCurrent(matchData);
+      setCurrentMatch(matchData);
       if (matchData.left.id) {
         await api.teams.getOne(matchData.left.id).then((left) => {
           const gsiTeamData = {

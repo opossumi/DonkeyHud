@@ -121,7 +121,8 @@
       height: 70px;
       align-items: center;
       overflow: hidden;
-      background-color: var(--main-panel-color);
+      background-color: var(--sub-panel-color);
+      justify-content: center;
       img {
         max-width: 90%;
         max-height: 65%;
@@ -133,18 +134,12 @@
       .round-thingy {
         left: -30px;
       }
-      .logo {
-        justify-content: flex-end;
-      }
     }
     &.right {
       justify-content: center;
       flex-direction: row;
       .round-thingy {
         right: -30px;
-      }
-      .logo {
-        justify-content: flex-start;
       }
     }
   }

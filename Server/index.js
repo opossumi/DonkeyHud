@@ -2,11 +2,15 @@ import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
-import * as API from "./crud.js";
+import multer from "multer";
+import path from "path";
+// import * as API from "./database/crud.js";
+import * as teams from "./database/teams/teams.js";
+import * as players from "./database/players/players.js";
+import * as matches from "./database/matches/matches.js";
 
 const app = express();
 const server = http.createServer(app);
-
 const HOST = "localhost";
 const PORT = 4000;
 
@@ -21,6 +25,17 @@ const io = new Server(server, {
 // Use the middleware to enable CORS (Cross-Origin Resource Sharing)
 app.use(cors());
 app.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // As of 10/07/2024, the GSI data has a bug where the observer_slots are off by 1, so we need to fix it before sending it to the client
 const fixGSIData = (data) => {
@@ -64,9 +79,13 @@ app.post("/gsi", express.json(), (req, res) => {
   res.sendStatus(200);
 });
 
+app.post("/api/upload", upload.single("file"), (req, res) => {
+  res.json(req.file);
+});
+
 app.get("/players", (req, res) => {
   // GET a player
-  API.readPlayers((err, rows) => {
+  players.readPlayers((err, rows) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -78,15 +97,16 @@ app.get("/players", (req, res) => {
 
 app.post("/players", (req, res) => {
   // POST a player
-  const { alias, steam_id, team, real_name, country, avatar } = req.body;
-  API.createPlayer(
-    alias,
-    steam_id,
+  const { username, steamid, team, firstName, lastName, country, avatar } =
+    req.body;
+  players.createPlayer(
+    username,
+    steamid,
     team,
-    real_name,
+    firstName,
+    lastName,
     country,
     avatar,
-    Date.now(),
     (err, data) => {
       if (err) {
         res.status(500).send(err.message);
@@ -100,18 +120,20 @@ app.post("/players", (req, res) => {
 
 app.put("/players/:id", (req, res) => {
   // UPDATE a player
-  const { alias, steam_id, team, real_name, country, avatar } = req.body;
-  API.updatePlayer(
+  const { username, steamid, team, firstName, lastName, country, avatar } =
+    req.body;
+  players.updatePlayer(
     req.params.id,
-    alias,
-    steam_id,
+    username,
+    steamid,
     team,
-    real_name,
+    firstName,
+    lastName,
     country,
     avatar,
-    Date.now(),
     (err) => {
       if (err) {
+        console.log(`error updating player: ${err}`);
         res.status(500).send(err.message);
       } else {
         res.status(201).send(`Player added, ID: ${"Updated Player"}`);
@@ -123,7 +145,7 @@ app.put("/players/:id", (req, res) => {
 
 app.delete("/players/:id", (req, res) => {
   // DELETE a player
-  API.deletePlayer(req.params.id, (err) => {
+  players.deletePlayer(req.params.id, (err) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -133,9 +155,9 @@ app.delete("/players/:id", (req, res) => {
   });
 });
 
-app.get("/players/:steam_id", (req, res) => {
+app.get("/players/:steamid", (req, res) => {
   // GET a player by steam_id
-  API.getPlayerBySteamId(req.params.steam_id, (err, row) => {
+  players.getPlayerBySteamId(req.params.steamid, (err, row) => {
     if (err) {
       res.status(500).send(err.message);
     } else if (!row) {
@@ -150,7 +172,7 @@ app.get("/players/:steam_id", (req, res) => {
 
 app.get("/teams/:id", (req, res) => {
   // GET a team by id
-  API.getTeamById(req.params.id, (err, row) => {
+  teams.getTeamById(req.params.id, (err, row) => {
     if (err) {
       res.status(500).send(err.message);
     } else if (!row) {
@@ -164,7 +186,7 @@ app.get("/teams/:id", (req, res) => {
 
 app.get("/teams", (req, res) => {
   // GET a team
-  API.readTeams((err, rows) => {
+  teams.readTeams((err, rows) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -177,7 +199,7 @@ app.get("/teams", (req, res) => {
 app.post("/teams", (req, res) => {
   // POST a player
   const { name, shortName, logo, country } = req.body;
-  API.createTeam(name, shortName, logo, country, Date.now(), (err, data) => {
+  teams.createTeam(name, shortName, logo, country, Date.now(), (err, data) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -190,7 +212,7 @@ app.post("/teams", (req, res) => {
 app.put("/teams/:id", (req, res) => {
   // UPDATE a team
   const { name, shortName, logo, country } = req.body;
-  API.updateTeam(
+  teams.updateTeam(
     req.params.id,
     name,
     shortName,
@@ -210,7 +232,7 @@ app.put("/teams/:id", (req, res) => {
 
 app.delete("/teams/:id", (req, res) => {
   // DELETE a team
-  API.deleteTeam(req.params.id, (err) => {
+  teams.deleteTeam(req.params.id, (err) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -222,7 +244,7 @@ app.delete("/teams/:id", (req, res) => {
 
 app.get("/teams/:name", (req, res) => {
   // GET a team by name
-  API.getTeamByName(req.params.name, (err, row) => {
+  teams.getTeamByName(req.params.name, (err, row) => {
     if (err) {
       res.status(500).send(err.message);
     } else if (!row) {
@@ -237,7 +259,7 @@ app.get("/teams/:name", (req, res) => {
 
 app.get("/teams/:id/logo", (req, res) => {
   // GET a team's logo by id
-  API.getTeamLogo(req.params.id, (err, row) => {
+  teams.getTeamLogo(req.params.id, (err, row) => {
     if (err) {
       res.status(500).send(err.message);
     } else if (!row) {
@@ -252,7 +274,7 @@ app.get("/teams/:id/logo", (req, res) => {
 
 app.get("/matches", (req, res) => {
   // GET a match
-  API.readMatches((err, rows) => {
+  matches.readMatches((err, rows) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -265,7 +287,7 @@ app.get("/matches", (req, res) => {
 app.post("/matches", (req, res) => {
   // POST a match
   const { current, left, right, matchType, vetos } = req.body;
-  API.createMatch(current, left, right, matchType, vetos, (err, data) => {
+  matches.createMatch(current, left, right, matchType, vetos, (err, data) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -278,7 +300,7 @@ app.post("/matches", (req, res) => {
 app.put("/matches/:id", (req, res) => {
   // UPDATE a match
   const { current, left, right, matchType, vetos } = req.body;
-  API.updateMatch(
+  matches.updateMatch(
     req.params.id,
     current,
     left,
@@ -299,7 +321,7 @@ app.put("/matches/:id", (req, res) => {
 app.put("/matches/:id/current", (req, res) => {
   // UPDATE a match's current status
   const { current } = req.body;
-  API.updateCurrentMatch(req.params.id, current, (err) => {
+  matches.updateCurrentMatch(req.params.id, current, (err) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -314,7 +336,7 @@ app.put("/matches/:id/current", (req, res) => {
 
 app.delete("/matches/:id", (req, res) => {
   // DELETE a match
-  API.deleteMatch(req.params.id, (err) => {
+  matches.deleteMatch(req.params.id, (err) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
@@ -326,7 +348,7 @@ app.delete("/matches/:id", (req, res) => {
 
 app.get("/matches/:id", (req, res) => {
   // GET a match by id
-  API.getMatchById(req.params.id, (err, row) => {
+  matches.getMatchById(req.params.id, (err, row) => {
     if (err) {
       res.status(500).send(err.message);
     } else if (!row) {
@@ -342,7 +364,7 @@ app.get("/matches/:id", (req, res) => {
 app.get("/current_match", (req, res) => {
   // GET the current match
   console.log("Current Match requested");
-  API.getCurrentMatch((err, row) => {
+  matches.getCurrentMatch((err, row) => {
     if (err) {
       res.status(500).send(err.message);
     } else if (!row) {
@@ -366,7 +388,7 @@ app.put("/matches/:id/:team", (req, res) => {
     return res.status(400).send("Invalid team or action");
   }
 
-  API.updateScore(id, team, action, (err) => {
+  matches.updateScore(id, team, action, (err) => {
     if (err) {
       return res.status(500).send(err.message);
     }

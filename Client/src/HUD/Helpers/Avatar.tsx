@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Skull, playerCT, playerT } from '../assets/Icons';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Skull, playerCT, playerT } from "../assets/Icons";
+import axios from "axios";
 
 interface AvatarProps {
   steamid: string;
@@ -15,20 +15,31 @@ interface AvatarProps {
   flashed?: number | undefined;
 }
 
-const getAvatar = async (steam_id: string) => {
+const getAvatar = async (steamid: string) => {
   try {
-    const player = await axios.get(`http://localhost:4000/players/${steam_id}`);
+    const player = await axios.get(`http://localhost:4000/players/${steamid}`);
     if (player.data.avatar) {
       return player.data.avatar;
     }
     return null;
   } catch (error) {
-    console.error('Error fetching avatar:', error);
+    console.error("Error fetching avatar:", error);
     // Implement fallback logic (e.g., return default avatar URL)
   }
 };
 
-export const Avatar = ({ steamid, teamId, slot, height, width, showSkull, showCam, sidePlayer, teamSide, flashed }: AvatarProps) => {
+export const Avatar = ({
+  steamid,
+  teamId,
+  slot,
+  height,
+  width,
+  showSkull,
+  showCam,
+  sidePlayer,
+  teamSide,
+  flashed,
+}: AvatarProps) => {
   const flashValue = flashed ? (flashed < 100 ? 100 : flashed * 2) : 100;
   const defaultPic = teamSide === "CT" ? playerCT : playerT;
   const [avatar, setAvatar] = useState<string | null>(null);
@@ -48,18 +59,14 @@ export const Avatar = ({ steamid, teamId, slot, height, width, showSkull, showCa
   }, [steamid]);
 
   return (
-    <div className={'avatar'}>
-      {isLoading ? (
-        <div>Loading...</div> // Replace with your desired loading indicator
-      ) : (
-        <img
-          src={avatar || defaultPic}
-          height={height}
-          width={width}
-          alt={"Avatar"}
-          style={{ filter: `brightness(${flashValue}%)` }}
-        />
-      )}
+    <div className={"avatar"}>
+      <img
+        src={avatar || defaultPic}
+        height={height}
+        width={width}
+        alt={"Avatar"}
+        style={{ filter: `brightness(${flashValue}%)` }}
+      />
     </div>
   );
 };

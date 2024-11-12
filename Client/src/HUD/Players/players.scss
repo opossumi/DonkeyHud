@@ -96,7 +96,7 @@
     }
   }
   .player {
-    width: 350px;
+    width: 320px;
     height: 70px;
     margin-bottom: 4px;
     display: flex;
@@ -176,7 +176,7 @@
     }
     .player_data {
       background-color: var(--sub-panel-color);
-      width: 415px;
+      width: 100%;
       display: flex;
       flex-direction: row;
       position: relative;
@@ -189,19 +189,20 @@
         .hp_bar {
           position: absolute;
           height: 100%;
-          &.low {
-            background-color: red;
-          }
+          transition: width 0.75s;
+          // &.low {
+          //   background-color: red;
+          // }
         }
         .row {
           flex: 1;
           display: flex;
           position: relative;
           svg.weapon {
-            filter: invert(45%);
-            &.active {
-              filter: invert(0);
-            }
+            filter: invert(0);
+            // &.active {
+            //   filter: invert(0);
+            // }
           }
           .hp_background,
           .hp_background_2 {
@@ -209,10 +210,10 @@
             width: 100%;
             height: 100%;
             z-index: 0;
+            transition: width 0.15s;
           }
           .hp_background_2 {
             background-color: var(--color-bomb);
-            transition: width 0.75s 1.5s;
           }
           .armor_and_utility {
             width: 39px;
@@ -281,7 +282,7 @@
             align-items: center;
             justify-content: space-around;
             svg.grenade {
-              max-height: 20px;
+              width: 20px;
               height: 20px;
             }
           }

@@ -101,7 +101,7 @@ export const AllPlayers = ({ player, isObserved }: IProps) => {
       className={`player ${player.state.health === 0 ? "dead" : ""} ${isObserved ? "active" : ""}`}
     >
       <div className="player_data">
-        <Avatar
+        {/* <Avatar
           teamId={player.team.id}
           steamid={player.steamid}
           height={57}
@@ -109,7 +109,8 @@ export const AllPlayers = ({ player, isObserved }: IProps) => {
           showSkull={false}
           showCam={false}
           sidePlayer={true}
-        />
+          teamSide={player.team.side}
+        /> */}
         <div className="dead-stats">
           <div className="labels">
             <div className="stat-label">K</div>
@@ -190,7 +191,7 @@ export const AllPlayers = ({ player, isObserved }: IProps) => {
                 ) : null,
               ])}
             </div>
-            <div className="secondary_weapon">
+            {/* <div className="secondary_weapon">
               {primary && secondary ? (
                 <WeaponImage
                   weapon={secondary.name}
@@ -199,7 +200,7 @@ export const AllPlayers = ({ player, isObserved }: IProps) => {
               ) : (
                 ""
               )}
-            </div>
+            </div> */}
           </div>
           <div className="active_border"></div>
         </div>

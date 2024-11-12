@@ -1,6 +1,6 @@
 .observed_container {
   position: fixed;
-  width: 575px;
+  width: 500px;
   bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
@@ -111,7 +111,7 @@
         justify-content: center;
         flex-direction: column;
         .username {
-          font-size: 26px;
+          font-size: 28px;
           color: white;
         }
         .real_name {
@@ -158,7 +158,7 @@
           align-items: center;
           justify-content: center;
           svg {
-            max-width: 30px;
+            max-width: 25px;
             fill: white;
           }
         }
@@ -213,7 +213,7 @@
     }
 
     &.T {
-      .main_row .username_container .username,
+      .main_row .username_container,
       .bottom_row .ammo .ammo_counter .ammo_reserve {
         color: var(--color-new-t);
       }
@@ -232,7 +232,7 @@
       }
     }
     &.CT {
-      .main_row .username_container .username,
+      .main_row .username_container,
       .bottom_row .ammo .ammo_counter .ammo_reserve {
         color: var(--color-new-ct);
       }

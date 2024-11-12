@@ -22,10 +22,11 @@ export const PlayerForm = ({
   open,
   setOpen,
 }: PlayerFormProps) => {
-  const [alias, setAlias] = useState(player?.alias || "");
+  const [username, setUsername] = useState(player?.username || "");
   const [avatar, setAvatar] = useState(player?.avatar || "");
-  const [realName, setRealName] = useState(player?.real_name || "");
-  const [steamId, setSteamId] = useState(player?.steam_id || "");
+  const [firstName, setFirstName] = useState(player?.firstName || "");
+  const [lastName, setLastName] = useState(player?.lastName || "");
+  const [steamId, setSteamId] = useState(player?.steamid || "");
   const [team, setTeam] = useState(player?.team || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // Added for error message
@@ -33,10 +34,11 @@ export const PlayerForm = ({
   useEffect(() => {
     if (isEditing && player) {
       // Update form fields when player prop changes
-      setAlias(player.alias);
+      setUsername(player.username);
       setAvatar(player.avatar || "");
-      setRealName(player.real_name || "");
-      setSteamId(player.steam_id);
+      setFirstName(player.firstName || "");
+      setLastName(player.lastName || "");
+      setSteamId(player.steamid);
       setTeam(player.team || "");
     }
   }, [isEditing, player]); // Update form fields when player prop changes
@@ -45,7 +47,7 @@ export const PlayerForm = ({
     let isValid = true;
     setErrorMessage(""); // Clear any previous error message
 
-    if (!alias || !steamId) {
+    if (!username || !steamId) {
       setErrorMessage("Alias and SteamID64 are required"); // Set error message
       isValid = false;
     }
@@ -64,10 +66,11 @@ export const PlayerForm = ({
     setIsSubmitting(true);
     const newPlayer: PlayerProps = {
       id: player?.id || "",
-      alias,
+      username,
       avatar,
-      real_name: realName,
-      steam_id: steamId,
+      firstName: firstName,
+      lastName: lastName,
+      steamid: steamId,
       team,
     };
 
@@ -91,9 +94,10 @@ export const PlayerForm = ({
   };
 
   const handleReset = () => {
-    setAlias("");
+    setUsername("");
     setAvatar("");
-    setRealName("");
+    setFirstName("");
+    setLastName("");
     setSteamId("");
     setTeam("");
     setErrorMessage(""); // Clear any previous error message
@@ -103,15 +107,15 @@ export const PlayerForm = ({
     <Dialog onClose={handleCancel} open={open}>
       <div className="flex flex-1 border-b border-zinc-800">
         <h3 className="px-6 py-4 font-semibold">
-          {isEditing ? `Updating: ${alias}` : "Create Player"}
+          {isEditing ? `Updating: ${username}` : "Create Player"}
         </h3>
       </div>
       <div className="flex flex-1 flex-col overflow-y-scroll p-6">
         <div className="my-2 flex flex-col gap-3">
           <TextInput
-            label="Alias"
-            value={alias}
-            onChange={(e) => setAlias(e.target.value)}
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
             error={!!errorMessage} // Set error state based on errorMessage
             errorMessage={errorMessage} // Show error message below field
@@ -130,9 +134,14 @@ export const PlayerForm = ({
             onChange={(e) => setAvatar(e.target.value)}
           />
           <TextInput
-            label="Real Name"
-            value={realName}
-            onChange={(e) => setRealName(e.target.value)}
+            label="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextInput
+            label="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
           />
           <TextInput
             label="Team"

@@ -33,23 +33,27 @@ export const PlayerCard = ({
 
   return (
     <div className="relative flex h-36 w-full bg-background2 px-4 py-2">
-      <div className="flex w-full flex-col">
+      <div className="flex w-full flex-col justify-between">
         <img
           className="absolute bottom-0 right-0 h-full"
           src={player.avatar ? player.avatar : PlayerSilhouette}
           alt="Player Avatar"
         ></img>
-        <h4>{player.alias}</h4>
-        {player.real_name && (
-          <p className="text-text-secondary">{player.real_name}</p>
-        )}
-        {player.team && <h6>{player.team}</h6>}
+        <div>
+          <h4>{player.username}</h4>
+          <div className="flex">
+            <p className="text-text-secondary">
+              {player.firstName} {player.lastName}
+            </p>
+          </div>
+          {player.team && <h6>{player.team}</h6>}
+        </div>
         <div className="flex justify-between gap-2">
           <button
-            onClick={() => handleCopyClick(player.steam_id)}
+            onClick={() => handleCopyClick(player.steamid)}
             className="inline-flex min-w-[115px] items-center justify-center rounded bg-primary px-2 py-1 text-sm font-semibold text-text transition-colors hover:bg-primary-dark"
           >
-            {!isCopied && player.steam_id}
+            {!isCopied && player.steamid}
             {isCopied && "Copied!"}
           </button>
           <div className="inline-flex">

@@ -87,7 +87,12 @@ export const TeamsPage = () => {
 
   return (
     <div className="relative flex size-full flex-col gap-4">
-      <h1 className="font-bold">Teams</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-bold">Teams</h1>
+        <ButtonContained onClick={() => setOpen(true)}>
+          Create Team
+        </ButtonContained>
+      </div>
       {isEditing && selectedTeam ? (
         <TeamsForm
           team={selectedTeam}
@@ -110,11 +115,6 @@ export const TeamsPage = () => {
         onEdit={handleEditTeam}
         refreshTeams={getTeams}
       />
-      <div className="absolute right-4 top-0 flex w-full justify-end p-1">
-        <ButtonContained onClick={() => setOpen(true)}>
-          Create Team
-        </ButtonContained>
-      </div>
     </div>
   );
 };

@@ -7,11 +7,14 @@ import { ButtonContained, Container } from "../Components";
 
 export interface PlayerProps {
   id: string;
-  alias: string;
+  firstName?: string;
+  lastName?: string;
+  username: string;
   avatar?: string;
-  real_name?: string;
-  steam_id: string;
+  country?: string;
+  steamid: string;
   team?: string;
+  extra?: Record<string, string>;
 }
 
 export const getPlayers = async () => {
