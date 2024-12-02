@@ -11,7 +11,6 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 # To Do:
 
 - Full Screen overlay fully functioning
-- Rework Teams, Players, and Matches components to display data better (using tables)
 - Reverse Team Sides
 - Start Supporting uploading local files for team logos and player pictures.
 - Work on readability of code
