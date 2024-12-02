@@ -2,8 +2,7 @@
 
 Start of an open source CS2 Custom Hud.
 <br/>
-EXTREMELY EARLY AND EXPERIMENTAL.
-<br/>
+Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
 - Styling: TailwindCSS (admin panel) / Sass (hud)
 - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
@@ -25,7 +24,6 @@ EXTREMELY EARLY AND EXPERIMENTAL.
 - Still working on an overlay for ingame. [Here](https://drive.google.com/drive/folders/1kHaRyzMUZ-qRBBaC0mFb6nQEz5j79bQm?usp=sharing) (run the Overlay.exe) is an EXTEREMELY experimental version that is not tesed at all (use at your own risk). Otherwise you can observe through your OBS scene by running the preview window as fullscreen and have the game on a second monitor
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
-Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
 # CS2-React-Hud based on [Lexogrine react hud](https://github.com/lexogrine/cs2-react-hud)
 
