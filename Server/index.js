@@ -321,15 +321,27 @@ app.put("/matches/:id", (req, res) => {
 app.put("/matches/:id/current", (req, res) => {
   // UPDATE a match's current status
   const { current } = req.body;
-  matches.updateCurrentMatch(req.params.id, current, (err) => {
+  matches.setCurrentMatch(req.params.id, current, (err) => {
     if (err) {
       res.status(500).send(err.message);
     } else {
       res.status(201).send(`Updated Match with ID: ${req.params.id}`);
       console.log(`Updated Match with ID: ${req.params.id}`);
-      current
-        ? io.emit("match-update", req.params.id)
-        : io.emit("match-update", null);
+      current ? io.emit("match", req.params.id) : io.emit("match", null);
+    }
+  });
+});
+
+// New endpoint to update the current match with new match values
+app.put("/matches/current/update", (req, res) => {
+  const newMatch = req.body;
+  matches.updateCurrentMatch(newMatch, (err, result) => {
+    if (err) {
+      res.status(500).send(err.message);
+    } else {
+      res.status(201).send(`Updated Current Match with ID: ${result.id}`);
+      console.log(`Updated Current Match with ID: ${result.id}`);
+      io.emit("match", result.id);
     }
   });
 });
@@ -395,7 +407,7 @@ app.put("/matches/:id/:team", (req, res) => {
     res.status(200).send("Score updated");
   });
 
-  io.emit("match-update", req.params.id);
+  io.emit("match", req.params.id);
 });
 
 // Export the app and io instances for testing

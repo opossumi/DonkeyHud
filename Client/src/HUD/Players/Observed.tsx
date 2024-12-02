@@ -15,6 +15,8 @@ import { RoundKills } from "../Helpers";
 import { Avatar } from "../Helpers";
 import { TeamLogo } from "../Matchbar/TeamLogo";
 import { getCountry } from "../countries";
+import { Bomb } from "../Indicators";
+import { Defuse } from "../Indicators/Defuse";
 
 interface PlayerProps {
   player: Player | null;
@@ -36,10 +38,12 @@ export const Observed = ({ player }: PlayerProps) => {
   const { stats } = player;
   const ratio = stats.deaths === 0 ? stats.kills : stats.kills / stats.deaths;
   const countryName = country ? getCountry(country) : null;
+  const healthbarWidth = { width: `${player.state.health}%` };
 
   return (
     <div className="observed_container">
-      <div className="avatar_holder">
+      <div className={`avatar_holder ${player.team.side}`}>
+        <RoundKills player={player} />
         <Avatar
           teamId={player.team.id}
           steamid={player.steamid}
@@ -52,12 +56,15 @@ export const Observed = ({ player }: PlayerProps) => {
       </div>
       <div className={`observed ${player.team.side}`}>
         <div className="main_row">
-          <TeamLogo team={player.team} height={35} width={35} />
           <div className="username_container">
             <div className="username">{player.name}</div>
-            <div className="real_name">{player.realName}</div>
           </div>
-          {/* <div className="flag">{countryName ? <img src={`${apiUrl}files/img/flags/${countryName.replace(/ /g, "-")}.png`} alt={countryName} /> : ''}</div> */}
+        </div>
+        <div className="utility_row">
+          <div className="bomb_kit_container">
+            <Bomb player={player} />
+            <Defuse player={player} />
+          </div>
           <div className="grenade_container">
             {grenades.map((grenade) => (
               <React.Fragment
@@ -79,25 +86,11 @@ export const Observed = ({ player }: PlayerProps) => {
             ))}
           </div>
         </div>
-        <div className="stats_row">
-          <div className="statistics">
-            <Statistic label={"K"} value={stats.kills} />
-            <Statistic label={"A"} value={stats.assists} />
-            <Statistic label={"D"} value={stats.deaths} />
-            <Statistic label={"K/D"} value={ratio.toFixed(2)} />
-          </div>
-        </div>
-        <div className="bottom_row">
-          <div className="health_armor_container">
-            <div className="health-icon icon">
-              <HealthFull />
-            </div>
-            <div className="health text">{player.state.health}</div>
-            <div className="armor-icon icon">
-              {player.state.helmet ? <ArmorHelmet /> : <ArmorFull />}
-            </div>
-            <div className="health text">{player.state.armor}</div>
-          </div>
+        <div className="ammo_row">
+          {/* {currentWeapon &&
+            currentWeapon.type !== "C4" &&
+            currentWeapon.type !== "Knife" &&
+            currentWeapon.type !== "Grenade" && ( */}
           <div className="ammo">
             <div className="ammo_icon_container">
               <Bullets />
@@ -111,23 +104,23 @@ export const Observed = ({ player }: PlayerProps) => {
               </div>
             </div>
           </div>
+          {/* )} */}
+        </div>
+        <div className="health_row">
+          <div className="health_armor_container">
+            <div className="healthbar-container">
+              <div className="healthbar" style={healthbarWidth}></div>
+            </div>
+            <div className="health-icon icon">
+              <HealthFull />
+            </div>
+            <div className="health text">{player.state.health}</div>
+            <div className="armor-icon icon">
+              {player.state.helmet ? <ArmorHelmet /> : <ArmorFull />}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-const Statistic = ({
-  label,
-  value,
-}: {
-  label: string | React.ReactNode;
-  value: string | number;
-}) => {
-  return (
-    <div className="stat">
-      <div className="label">{label}</div>
-      <div className="value">{value}</div>
     </div>
   );
 };

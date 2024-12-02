@@ -30,6 +30,7 @@ export const { GSI, socket } = GSISocket(`${HOST}:${PORT}`, "update");
   - Better way of handling Reversing Teams.
   - Add a way to set winners for matches (in the actual vetos).
   - Avatars (players without pictures) not swapping when teams switch sides
+  - Player stats to players in team boxes
 */
 
 export const App = () => {

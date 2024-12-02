@@ -3,14 +3,7 @@ import { TeamsTable } from "./TeamsTable";
 import { TeamsForm } from "./TeamForm";
 import axios from "axios";
 import { ButtonContained } from "../Components";
-
-export interface TeamProps {
-  id: string;
-  name: string;
-  shortName?: string;
-  country?: string;
-  logo: string;
-}
+import { Team } from "../../api/interfaces";
 
 export const getTeams = async () => {
   const teams = await axios.get("http://localhost:4000/teams");
@@ -40,7 +33,7 @@ export const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState<TeamProps | null>(null); // Store selected player for editing
+  const [selectedTeam, setSelectedTeam] = useState<Team | null>(null); // Store selected player for editing
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -50,7 +43,7 @@ export const TeamsPage = () => {
     });
   }, []);
 
-  const handleCreateTeam = async (team: TeamProps) => {
+  const handleCreateTeam = async (team: Team) => {
     // Handle create or update player logic
     setIsLoading(true);
     await axios.post("http://localhost:4000/teams", team);
@@ -60,17 +53,18 @@ export const TeamsPage = () => {
     setIsLoading(false);
   };
 
-  const handleEditTeam = (team: TeamProps) => {
+  const handleEditTeam = (team: Team) => {
     // Handle edit player logic
     setIsEditing(true);
     setSelectedTeam(team); // Set selected player for editing
     setOpen(true);
   };
 
-  const handleUpdateTeam = async (team: TeamProps) => {
+  const handleUpdateTeam = async (team: Team) => {
     // Handle update player logic
+    console.log(team);
     setIsLoading(true);
-    await axios.put(`http://localhost:4000/teams/${team.id}`, team);
+    await axios.put(`http://localhost:4000/teams/${team._id}`, team);
     await getTeams().then((data) => {
       setTeams(data);
     });
@@ -81,7 +75,7 @@ export const TeamsPage = () => {
     // Handle delete player logic
     setIsLoading(true);
     await axios.delete(`http://localhost:4000/teams/${id}`);
-    setTeams(teams.filter((team: TeamProps) => team.id !== id));
+    setTeams(teams.filter((team: Team) => team._id !== id));
     setIsLoading(false);
   };
 

@@ -21,7 +21,7 @@ export const MatchesTable = ({
   refreshMatches,
 }: MatchTableProps) => {
   useEffect(() => {
-    socket.on("match-update", (data) => {
+    socket.on("match", (data) => {
       refreshMatches();
     });
   }, []);
@@ -153,7 +153,7 @@ const MatchRow = ({
           <div className="inline-flex">
             <button
               onClick={handleStopMatch}
-              className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-secondary/50 p-2 px-4 py-1 text-secondary transition-colors hover:bg-secondary/10"
+              className="relative inline-flex min-w-[40px] items-center justify-center rounded border border-secondary/50 p-2 px-4 py-1 text-secondary transition-colors hover:bg-secondary/10"
             >
               <CancelIcon />
             </button>

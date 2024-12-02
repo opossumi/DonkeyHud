@@ -36,7 +36,7 @@ export const updateTeam = (
   last_updated,
   callback
 ) => {
-  const sql = `UPDATE teams SET name = ?, shortName = ?, logo = ?, country = ?, last_updated = ? WHERE id = ?`;
+  const sql = `UPDATE teams SET name = ?, shortName = ?, logo = ?, country = ?, last_updated = ? WHERE _id = ?`;
   db.run(
     sql,
     [name, shortName, logo, country, last_updated, id],
@@ -50,7 +50,7 @@ export const updateTeam = (
 };
 
 export const deleteTeam = (id, callback) => {
-  const sql = `DELETE FROM teams WHERE id = ?`;
+  const sql = `DELETE FROM teams WHERE _id = ?`;
   db.run(sql, [id], (err) => {
     callback(err);
     if (err) {
@@ -70,7 +70,8 @@ export const getTeamByName = (name, callback) => {
 };
 
 export const getTeamById = (id, callback) => {
-  const sql = `SELECT * FROM teams WHERE id = ?`;
+  const sql = `SELECT * FROM teams WHERE _id = ?`;
+  console.log("Getting team:", id);
   db.get(sql, [id], (err, row) => {
     callback(err, row);
     if (err) {
@@ -80,7 +81,7 @@ export const getTeamById = (id, callback) => {
 };
 
 export const getTeamLogo = (id, callback) => {
-  const sql = `SELECT logo FROM teams WHERE id = ?`;
+  const sql = `SELECT logo FROM teams WHERE _id = ?`;
   db.get(sql, [id], (err, row) => {
     callback(err, row);
     if (err) {

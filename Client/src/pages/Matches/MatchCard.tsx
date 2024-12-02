@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { ButtonContained } from "../Components";
 import { Match } from "../../api/interfaces";
 import AddIcon from "@mui/icons-material/Add";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
@@ -18,9 +17,9 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
   const [teamOneLogo, setTeamOneLogo] = useState("");
   const [teamTwoName, setTeamTwoName] = useState("");
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
-  const [teamOneId, setTeamOneId] = useState("");
-  const [teamTwoId, setTeamTwoId] = useState("");
-  const [swapTeams, setSwapTeams] = useState(true);
+  const [teamOneId, setTeamOneId] = useState(null);
+  const [teamTwoId, setTeamTwoId] = useState(null);
+  const [swapTeams, setSwapTeams] = useState(false);
 
   useEffect(() => {
     const fetchTeamNames = async () => {
@@ -35,8 +34,8 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
         setTeamOneLogo(teamOne.data.logo);
         setTeamTwoName(teamTwo.data.name);
         setTeamTwoLogo(teamTwo.data.logo);
-        setTeamOneId(teamOne.data.id);
-        setTeamTwoId(teamTwo.data.id);
+        setTeamOneId(teamOne.data._id);
+        setTeamTwoId(teamTwo.data._id);
       } catch (error) {
         console.error("Error fetching team names:", error);
       }
@@ -56,6 +55,26 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     }
   };
 
+  const handleReverseSideChange = async (index: number) => {
+    const updatedVetos = [...match.vetos];
+    updatedVetos[index].reverseSide = !updatedVetos[index].reverseSide;
+
+    const updatedMatch = {
+      ...match,
+      vetos: updatedVetos,
+    };
+
+    try {
+      await axios.put(
+        `http://localhost:4000/matches/current/update`,
+        updatedMatch,
+      );
+      refreshMatches();
+    } catch (error) {
+      console.error("Error updating veto:", error);
+    }
+  };
+
   const handleChangeScore = async (
     team: "left" | "right",
     action: "add" | "subtract",
@@ -70,8 +89,13 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     }
   };
 
-  const handleSwapTeams = () => {
+  const handleSwapTeams = async () => {
     setSwapTeams(!swapTeams);
+    try {
+      await axios.put(`http://localhost:4000/matches/${match.id}/reverseSides`);
+    } catch (error) {
+      console.error("Error reversing sides: ", error);
+    }
     socket.emit("swap-teams", swapTeams);
     console.log("Swapping teams", swapTeams);
   };
@@ -114,14 +138,14 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                   </button>
                 </div>
               </div>
-              <div className="flex items-center justify-center">
+              {/* <div className="flex items-center justify-center">
                 <button
                   className="rounded-lg bg-primary px-4 py-2"
                   onClick={handleSwapTeams}
                 >
                   <SwapHorizIcon />
                 </button>
-              </div>
+              </div> */}
               <div
                 id="TeamTwo"
                 className="flex flex-col items-center justify-center gap-1"
@@ -169,8 +193,11 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
             <th className="p-1 text-sm" align="center">
               Side
             </th>
-            <th className="p-1 text-sm" align="right">
+            <th className="p-1 text-sm" align="center">
               Winner
+            </th>
+            <th className="p-1 text-sm" align="right">
+              ReverseSide
             </th>
           </tr>
         </thead>
@@ -182,9 +209,9 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                 <td className="p-2 text-lg font-semibold" align="left">
                   <img
                     src={
-                      veto.teamId === teamOneId
+                      veto.teamId == teamOneId
                         ? teamOneLogo
-                        : veto.teamId === teamTwoId
+                        : veto.teamId == teamTwoId
                           ? teamTwoLogo
                           : knifeImage
                     }
@@ -201,8 +228,16 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                 <td className="p-2 text-lg font-semibold" align="center">
                   {veto.side === "NO" ? "" : veto.side}
                 </td>
-                <td className="p-2 text-lg font-semibold" align="right">
+                <td className="p-2 text-lg font-semibold" align="center">
                   {veto.winner}
+                </td>
+                <td className="p-2 text-lg font-semibold" align="right">
+                  <input
+                    type="checkbox"
+                    className="flex items-center justify-center"
+                    checked={veto.reverseSide === true}
+                    onChange={() => handleReverseSideChange(index)}
+                  />
                 </td>
               </tr>
             ))}

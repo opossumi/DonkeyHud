@@ -27,10 +27,6 @@ const getCaption = (type: "defusing" | "planting", player: Player | null) => {
 };
 const Bomb = ({ timer, side }: IProps) => {
   if (!timer) return null;
-  // console.log(
-  //   `${(timer.time * 100) / (timer.type === "planting" ? MAX_TIMER.planting : timer.player?.state.defusekit ? MAX_TIMER.defuse_kit : MAX_TIMER.defuse_nokit)}%`,
-  // );
-  console.log(`${timer.time}`);
   return (
     <div
       className={`defuse_plant_container ${side} ${timer && timer.active ? "show" : "hide"}`}

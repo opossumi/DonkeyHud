@@ -74,9 +74,6 @@ export const Matchbar = ({ map, match, phase, bomb }: MatchbarProps) => {
         }
       : null;
 
-  // console.log(bombData.state === "defusing", defuseTimer);
-  // console.log(bombData.state === "planting", plantTimer);
-
   return (
     <>
       <div id={`matchbar`}>

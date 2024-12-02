@@ -10,7 +10,7 @@ export const Bomb = ({ player }: BombProps) => {
     return null;
   }
   return (
-    <div className={`armor_indicator`}>
+    <div className={`bomb_indicator`}>
       <BombIcon />
     </div>
   );

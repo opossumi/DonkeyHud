@@ -1,11 +1,11 @@
 import { Delete } from "@mui/icons-material";
 import { Edit } from "@mui/icons-material";
-import { TeamProps } from "./TeamsPage";
+import { Team } from "../../api/interfaces";
 
 interface TeamsTableProps {
-  teams: TeamProps[];
+  teams: Team[];
   deleteTeam: (id: string) => void;
-  onEdit: (team: TeamProps) => void;
+  onEdit: (team: Team) => void;
   refreshTeams: () => void;
 }
 
@@ -37,7 +37,7 @@ export const TeamsTable = ({
         </tr>
       </thead>
       <tbody className="divide-y divide-border">
-        {teams.map((team: TeamProps, index) => (
+        {teams.map((team: Team, index) => (
           <TeamRow
             key={index}
             team={team}
@@ -52,8 +52,8 @@ export const TeamsTable = ({
 };
 
 interface TeamRowProps {
-  team: TeamProps;
-  onEdit: (team: TeamProps) => void;
+  team: Team;
+  onEdit: (team: Team) => void;
   deleteTeam: (id: string) => void;
   refreshTeams: () => void;
 }
@@ -90,7 +90,7 @@ const TeamRow = ({ team, onEdit, deleteTeam, refreshTeams }: TeamRowProps) => {
 
           <button
             className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
-            onClick={() => deleteTeam(team.id)}
+            onClick={() => deleteTeam(team._id)}
           >
             <Delete />
           </button>

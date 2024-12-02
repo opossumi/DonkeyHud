@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { TeamProps } from "./TeamsPage";
+import { Team } from "../../api/interfaces";
 import { ButtonContained, TextInput } from "../Components";
 import { Dialog } from "../Components/Dialog";
 
 interface TeamsFormProps {
-  team?: TeamProps;
-  createTeam?: (team: TeamProps) => void;
-  updateTeam?: (team: TeamProps) => void;
+  team?: Team;
+  createTeam?: (team: Team) => void;
+  updateTeam?: (team: Team) => void;
   isEditing?: boolean;
   onCancel?: () => void;
   open: boolean;
@@ -31,6 +31,7 @@ export const TeamsForm = ({
 
   useEffect(() => {
     if (isEditing && team) {
+      console.log(team._id);
       // Update form fields when player prop changes
       setTeamName(team.name || "");
       setShortName(team.shortName || "");
@@ -55,12 +56,13 @@ export const TeamsForm = ({
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    const newTeam: TeamProps = {
-      id: team?.id || "",
+    const newTeam: Team = {
+      _id: team?._id || "",
       name: teamName,
       logo,
       shortName: shortName || "",
       country: country || "",
+      extra: team?.extra || {},
     };
 
     if (isEditing && updateTeam) {

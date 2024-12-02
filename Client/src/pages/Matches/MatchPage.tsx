@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Match } from "../../api/interfaces";
 import { MatchCard } from "./MatchCard";
-import { TeamProps } from "../Teams";
+import { Team } from "../../api/interfaces";
 import { getTeams } from "../Teams";
 import { MatchesTable } from "./MatchesTable";
 import { MatchForm } from "./MatchForm";
@@ -39,7 +39,7 @@ export const getMatches = async () => {
 
 export const MatchesPage = () => {
   const [matches, setMatches] = useState<Match[]>([]);
-  const [teams, setTeams] = useState<TeamProps[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null); // Store selected player for editing
@@ -67,8 +67,7 @@ export const MatchesPage = () => {
 
     loadMatch();
 
-    socket.on("match-update", (data) => {
-      // console.log("Match update:", data);
+    socket.on("match", (data) => {
       loadMatch();
     });
   }, []);

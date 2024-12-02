@@ -96,16 +96,15 @@
     }
   }
   .player {
-    width: 320px;
+    width: 300px;
     height: 70px;
     margin-bottom: 4px;
     display: flex;
     flex-direction: row;
     align-items: center;
+    border: 2px solid transparent;
     &.active {
-      .player_data {
-        border: 2px solid white;
-      }
+      border-color: white;
     }
     &.dead {
       opacity: 0.7;
@@ -190,9 +189,6 @@
           position: absolute;
           height: 100%;
           transition: width 0.75s;
-          // &.low {
-          //   background-color: red;
-          // }
         }
         .row {
           flex: 1;
@@ -337,7 +333,7 @@
   display: flex;
   flex-direction: column;
   width: 180px;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: var(--sub-panel-color);
   position: fixed;
   right: 10px;
   top: 10px;
@@ -352,11 +348,8 @@
       align-items: center;
       justify-content: center;
       font-size: 30px;
+      font-weight: 700;
       color: white;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-    .team_counter {
-      background-color: rgba(0, 0, 0, 0.75);
     }
     .CT {
       color: var(--color-new-ct);
@@ -371,10 +364,10 @@
     text-align: center;
     height: 20px;
     font-size: 14px;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(0, 0, 0, 0.75);
   }
   &.hide {
     opacity: 0;

@@ -35,7 +35,6 @@ export const HUD = ({ gameData }: HUDProps) => {
             return;
           }
           setCurrentMatch(match);
-
           let isReversed = false;
           if (GSI.last) {
             const mapName = GSI.last.map.name.substring(
@@ -74,7 +73,7 @@ export const HUD = ({ gameData }: HUDProps) => {
                 map_score: match.right.wins,
                 extra: right.extra,
               };
-
+              console.log(gsiTeamData);
               if (!isReversed) GSI.teams.right = gsiTeamData;
               else GSI.teams.left = gsiTeamData;
             });
@@ -102,61 +101,73 @@ export const HUD = ({ gameData }: HUDProps) => {
     [],
   );
 
-  useEffect(() => {
-    const loadMatch = async (reverse?: boolean) => {
-      const matchData = await getCurrentMatch();
-      if (!matchData) {
-        setCurrentMatch(null);
-        return;
-      }
-      if (reverse) {
-        const temp = matchData.left;
-        matchData.left = matchData.right;
-        matchData.right = temp;
-      }
-      setCurrentMatch(matchData);
-      if (matchData.left.id) {
-        await api.teams.getOne(matchData.left.id).then((left) => {
-          const gsiTeamData = {
-            id: matchData.left.id || "",
-            name: left.name,
-            country: left.country,
-            logo: left.logo,
-            map_score: matchData.left.wins,
-            extra: left.extra,
-          };
-          GSI.teams.left = gsiTeamData;
-        });
-      }
-      if (matchData.right.id) {
-        await api.teams.getOne(matchData.right.id).then((right) => {
-          const gsiTeamData = {
-            id: matchData.right.id || "",
-            name: right.name,
-            country: right.country,
-            logo: right.logo,
-            map_score: matchData.right.wins,
-            extra: right.extra,
-          };
-          GSI.teams.right = gsiTeamData;
-        });
-      }
-    };
-    loadMatch();
+  // useEffect(() => {
+  //   const loadMatch = async () => {
+  //     const matchData = await getCurrentMatch();
+  //     if (!matchData) {
+  //       setCurrentMatch(null);
+  //       return;
+  //     }
+  //     setCurrentMatch(matchData);
+  //     console.log(matchData);
+  //     let isReversed = false;
+  //     if (GSI.last) {
+  //       const mapName = GSI.last.map.name.substring(
+  //         GSI.last.map.name.lastIndexOf("/") + 1,
+  //       );
+  //       const current = matchData.vetos.filter(
+  //         (veto) => veto.mapName === mapName,
+  //       )[0];
+  //       if (current && current.reverseSide) {
+  //         isReversed = true;
+  //       }
+  //     }
+  //     if (matchData.left.id) {
+  //       await api.teams.getOne(matchData.left.id).then((left) => {
+  //         const gsiTeamData = {
+  //           id: matchData.left.id || "",
+  //           name: left.name,
+  //           country: left.country,
+  //           logo: left.logo,
+  //           map_score: matchData.left.wins,
+  //           extra: left.extra,
+  //         };
+  //         if (!isReversed) {
+  //           GSI.teams.left = gsiTeamData;
+  //         } else GSI.teams.right = gsiTeamData;
+  //       });
+  //     }
+  //     if (matchData.right.id) {
+  //       await api.teams.getOne(matchData.right.id).then((right) => {
+  //         const gsiTeamData = {
+  //           id: matchData.right.id || "",
+  //           name: right.name,
+  //           country: right.country,
+  //           logo: right.logo,
+  //           map_score: matchData.right.wins,
+  //           extra: right.extra,
+  //         };
+  //         console.log(gsiTeamData);
+  //         if (!isReversed) GSI.teams.right = gsiTeamData;
+  //         else GSI.teams.left = gsiTeamData;
+  //       });
+  //     }
+  //   };
+  //   loadMatch();
 
-    socket.on("match-update", (data) => {
-      console.log("Match update:", data);
-      loadMatch();
-    });
-    socket.on("swap-teams", (swapTeams) => {
-      loadMatch(swapTeams);
-      console.log("Teams swapped", swapTeams);
-    });
-    return () => {
-      socket.off("match-update", loadMatch);
-      socket.off("swap-sides");
-    };
-  }, []);
+  //   socket.on("match", (data) => {
+  //     console.log("Match update:", data);
+  //     loadMatch();
+  //   });
+  //   socket.on("swap-teams", (swapTeams) => {
+  //     loadMatch();
+  //     console.log("Teams swapped", swapTeams);
+  //   });
+  //   return () => {
+  //     socket.off("match", loadMatch);
+  //     socket.off("swap-sides");
+  //   };
+  // }, []);
 
   if (!gameData)
     return (

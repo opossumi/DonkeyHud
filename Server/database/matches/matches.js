@@ -118,7 +118,7 @@ export const updateScore = (id, team, action, callback) => {
   });
 };
 
-export const updateCurrentMatch = (id, current, callback) => {
+export const setCurrentMatch = (id, current, callback) => {
   const checkCurrentSql = `SELECT id FROM matches WHERE current = 1`;
 
   // First, check if there's already a current match
@@ -140,6 +140,56 @@ export const updateCurrentMatch = (id, current, callback) => {
         console.error(err.message);
       }
     });
+  });
+};
+
+export const updateCurrentMatch = (newMatch, callback) => {
+  const checkCurrentSql = `SELECT * FROM matches WHERE current = 1`;
+
+  // First, fetch the current match
+  db.get(checkCurrentSql, [], (err, currentMatch) => {
+    if (err) {
+      return callback(err);
+    }
+
+    if (!currentMatch) {
+      return callback(new Error("No current match found"));
+    }
+
+    // Update the current match with new values
+    const updatedMatch = {
+      ...currentMatch,
+      ...newMatch,
+      left: JSON.stringify(newMatch.left),
+      right: JSON.stringify(newMatch.right),
+      vetos: JSON.stringify(newMatch.vetos),
+    };
+
+    console.log("updating current match: ", updatedMatch);
+
+    const updateSql = `
+      UPDATE matches
+      SET current = ?, left = ?, right = ?, matchType = ?, vetos = ?
+      WHERE id = ?
+    `;
+
+    db.run(
+      updateSql,
+      [
+        updatedMatch.current,
+        updatedMatch.left,
+        updatedMatch.right,
+        updatedMatch.matchType,
+        updatedMatch.vetos,
+        currentMatch.id,
+      ],
+      function (err) {
+        if (err) {
+          return callback(err);
+        }
+        callback(null, { id: currentMatch.id });
+      }
+    );
   });
 };
 

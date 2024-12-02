@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Match, Veto } from "../../api/interfaces";
 import { MatchTypes, maps } from "./MatchPage";
-import { TeamProps } from "../Teams";
+import { Team } from "../../api/interfaces";
 import { VetoCard } from "./VetoCard";
 import { Dialog } from "../Components/Dialog";
 import { ButtonContained } from "../Components";
 
 interface MatchFormProps {
-  teams: TeamProps[];
+  teams: Team[];
   match?: Match;
   createMatch?: (match: Match) => void;
   updateMatch?: (match: Match) => void;
@@ -56,22 +56,29 @@ export const MatchForm = ({
   useEffect(() => {
     if (isEditing && match) {
       setLeftTeamId(match.left.id);
-      console.log("Left team id:", match.left.id);
       setRightTeamId(match.right.id);
       setMatchType(match.matchType);
       setCurrentMatch(match.current);
       setVetos(match.vetos);
+    } else {
+      handleReset();
     }
   }, [isEditing, match]);
 
   const validateForm = () => {
     let isValid = true;
-    setErrorMessage(""); // Clear any previous error message
+    setErrorMessage("");
 
     if (!leftTeamId || !rightTeamId) {
-      setErrorMessage("Please select both teams."); // Set error message
+      setErrorMessage("Please select both teams.");
       isValid = false;
     }
+
+    if (!["bo1", "bo2", "bo3", "bo5"].includes(matchType)) {
+      setErrorMessage("Invalid match type selected.");
+      isValid = false;
+    }
+
     return isValid;
   };
 
@@ -119,7 +126,18 @@ export const MatchForm = ({
     setCurrentMatch(false);
     setMatchType("bo1");
     setErrorMessage("");
+    const newVetos: Veto[] = vetos.map(() => ({
+      type: "ban",
+      teamId: "",
+      mapName: "",
+      side: "NO",
+      reverseSide: false,
+      mapEnd: false,
+    }));
+    setVetos(newVetos);
   };
+
+  const vetoSource = match?.vetos || vetos;
 
   return (
     <Dialog onClose={handleCancel} open={open}>
@@ -141,11 +159,14 @@ export const MatchForm = ({
               onChange={(e) => setLeftTeamId(e.target.value)}
               name="Team One"
               className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
-              defaultValue={"Team One"}
             >
-              <option selected>Team One</option>
+              <option>Team One</option>
               {teams.map((team) => (
-                <option key={team.id} value={team.id} className="p-4 text-text">
+                <option
+                  key={team._id}
+                  value={team._id}
+                  className="p-4 text-text"
+                >
                   {team.name}
                 </option>
               ))}
@@ -162,11 +183,14 @@ export const MatchForm = ({
               onChange={(e) => setRightTeamId(e.target.value)}
               name="Team Two"
               className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
-              defaultValue={"Team Two"}
             >
-              <option selected>Team Two</option>
+              <option>Team Two</option>
               {teams.map((team) => (
-                <option key={team.id} value={team.id} className="p-4 text-text">
+                <option
+                  key={team._id}
+                  value={team._id}
+                  className="p-4 text-text"
+                >
                   {team.name}
                 </option>
               ))}
@@ -195,27 +219,16 @@ export const MatchForm = ({
         </form>
 
         <h5 className="mt-4">Set Vetos:</h5>
-        {match
-          ? match.vetos.map((veto, index) => (
-              <VetoCard
-                key={index}
-                index={index}
-                veto={veto}
-                leftTeamId={leftTeamId}
-                rightTeamId={rightTeamId}
-                onVetoChange={handleVetoChange}
-              />
-            ))
-          : vetos.map((veto, index) => (
-              <VetoCard
-                key={index}
-                index={index}
-                veto={veto}
-                leftTeamId={leftTeamId}
-                rightTeamId={rightTeamId}
-                onVetoChange={handleVetoChange}
-              />
-            ))}
+        {vetoSource.map((veto, index) => (
+          <VetoCard
+            key={index}
+            index={index}
+            veto={veto}
+            leftTeamId={leftTeamId}
+            rightTeamId={rightTeamId}
+            onVetoChange={handleVetoChange}
+          />
+        ))}
       </div>
       <div className="inline-flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
