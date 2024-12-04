@@ -6,6 +6,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { socket } from "../../App";
+import { PORT, HOST } from "../../App";
 
 interface MatchTableProps {
   matches: Match[];
@@ -77,10 +78,10 @@ const MatchRow = ({
     const fetchTeamNames = async () => {
       try {
         const teamOne = await axios.get(
-          `http://localhost:4000/teams/${match.left.id}`,
+          `${HOST}:${PORT}/teams/${match.left.id}`,
         );
         const teamTwo = await axios.get(
-          `http://localhost:4000/teams/${match.right.id}`,
+          `${HOST}:${PORT}/teams/${match.right.id}`,
         );
         setTeamOneName(teamOne.data.name);
         setTeamOneLogo(teamOne.data.logo);
@@ -100,7 +101,7 @@ const MatchRow = ({
 
   const handleStartMatch = async () => {
     try {
-      await axios.put(`http://localhost:4000/matches/${match.id}/current`, {
+      await axios.put(`${HOST}:${PORT}/matches/${match.id}/current`, {
         current: true,
       });
 
@@ -112,7 +113,7 @@ const MatchRow = ({
 
   const handleStopMatch = async () => {
     try {
-      await axios.put(`http://localhost:4000/matches/${match.id}/current`, {
+      await axios.put(`${HOST}:${PORT}/matches/${match.id}/current`, {
         current: false,
       });
       refreshMatches();

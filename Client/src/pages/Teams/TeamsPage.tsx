@@ -4,9 +4,10 @@ import { TeamsForm } from "./TeamForm";
 import axios from "axios";
 import { ButtonContained } from "../Components";
 import { Team } from "../../api/interfaces";
+import { PORT, HOST } from "../../App";
 
 export const getTeams = async () => {
-  const teams = await axios.get("http://localhost:4000/teams");
+  const teams = await axios.get(`${HOST}:${PORT}/teams`);
   if (axios.isAxiosError(teams)) {
     console.log("Error fetching teams data");
     return [];
@@ -18,7 +19,7 @@ export const getTeams = async () => {
 };
 
 export const getTeamsById = async (id: string) => {
-  const team = await axios.get(`http://localhost:4000/teams/${id}`);
+  const team = await axios.get(`${HOST}:${PORT}/teams/${id}`);
   if (axios.isAxiosError(team)) {
     console.log("Error fetching team data");
     return [];
@@ -46,7 +47,7 @@ export const TeamsPage = () => {
   const handleCreateTeam = async (team: Team) => {
     // Handle create or update player logic
     setIsLoading(true);
-    await axios.post("http://localhost:4000/teams", team);
+    await axios.post(`${HOST}:${PORT}/teams`, team);
     await getTeams().then((data) => {
       setTeams(data);
     });
@@ -64,7 +65,7 @@ export const TeamsPage = () => {
     // Handle update player logic
     console.log(team);
     setIsLoading(true);
-    await axios.put(`http://localhost:4000/teams/${team._id}`, team);
+    await axios.put(`${HOST}:${PORT}/teams/${team._id}`, team);
     await getTeams().then((data) => {
       setTeams(data);
     });
@@ -74,7 +75,7 @@ export const TeamsPage = () => {
   const handleDeleteTeam = async (id: string) => {
     // Handle delete player logic
     setIsLoading(true);
-    await axios.delete(`http://localhost:4000/teams/${id}`);
+    await axios.delete(`${HOST}:${PORT}/teams/${id}`);
     setTeams(teams.filter((team: Team) => team._id !== id));
     setIsLoading(false);
   };

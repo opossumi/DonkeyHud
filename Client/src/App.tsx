@@ -6,15 +6,15 @@ import {
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { CSGO, GSISocket, CSGORaw } from "csgogsi-socket";
-import { HUD } from "./HUD/HUD";
 import { AdminPanel } from "./pages/AdminPanel";
 import { LandingPage } from "./pages/Landing";
 import { Dashboard } from "./pages/Dashboard";
 import { MatchesPage } from "./pages/Matches/MatchPage";
 import { PlayersPage } from "./pages/Players/PlayersPage";
 import { TeamsPage } from "./pages/Teams";
+import { Hud } from "./pages/HUD/Hud";
 
-export const PORT = 4000;
+export const PORT = 1349;
 export const HOST = `http://localhost`;
 
 export const { GSI, socket } = GSISocket(`${HOST}:${PORT}`, "update");
@@ -46,8 +46,7 @@ export const App = () => {
           <Route path="teams" element={<TeamsPage />} />
           <Route path="dashboard" element={<Dashboard />} />
         </Route>
-        ,
-        <Route path="hud" element={<HUD gameData={gameData} />} />
+        <Route path="hud" element={<Hud />} />
       </Route>,
     ),
   );

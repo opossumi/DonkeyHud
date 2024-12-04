@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import cors from "cors";
 import multer from "multer";
 import path from "path";
+import { fileURLToPath } from "url";
 // import * as API from "./database/crud.js";
 import * as teams from "./database/teams/teams.js";
 import * as players from "./database/players/players.js";
@@ -12,7 +13,9 @@ import * as matches from "./database/matches/matches.js";
 const app = express();
 const server = http.createServer(app);
 const HOST = "localhost";
-const PORT = 4000;
+const PORT = 1349;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create a new instance of the socket.io server to send real time updates to the client
 const io = new Server(server, {
@@ -25,6 +28,11 @@ const io = new Server(server, {
 // Use the middleware to enable CORS (Cross-Origin Resource Sharing)
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("/hud", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -74,6 +82,7 @@ io.on("connection", (socket) => {
 // Listen for the game data POST requests to /gsi
 app.post("/gsi", express.json(), (req, res) => {
   let data = req.body;
+  // console.log(data);
   fixGSIData(data);
   io.emit("update", data);
   res.sendStatus(200);

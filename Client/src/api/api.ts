@@ -1,12 +1,12 @@
 import * as I from "./interfaces";
 // import queryString from 'query-string';
-import { MapConfig } from "../HUD/Radar/LexoRadar/maps";
+// import { MapConfig } from "../HUD/Radar/LexoRadar/maps";
 
 // const query = queryString.parseUrl(window.location.href).query;
 // export const variant = query?.variant || "default";
 
 // export const port = (query && Number(query.port)) || 1349;
-export const port = 4000;
+export const port = 1349;
 
 // export const isDev = !query.isProd;
 
@@ -56,9 +56,9 @@ const api = {
   tournaments: {
     get: () => apiV2("tournament"),
   },
-  maps: {
-    get: (): Promise<{ [key: string]: MapConfig }> => apiV2("radar/maps"),
-  },
+  // maps: {
+  //   get: (): Promise<{ [key: string]: MapConfig }> => apiV2("radar/maps"),
+  // },
 };
 
 export default api;

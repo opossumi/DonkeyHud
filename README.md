@@ -20,14 +20,14 @@ Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
 - Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
 - Run the RUN_OpenHUD.bat file
-- For OBS overlay, create a `Browser Source`, delete all of the custom css, and use the url: `http://localhost:3000/hud` (port will probably change later)
-- Still working on an overlay for ingame. [Here](https://drive.google.com/drive/folders/1kHaRyzMUZ-qRBBaC0mFb6nQEz5j79bQm?usp=sharing) (run the Overlay.exe) is an EXTEREMELY experimental version that is not tesed at all (use at your own risk). Otherwise you can observe through your OBS scene by running the preview window as fullscreen and have the game on a second monitor
+- For OBS overlay, create a `Browser Source`, delete all of the custom css, and use the url: `http://localhost:1349/hud`
+- For ingame Overlay download it [Here](https://drive.google.com/file/d/1qluO3iujecZ1wNGQrf2aJiYV0Qe0SyFH/view?usp=sharing) (run OpenHUD Overlay).
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
-# CS2-React-Hud based on [Lexogrine react hud](https://github.com/lexogrine/cs2-react-hud)
+# OpenHud React Hud based on [Lexogrine react hud](https://github.com/JohnTimmermann/OpenHud-React-Hud)
 
-![Custom CS2 Hud](https://i.imgur.com/yEFQNyN.png)
+![Custom CS2 Hud](https://i.imgur.com/RH76sfA.png)
 
 # Admin Panel
 

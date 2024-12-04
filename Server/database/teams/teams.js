@@ -71,7 +71,6 @@ export const getTeamByName = (name, callback) => {
 
 export const getTeamById = (id, callback) => {
   const sql = `SELECT * FROM teams WHERE _id = ?`;
-  console.log("Getting team:", id);
   db.get(sql, [id], (err, row) => {
     callback(err, row);
     if (err) {

@@ -4,6 +4,7 @@ import PlayerSilhouette from "../../assets/player_silhouette.webp";
 import { PlayerForm } from "./PlayersForm";
 import axios from "axios";
 import { ButtonContained, Container } from "../Components";
+import { PORT, HOST } from "../../App";
 
 export interface PlayerProps {
   id: string;
@@ -19,7 +20,7 @@ export interface PlayerProps {
 
 export const getPlayers = async () => {
   //Async Function Expression
-  const players = await axios.get("http://localhost:4000/players");
+  const players = await axios.get(`${HOST}:${PORT}/players`);
   if (axios.isAxiosError(players)) {
     console.log("Error fetching players data");
     return [];
@@ -49,7 +50,7 @@ export const PlayersPage = () => {
   const handleCreatePlayer = async (player: PlayerProps) => {
     // Handle create or update player logic
     setIsLoading(true);
-    await axios.post("http://localhost:4000/players", player);
+    await axios.post(`${HOST}:${PORT}/players`, player);
     await getPlayers().then((data) => {
       setPlayers(data);
     });
@@ -66,7 +67,7 @@ export const PlayersPage = () => {
   const handleUpdatePlayer = async (player: PlayerProps) => {
     // Handle update player logic
     setIsLoading(true);
-    await axios.put(`http://localhost:4000/players/${player.id}`, player);
+    await axios.put(`${HOST}:${PORT}/players/${player.id}`, player);
     await getPlayers().then((data) => {
       setPlayers(data);
     });
@@ -76,7 +77,7 @@ export const PlayersPage = () => {
   const handleDeletePlayer = async (id: string) => {
     // Handle delete player logic
     setIsLoading(true);
-    await axios.delete(`http://localhost:4000/players/${id}`);
+    await axios.delete(`${HOST}:${PORT}/players/${id}`);
     setPlayers(players.filter((player: PlayerProps) => player.id !== id));
     setIsLoading(false);
   };

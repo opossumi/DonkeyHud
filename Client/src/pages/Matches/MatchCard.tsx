@@ -5,7 +5,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
 import knifeImage from "../../assets/knifeRound.png";
-import { socket } from "../../App";
+import { PORT, HOST } from "../../App";
 
 interface MatchCardProps {
   match: Match;
@@ -25,10 +25,10 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     const fetchTeamNames = async () => {
       try {
         const teamOne = await axios.get(
-          `http://localhost:4000/teams/${match.left.id}`,
+          `${HOST}:${PORT}/teams/${match.left.id}`,
         );
         const teamTwo = await axios.get(
-          `http://localhost:4000/teams/${match.right.id}`,
+          `${HOST}:${PORT}/teams/${match.right.id}`,
         );
         setTeamOneName(teamOne.data.name);
         setTeamOneLogo(teamOne.data.logo);
@@ -46,7 +46,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
 
   const handleStopMatch = async () => {
     try {
-      await axios.put(`http://localhost:4000/matches/${match.id}/current`, {
+      await axios.put(`${HOST}:${PORT}/matches/${match.id}/current`, {
         current: false,
       });
       refreshMatches();
@@ -65,10 +65,47 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     };
 
     try {
-      await axios.put(
-        `http://localhost:4000/matches/current/update`,
-        updatedMatch,
-      );
+      await axios.put(`${HOST}:${PORT}/matches/current/update`, updatedMatch);
+      refreshMatches();
+    } catch (error) {
+      console.error("Error updating veto:", error);
+    }
+  };
+
+  const handleSetWinner = async (index: number, id?: string) => {
+    const updatedVetos = [...match.vetos];
+    updatedVetos[index].winner = id ? id : undefined;
+
+    const updatedMatch = {
+      ...match,
+      vetos: updatedVetos,
+    };
+
+    try {
+      await axios.put(`${HOST}:${PORT}/matches/current/update`, updatedMatch);
+      refreshMatches();
+    } catch (error) {
+      console.error("Error updating veto:", error);
+    }
+  };
+  const handleSetScore = async (
+    index: number,
+    teamOneScore: number,
+    teamTwoScore: number,
+  ) => {
+    const updatedVetos = [...match.vetos];
+    updatedVetos[index].score = {
+      teamOne: teamOneScore,
+      teamTwo: teamTwoScore,
+    };
+
+    const updatedMatch = {
+      ...match,
+      vetos: updatedVetos,
+    };
+
+    try {
+      await axios.put(`${HOST}:${PORT}/matches/current/update`, updatedMatch);
       refreshMatches();
     } catch (error) {
       console.error("Error updating veto:", error);
@@ -80,7 +117,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     action: "add" | "subtract",
   ) => {
     try {
-      await axios.put(`http://localhost:4000/matches/${match.id}/${team}`, {
+      await axios.put(`${HOST}:${PORT}/matches/${match.id}/${team}`, {
         action,
       });
       refreshMatches();
@@ -89,16 +126,16 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     }
   };
 
-  const handleSwapTeams = async () => {
-    setSwapTeams(!swapTeams);
-    try {
-      await axios.put(`http://localhost:4000/matches/${match.id}/reverseSides`);
-    } catch (error) {
-      console.error("Error reversing sides: ", error);
-    }
-    socket.emit("swap-teams", swapTeams);
-    console.log("Swapping teams", swapTeams);
-  };
+  // const handleSwapTeams = async () => {
+  //   setSwapTeams(!swapTeams);
+  //   try {
+  //     await axios.put(`${HOST}:${PORT}/matches/${match.id}/reverseSides`);
+  //   } catch (error) {
+  //     console.error("Error reversing sides: ", error);
+  //   }
+  //   socket.emit("swap-teams", swapTeams);
+  //   console.log("Swapping teams", swapTeams);
+  // };
 
   return (
     <div
@@ -181,7 +218,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
       <table className="flex-auto table-fixed">
         <thead className="border-b border-border">
           <tr className="p-2">
-            <th className="p-1 text-sm" align="left">
+            <th className="p-1 text-sm" align="center">
               Team
             </th>
             <th className="p-1 text-sm" align="center">
@@ -196,8 +233,11 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
             <th className="p-1 text-sm" align="center">
               Winner
             </th>
-            <th className="p-1 text-sm" align="right">
+            <th className="p-1 text-sm" align="center">
               ReverseSide
+            </th>
+            <th className="p-1 text-sm" align="center">
+              Map Score
             </th>
           </tr>
         </thead>
@@ -206,12 +246,12 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
             .filter((veto) => veto.teamId || veto.type === "decider")
             .map((veto, index) => (
               <tr key={index} className="border-b border-border">
-                <td className="p-2 text-lg font-semibold" align="left">
+                <td className="p-2 text-lg font-semibold" align="center">
                   <img
                     src={
-                      veto.teamId == teamOneId
+                      veto.teamId === teamOneId
                         ? teamOneLogo
-                        : veto.teamId == teamTwoId
+                        : veto.teamId === teamTwoId
                           ? teamTwoLogo
                           : knifeImage
                     }
@@ -229,15 +269,59 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                   {veto.side === "NO" ? "" : veto.side}
                 </td>
                 <td className="p-2 text-lg font-semibold" align="center">
-                  {veto.winner}
+                  <form>
+                    <select
+                      className="rounded-md border border-border bg-background p-2"
+                      value={veto.winner ? veto.winner : ""}
+                      onChange={(e) => handleSetWinner(index, e.target.value)}
+                    >
+                      <option value="">None</option>
+                      {teamOneId && (
+                        <option value={teamOneId}>{teamOneName}</option>
+                      )}
+                      {teamTwoId && (
+                        <option value={teamTwoId}>{teamTwoName}</option>
+                      )}
+                    </select>
+                  </form>
                 </td>
-                <td className="p-2 text-lg font-semibold" align="right">
+                <td className="p-2 text-lg font-semibold" align="center">
                   <input
                     type="checkbox"
                     className="flex items-center justify-center"
                     checked={veto.reverseSide === true}
                     onChange={() => handleReverseSideChange(index)}
                   />
+                </td>
+                <td className="p-2 text-lg font-semibold" align="center">
+                  {veto.type !== "ban" && (
+                    <div className="flex w-1/3 gap-2">
+                      <input
+                        className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
+                        type="number"
+                        value={veto.score?.teamOne || 0}
+                        onChange={(e) =>
+                          handleSetScore(
+                            index,
+                            veto.score?.teamOne || 0,
+                            parseInt(e.target.value),
+                          )
+                        }
+                      />
+                      <input
+                        className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
+                        type="number"
+                        value={veto.score?.teamOne || 0}
+                        onChange={(e) =>
+                          handleSetScore(
+                            index,
+                            veto.score?.teamOne || 0,
+                            parseInt(e.target.value),
+                          )
+                        }
+                      />
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 interface TextInputProps {
   label: string;
   value: string | number;
+  type?: string;
   required?: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   error?: boolean;
@@ -12,6 +13,7 @@ interface TextInputProps {
 export const TextInput = ({
   label,
   value,
+  type,
   required,
   onChange,
   error,
@@ -24,7 +26,7 @@ export const TextInput = ({
         {label}
       </label>
       <input
-        type="text"
+        type={type ? type : "text"}
         id={label}
         placeholder={required ? `${label} *` : `${label}`}
         required={required}

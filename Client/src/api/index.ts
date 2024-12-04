@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import * as Types from "./types";
-import { MapConfig } from "../HUD/Radar/LexoRadar/maps";
+// import { MapConfig } from "../HUD/Radar/LexoRadar/maps";
 
 // Gets the current windows address and returns the port query (not sure if its needed for ours)
 const query = new URLSearchParams(window.location.search);
@@ -51,7 +51,7 @@ export const api = {
     ): Promise<{ custom: string; steam: string }> =>
       apiRequest(`players/avatar/steamid/${steamid}`),
   },
-  maps: {
-    get: (): Promise<{ [key: string]: MapConfig }> => apiRequest("radar/maps"),
-  },
+  // maps: {
+  //   get: (): Promise<{ [key: string]: MapConfig }> => apiRequest("radar/maps"),
+  // },
 };

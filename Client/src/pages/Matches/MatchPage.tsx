@@ -5,10 +5,17 @@ import { Team } from "../../api/interfaces";
 import { getTeams } from "../Teams";
 import { MatchesTable } from "./MatchesTable";
 import { MatchForm } from "./MatchForm";
-import { getCurrentMatch } from "../../HUD/HUD";
+// import { getCurrentMatch } from "../../HUD/HUD";
 import axios from "axios";
 import { socket } from "../../App";
 import { ButtonContained } from "../Components";
+import { PORT, HOST } from "../../App";
+
+export const getCurrentMatch = async () => {
+  const match = await axios.get(`${HOST}:${PORT}/current_match`);
+  const currentMatch: Match = match.data;
+  return currentMatch;
+};
 
 export const MatchTypes = ["bo1", "bo2", "bo3", "bo5"];
 export const maps = [
@@ -25,7 +32,7 @@ export const maps = [
 ];
 
 export const getMatches = async () => {
-  const matches = await axios.get("http://localhost:4000/matches");
+  const matches = await axios.get(`${HOST}:${PORT}/matches`);
   if (axios.isAxiosError(matches)) {
     console.log("Error fetching matches data");
     return [];
@@ -80,7 +87,7 @@ export const MatchesPage = () => {
   const handleCreateMatch = async (match: Match) => {
     setIsLoading(true);
     console.log(match);
-    await axios.post("http://localhost:4000/matches", match);
+    await axios.post(`${HOST}:${PORT}/matches`, match);
     await getMatches().then((data) => {
       setMatches(data);
     });
@@ -89,7 +96,7 @@ export const MatchesPage = () => {
 
   const handleUpdateMatch = async (match: Match) => {
     setIsLoading(true);
-    await axios.put(`http://localhost:4000/matches/${match.id}`, match);
+    await axios.put(`${HOST}:${PORT}/matches/${match.id}`, match);
     await getMatches().then((data) => {
       setMatches(data);
     });
@@ -100,13 +107,12 @@ export const MatchesPage = () => {
     setOpen(true);
     setIsEditing(true);
     setSelectedMatch(match);
-    console.log("Selected match:", match);
     console.log(isEditing);
   };
 
   const handleDeleteMatch = async (id: string) => {
     setIsLoading(true);
-    await axios.delete(`http://localhost:4000/matches/${id}`);
+    await axios.delete(`${HOST}:${PORT}/matches/${id}`);
     await getMatches().then((data) => {
       setMatches(data);
     });
