@@ -32,7 +32,7 @@ export async function apiV2(url: string, method = "GET", body?: any) {
 
 const api = {
   match: {
-    get: async (): Promise<I.Match[]> => apiV2(`match`),
+    getAll: async (): Promise<I.Match[]> => apiV2(`matches`),
     getCurrent: async (): Promise<I.Match> => apiV2(`current_match`),
   },
   camera: {
@@ -43,10 +43,10 @@ const api = {
   },
   teams: {
     getOne: async (id: string): Promise<I.Team> => apiV2(`teams/${id}`),
-    get: (): Promise<I.Team[]> => apiV2(`teams`),
+    getAll: (): Promise<I.Team[]> => apiV2(`teams`),
   },
   players: {
-    get: async (steamids?: string[]): Promise<I.Player[]> =>
+    getAll: async (steamids?: string[]): Promise<I.Player[]> =>
       apiV2(steamids ? `players?steamids=${steamids.join(";")}` : `players`),
     getAvatarURLs: async (
       steamid: string,

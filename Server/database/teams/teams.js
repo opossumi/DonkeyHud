@@ -1,4 +1,5 @@
 import { db } from "../database.js";
+import { v4 as uuidv4 } from "uuid";
 
 export const createTeam = (
   name,
@@ -8,13 +9,18 @@ export const createTeam = (
   last_updated,
   callback
 ) => {
-  const sql = `INSERT INTO teams(name,shortName,logo,country,last_updated) VALUES(?,?,?,?,?)`;
-  db.run(sql, [name, shortName, logo, country, last_updated], function (err) {
-    callback(err, { id: this.lastID });
-    if (err) {
-      console.error(err.message);
+  const _id = uuidv4(); // Generate a unique string ID
+  const sql = `INSERT INTO teams(_id, name, shortName, logo, country, last_updated) VALUES(?,?,?,?,?,?)`;
+  db.run(
+    sql,
+    [_id, name, shortName, logo, country, last_updated],
+    function (err) {
+      callback(err, { id: this.lastID });
+      if (err) {
+        console.error(err.message);
+      }
     }
-  });
+  );
 };
 
 export const readTeams = (callback) => {

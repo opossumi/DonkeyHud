@@ -138,12 +138,12 @@ const MatchRow = ({
         <h6 className="flex items-center justify-center gap-2">
           <img
             src={teamOneLogo}
-            className="hidden md:block"
+            className="hidden size-12 md:block"
             alt="Team One Logo"
           />{" "}
           {match.left.wins} - {match.right.wins}{" "}
           <img
-            className="hidden md:block"
+            className="hidden size-12 md:block"
             src={teamTwoLogo}
             alt="Team Two Logo"
           />

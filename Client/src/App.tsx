@@ -13,6 +13,7 @@ import { MatchesPage } from "./pages/Matches/MatchPage";
 import { PlayersPage } from "./pages/Players/PlayersPage";
 import { TeamsPage } from "./pages/Teams";
 import { Hud } from "./pages/HUD/Hud";
+import { MatchPage2 } from "./pages/Matches/MatchPageHolder";
 
 export const PORT = 1349;
 export const HOST = `http://localhost`;

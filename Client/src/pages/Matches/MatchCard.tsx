@@ -236,9 +236,9 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
             <th className="p-1 text-sm" align="center">
               ReverseSide
             </th>
-            <th className="p-1 text-sm" align="center">
+            {/* <th className="p-1 text-sm" align="center">
               Map Score
-            </th>
+            </th> */}
           </tr>
         </thead>
         <tbody>
@@ -293,7 +293,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                     onChange={() => handleReverseSideChange(index)}
                   />
                 </td>
-                <td className="p-2 text-lg font-semibold" align="center">
+                {/* <td className="p-2 text-lg font-semibold" align="center">
                   {veto.type !== "ban" && (
                     <div className="flex w-1/3 gap-2">
                       <input
@@ -322,7 +322,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                       />
                     </div>
                   )}
-                </td>
+                </td> */}
               </tr>
             ))}
         </tbody>
