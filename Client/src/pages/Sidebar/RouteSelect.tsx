@@ -29,11 +29,9 @@ export const RouteSelect = () => {
       </div>
       <div className="mt-4 flex w-full items-center justify-center">
         <NavLink
-          to={`/hud`}
+          to="hud"
           target="_blank"
-          className={({ isActive }) =>
-            `flex w-3/4 items-center justify-center gap-4 rounded bg-sky-700 p-2 text-textcolor shadow-none transition-[box-shadow,_background-color,_color] hover:bg-sky-900`
-          }
+          className={`flex w-3/4 items-center justify-center gap-4 rounded bg-sky-700 p-2 text-text shadow-none transition-[box-shadow,_background-color,_color] hover:bg-sky-900`}
         >
           <PlayArrowIcon />
           Hud
@@ -49,7 +47,7 @@ const NavRoutes = ({ Icon, title, target }: RouteProps) => {
       to={`${title.toLowerCase()}`}
       target={target}
       className={({ isActive }) =>
-        `flex w-full items-center justify-start gap-4 px-6 py-3 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-primary text-textcolor shadow" : "bg-transparent text-stone-300 shadow-none hover:bg-gray-800"}`
+        `flex w-full items-center justify-start gap-4 px-6 py-3 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-primary text-text shadow" : "bg-transparent text-stone-300 shadow-none hover:bg-gray-800"}`
       }
     >
       {<Icon />}

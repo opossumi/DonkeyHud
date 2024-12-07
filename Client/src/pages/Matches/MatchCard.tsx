@@ -126,17 +126,6 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     }
   };
 
-  // const handleSwapTeams = async () => {
-  //   setSwapTeams(!swapTeams);
-  //   try {
-  //     await axios.put(`${HOST}:${PORT}/matches/${match.id}/reverseSides`);
-  //   } catch (error) {
-  //     console.error("Error reversing sides: ", error);
-  //   }
-  //   socket.emit("swap-teams", swapTeams);
-  //   console.log("Swapping teams", swapTeams);
-  // };
-
   return (
     <div
       key={match.id}
@@ -175,14 +164,6 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                   </button>
                 </div>
               </div>
-              {/* <div className="flex items-center justify-center">
-                <button
-                  className="rounded-lg bg-primary px-4 py-2"
-                  onClick={handleSwapTeams}
-                >
-                  <SwapHorizIcon />
-                </button>
-              </div> */}
               <div
                 id="TeamTwo"
                 className="flex flex-col items-center justify-center gap-1"

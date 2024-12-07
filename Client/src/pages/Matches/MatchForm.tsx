@@ -4,7 +4,7 @@ import { MatchTypes, maps } from "./MatchPage";
 import { Team } from "../../api/interfaces";
 import { VetoCard } from "./VetoCard";
 import { Dialog } from "../Components/Dialog";
-import { ButtonContained } from "../Components";
+import { ButtonContained, Container } from "../Components";
 
 interface MatchFormProps {
   teams: Team[];
@@ -12,20 +12,18 @@ interface MatchFormProps {
   createMatch?: (match: Match) => void;
   updateMatch?: (match: Match) => void;
   isEditing?: boolean;
-  onCancel?: () => void; // Optional prop with default behavior (e.g., handleReset)
+  onCancel?: () => void;
+  refreshMatches: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
-
-/* 
-  TODO: Need to fix the editing functionality
-  */
 
 export const MatchForm = ({
   teams,
   match,
   createMatch,
   updateMatch,
+  refreshMatches,
   onCancel,
   open,
   setOpen,
@@ -52,6 +50,9 @@ export const MatchForm = ({
         mapEnd: false,
       })),
   );
+
+  const leftTeam = teams.find((team) => team._id === leftTeamId);
+  const rightTeam = teams.find((team) => team._id === rightTeamId);
 
   useEffect(() => {
     if (isEditing && match) {
@@ -106,10 +107,10 @@ export const MatchForm = ({
     } else if (createMatch) {
       await createMatch(newMatch);
     }
-
     setIsSubmitting(false);
     setOpen(false);
     handleReset();
+    refreshMatches();
   };
 
   const handleCancel = () => {
@@ -144,92 +145,99 @@ export const MatchForm = ({
       <div className="flex flex-1 border-b border-zinc-800">
         <h3 className="px-6 py-4 font-semibold">
           {isEditing
-            ? `Updating: ${leftTeamId} vs ${rightTeamId}`
+            ? `Updating: ${leftTeam?.name} vs ${rightTeam?.name}`
             : "Create Match"}
         </h3>
       </div>
-      <div className="flex flex-1 flex-col overflow-y-scroll p-6">
-        <div className="my-2 flex items-center justify-center gap-3">
+      <Container>
+        <div className="flex flex-1 flex-col overflow-y-scroll p-6">
+          <div className="my-2 flex items-center justify-center gap-3">
+            <form className="w-full flex-col bg-background">
+              <label htmlFor="Team One" className="text-text">
+                Team One
+              </label>
+              <select
+                value={leftTeamId || ""}
+                onChange={(e) => setLeftTeamId(e.target.value)}
+                name="Team One"
+                className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+              >
+                <option>Team One</option>
+                {teams.map((team) => (
+                  <option
+                    key={team._id}
+                    value={team._id}
+                    className="p-4 text-text"
+                  >
+                    {team.name}
+                  </option>
+                ))}
+              </select>
+            </form>
+            <h2 className="font-semibold">VS</h2>
+
+            <form className="w-full flex-col bg-background">
+              <label htmlFor="" className="text-text">
+                Team Two
+              </label>
+              <select
+                value={rightTeamId || ""}
+                onChange={(e) => setRightTeamId(e.target.value)}
+                name="Team Two"
+                className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+              >
+                <option>Team Two</option>
+                {teams.map((team) => (
+                  <option
+                    key={team._id}
+                    value={team._id}
+                    className="p-4 text-text"
+                  >
+                    {team.name}
+                  </option>
+                ))}
+              </select>
+            </form>
+          </div>
+
           <form className="w-full flex-col bg-background">
-            <label htmlFor="Team One" className="text-text">
-              Team One
+            <label htmlFor="Match Type" className="text-text">
+              Match Type
             </label>
             <select
-              value={leftTeamId || ""}
-              onChange={(e) => setLeftTeamId(e.target.value)}
-              name="Team One"
+              value={matchType}
+              onChange={(e) =>
+                setMatchType(e.target.value as "bo1" | "bo2" | "bo3" | "bo5")
+              }
+              name="Match Type"
               className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
             >
-              <option>Team One</option>
-              {teams.map((team) => (
-                <option
-                  key={team._id}
-                  value={team._id}
-                  className="p-4 text-text"
-                >
-                  {team.name}
+              {MatchTypes.map((type) => (
+                <option key={type} value={type}>
+                  {type}
                 </option>
               ))}
             </select>
           </form>
-          <h2 className="font-semibold">VS</h2>
 
-          <form className="w-full flex-col bg-background">
-            <label htmlFor="" className="text-text">
-              Team Two
-            </label>
-            <select
-              value={rightTeamId || ""}
-              onChange={(e) => setRightTeamId(e.target.value)}
-              name="Team Two"
-              className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
-            >
-              <option>Team Two</option>
-              {teams.map((team) => (
-                <option
-                  key={team._id}
-                  value={team._id}
-                  className="p-4 text-text"
-                >
-                  {team.name}
-                </option>
-              ))}
-            </select>
-          </form>
-        </div>
-
-        <form className="w-full flex-col bg-background">
-          <label htmlFor="Match Type" className="text-text">
-            Match Type
-          </label>
-          <select
-            value={matchType}
-            onChange={(e) =>
-              setMatchType(e.target.value as "bo1" | "bo2" | "bo3" | "bo5")
-            }
-            name="Match Type"
-            className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
-          >
-            {MatchTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
+          <h5 className="mt-4">Set Vetos:</h5>
+          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+            {vetoSource.map((veto, index) => (
+              <div className="bg-zinc-900 p-4">
+                <VetoCard
+                  key={index}
+                  index={index}
+                  veto={veto}
+                  leftTeamId={leftTeamId}
+                  rightTeamId={rightTeamId}
+                  teams={teams}
+                  onVetoChange={handleVetoChange}
+                />
+              </div>
             ))}
-          </select>
-        </form>
-
-        <h5 className="mt-4">Set Vetos:</h5>
-        {vetoSource.map((veto, index) => (
-          <VetoCard
-            key={index}
-            index={index}
-            veto={veto}
-            leftTeamId={leftTeamId}
-            rightTeamId={rightTeamId}
-            onVetoChange={handleVetoChange}
-          />
-        ))}
-      </div>
+          </div>
+        </div>
+      </Container>
       <div className="inline-flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
           <p className="my-1 text-end text-red-500">{errorMessage}</p>

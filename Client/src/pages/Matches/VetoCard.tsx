@@ -1,29 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Veto } from "../../api/interfaces";
 import { maps } from "./MatchPage";
+import { Team } from "../../api/types";
 
 interface VetoCardProps {
   index: number;
   veto: Veto;
   leftTeamId: string | null;
   rightTeamId: string | null;
+  teams: Team[];
   onVetoChange: (index: number, key: keyof Veto, value: any) => void;
 }
 
-export const VetoCard = ({
+export const VetoCard: React.FC<VetoCardProps> = ({
   index,
   veto,
   leftTeamId,
   rightTeamId,
+  teams,
   onVetoChange,
-}: VetoCardProps) => {
+}) => {
   const [teamID, setTeamID] = useState<string | null>(
     veto.type === "decider" ? "decider" : veto.teamId || "",
   );
+  const [leftTeam, setLeftTeam] = useState<Team | undefined>(undefined);
+  const [rightTeam, setRightTeam] = useState<Team | undefined>(undefined);
+  const [type, setType] = useState<"ban" | "pick" | "decider">(
+    veto?.type || "ban",
+  );
+  const [mapName, setMapName] = useState<string | null>(veto?.mapName || null);
+  const [side, setSide] = useState<"CT" | "T" | "NO">(veto.side);
+  const [reverseSide, setReverseSide] = useState<boolean | null>(
+    veto?.reverseSide || false,
+  );
 
   useEffect(() => {
-    setTeamID(veto.type === "decider" ? "decider" : veto.teamId || "");
-  }, [veto.type, veto.teamId, veto.mapName]);
+    setLeftTeam(teams.find((team) => team._id === leftTeamId));
+    setRightTeam(teams.find((team) => team._id === rightTeamId));
+    setTeamID(veto.teamId);
+    setMapName(veto.mapName);
+    setReverseSide(veto.reverseSide ?? false);
+    setSide(veto.side);
+  }, [veto, teams, leftTeamId, rightTeamId]);
 
   const handleTeamSelect = (id: string) => {
     setTeamID(id);
@@ -31,15 +49,23 @@ export const VetoCard = ({
   };
 
   return (
-    <div className="flex flex-col gap-1 p-1">
-      <h6>Veto {index + 1}</h6>
-      <div className="flex gap-2">
+    <div
+      className="flex flex-col items-center justify-center gap-4 p-1"
+      key={index}
+    >
+      <h3 className="border-b border-zinc-500 font-semibold">
+        Veto {index + 1}
+      </h3>
+      <div className="grid grid-cols-2 gap-2">
         <form className="w-full">
-          <label htmlFor={`type-${index}`}>Type</label>
+          <label>Type</label>
           <select
-            id={`type-${index}`}
-            value={veto.type}
-            onChange={(e) => onVetoChange(index, "type", e.target.value)}
+            value={type}
+            onChange={(e) => {
+              const newType = e.target.value as "ban" | "pick" | "decider";
+              setType(newType);
+              onVetoChange(index, "type", newType);
+            }}
             name="Type"
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
@@ -50,54 +76,56 @@ export const VetoCard = ({
         </form>
 
         <form className="w-full">
-          <label htmlFor={`team-${index}`}>
-            {veto.type === "decider" ? "Decider" : "Team"}
-          </label>
+          <label>{type === "decider" ? "Decider" : "Team"}</label>
           <select
-            id={`team-${index}`}
-            disabled={veto.type === "decider"}
-            value={veto.type === "decider" ? "decider" : (teamID ?? "")}
+            disabled={type === "decider"}
+            value={type === "decider" ? "decider" : teamID || ""}
             onChange={(e) => handleTeamSelect(e.target.value)}
-            name={veto.type === "decider" ? "Decider" : "Team"}
+            name={type === "decider" ? "Decider" : "Team"}
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
             <option value="" disabled>
               Select Team
             </option>
-            {veto.type === "decider" && (
-              <option value="decider">Decider</option>
+            {type === "decider" && <option value="decider">Decider</option>}
+            {leftTeamId && leftTeam && (
+              <option value={leftTeamId}>{leftTeam.name}</option>
             )}
-            {leftTeamId && <option value={leftTeamId}>{leftTeamId}</option>}
-            {rightTeamId && <option value={rightTeamId}>{rightTeamId}</option>}
+            {rightTeamId && rightTeam && (
+              <option value={rightTeamId}>{rightTeam.name}</option>
+            )}
           </select>
         </form>
 
         <form className="w-full">
-          <label htmlFor={`map-${index}`}>Map</label>
+          <label>Map</label>
           <select
-            id={`map-${index}`}
-            value={veto.mapName}
-            onChange={(e) => onVetoChange(index, "mapName", e.target.value)}
+            value={mapName || ""}
+            onChange={(e) => {
+              const newMapName = e.target.value;
+              setMapName(newMapName);
+              onVetoChange(index, "mapName", newMapName);
+            }}
             name="Map"
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
-            <option value="" disabled>
-              Select Map
-            </option>
             {maps.map((map) => (
               <option key={map} value={map}>
-                {map.substring(3)}
+                {map}
               </option>
             ))}
           </select>
         </form>
 
         <form className="w-full">
-          <label htmlFor={`side-${index}`}>Side</label>
+          <label>Side</label>
           <select
-            id={`side-${index}`}
-            value={veto.side}
-            onChange={(e) => onVetoChange(index, "side", e.target.value)}
+            value={side}
+            onChange={(e) => {
+              const newSide = e.target.value as "CT" | "T" | "NO";
+              setSide(newSide);
+              onVetoChange(index, "side", newSide);
+            }}
             name="Side"
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
@@ -107,15 +135,17 @@ export const VetoCard = ({
           </select>
         </form>
 
-        <form className="flex w-full flex-col items-center justify-center">
+        <form className="col-span-2 flex w-full flex-col items-center justify-center">
           <label htmlFor={`reverseSide-${index}`}>Reverse Side</label>
           <input
-            id={`reverseSide-${index}`}
             type="checkbox"
-            checked={!!veto.reverseSide}
-            onChange={(e) =>
-              onVetoChange(index, "reverseSide", e.target.checked)
-            }
+            id={`reverseSide-${index}`}
+            checked={reverseSide === true}
+            onChange={(e) => {
+              const newReverseSide = e.target.checked;
+              setReverseSide(newReverseSide);
+              onVetoChange(index, "reverseSide", newReverseSide);
+            }}
           />
         </form>
       </div>

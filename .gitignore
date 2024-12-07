@@ -137,5 +137,5 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 Logo.psd
-Server/Database.db
+Server/database/Database.db
 *.db

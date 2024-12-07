@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { PlayerProps } from "./PlayersPage";
 import { Dialog } from "../Components/Dialog";
-import { ButtonContained, TextInput } from "../Components";
+import { ButtonContained, Container, TextInput } from "../Components";
+import { countries } from "../../api/countries";
 
 interface PlayerFormProps {
   player?: PlayerProps;
   createPlayer?: (player: PlayerProps) => void;
   updatePlayer?: (player: PlayerProps) => void;
   isEditing?: boolean;
-  onCancel?: () => void; // Optional prop with default behavior (e.g., handleReset)
+  onCancel?: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
@@ -28,8 +29,9 @@ export const PlayerForm = ({
   const [lastName, setLastName] = useState(player?.lastName || "");
   const [steamId, setSteamId] = useState(player?.steamid || "");
   const [team, setTeam] = useState(player?.team || "");
+  const [country, setCountry] = useState(player?.country || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // Added for error message
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (isEditing && player) {
@@ -40,6 +42,7 @@ export const PlayerForm = ({
       setLastName(player.lastName || "");
       setSteamId(player.steamid);
       setTeam(player.team || "");
+      setCountry(player.country || "");
     }
   }, [isEditing, player]); // Update form fields when player prop changes
 
@@ -72,6 +75,7 @@ export const PlayerForm = ({
       lastName: lastName,
       steamid: steamId,
       team,
+      country: country,
     };
 
     if (isEditing && updatePlayer) {
@@ -100,6 +104,7 @@ export const PlayerForm = ({
     setLastName("");
     setSteamId("");
     setTeam("");
+    setCountry("");
     setErrorMessage(""); // Clear any previous error message
   };
 
@@ -110,46 +115,74 @@ export const PlayerForm = ({
           {isEditing ? `Updating: ${username}` : "Create Player"}
         </h3>
       </div>
-      <div className="flex flex-1 flex-col overflow-y-scroll p-6">
-        <div className="my-2 flex flex-col gap-3">
-          <TextInput
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            error={!!errorMessage} // Set error state based on errorMessage
-            errorMessage={errorMessage} // Show error message below field
-          />
-          <TextInput
-            label="SteamID64"
-            value={steamId}
-            onChange={(e) => setSteamId(e.target.value)}
-            required
-            error={!!errorMessage} // Set error state based on errorMessage
-            errorMessage={errorMessage} // Show error message below field
-          />
-          <TextInput
-            label="Avatar URL"
-            value={avatar}
-            onChange={(e) => setAvatar(e.target.value)}
-          />
-          <TextInput
-            label="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
-          <TextInput
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-          <TextInput
-            label="Team"
-            value={team}
-            onChange={(e) => setTeam(e.target.value)}
-          />
+      <Container>
+        <div className="flex w-full flex-1 flex-col overflow-y-scroll p-6">
+          <div className="my-2 flex flex-col gap-3">
+            <TextInput
+              label="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              error={!!errorMessage} // Set error state based on errorMessage
+              errorMessage={errorMessage} // Show error message below field
+            />
+            <TextInput
+              label="SteamID64"
+              value={steamId}
+              onChange={(e) => setSteamId(e.target.value)}
+              required
+              error={!!errorMessage} // Set error state based on errorMessage
+              errorMessage={errorMessage} // Show error message below field
+            />
+            <TextInput
+              label="Avatar URL"
+              value={avatar}
+              onChange={(e) => setAvatar(e.target.value)}
+            />
+            <TextInput
+              label="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+            <TextInput
+              label="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+            <TextInput
+              label="Team"
+              value={team}
+              onChange={(e) => setTeam(e.target.value)}
+            />
+            <form className="mb-4">
+              <label className="mb-2 block font-medium text-text">
+                Country
+              </label>
+              <select
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
+              >
+                <option
+                  value=""
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+                >
+                  Country
+                </option>
+                {Object.entries(countries).map(([key, value]) => (
+                  <option
+                    key={key}
+                    value={key}
+                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+                  >
+                    {value as string}
+                  </option>
+                ))}
+              </select>
+            </form>
+          </div>
         </div>
-      </div>
+      </Container>
       <div className="inline-flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
           <p className="my-1 text-end text-red-500">{errorMessage}</p>

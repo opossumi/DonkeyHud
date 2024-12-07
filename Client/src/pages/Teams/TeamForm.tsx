@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Team } from "../../api/interfaces";
-import { ButtonContained, TextInput } from "../Components";
+import { ButtonContained, Container, TextInput } from "../Components";
 import { Dialog } from "../Components/Dialog";
+import { countries } from "../../api/countries";
 
 interface TeamsFormProps {
   team?: Team;
@@ -31,8 +32,6 @@ export const TeamsForm = ({
 
   useEffect(() => {
     if (isEditing && team) {
-      console.log(team._id);
-      // Update form fields when player prop changes
       setTeamName(team.name || "");
       setShortName(team.shortName || "");
       setCountry(team.country || "");
@@ -42,10 +41,10 @@ export const TeamsForm = ({
 
   const validateForm = () => {
     let isValid = true;
-    setErrorMessage(""); // Clear any previous error message
+    setErrorMessage("");
 
     if (!teamName || !logo) {
-      setErrorMessage("Team name and Logo required!"); // Set error message
+      setErrorMessage("Team name and Logo required!");
       isValid = false;
     }
 
@@ -78,9 +77,9 @@ export const TeamsForm = ({
 
   const handleCancel = () => {
     setOpen(false);
-    handleReset(); // Reset form fields
+    handleReset();
     if (onCancel) {
-      onCancel(); // Call onCancel prop function if provided
+      onCancel();
     }
   };
 
@@ -89,7 +88,7 @@ export const TeamsForm = ({
     setShortName("");
     setCountry("");
     setLogo("");
-    setErrorMessage(""); // Clear any previous error message
+    setErrorMessage("");
   };
 
   return (
@@ -99,8 +98,8 @@ export const TeamsForm = ({
           {isEditing ? `Updating: ${teamName}` : "Create Team"}
         </h3>
       </div>
-      <div className="flex-1 p-6">
-        <div className="my-2 flex flex-col gap-3">
+      <Container>
+        <div className="my-2 flex w-full flex-col gap-3">
           <TextInput
             label={"Team Name"}
             value={teamName}
@@ -114,11 +113,30 @@ export const TeamsForm = ({
             value={shortName}
             onChange={(e) => setShortName(e.target.value)}
           />
-          <TextInput
-            label="Country"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-          />
+          <form className="mb-4">
+            <label className="mb-2 block font-medium text-text">Country</label>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
+            >
+              <option
+                value=""
+                className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+              >
+                Country
+              </option>
+              {Object.entries(countries).map(([key, value]) => (
+                <option
+                  key={key}
+                  value={key}
+                  className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
+                >
+                  {value as string}
+                </option>
+              ))}
+            </select>
+          </form>
           <TextInput
             label="Logo URL"
             value={logo}
@@ -128,7 +146,7 @@ export const TeamsForm = ({
             errorMessage={errorMessage} // Show error message below field
           />
         </div>
-      </div>
+      </Container>
       <div className="flex w-full justify-end gap-2 border-t border-zinc-800 p-2">
         {errorMessage && (
           <p className="my-1 text-end text-red-500">{errorMessage}</p>

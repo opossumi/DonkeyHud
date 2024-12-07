@@ -145,6 +145,7 @@ export const MatchesPage = () => {
           onCancel={() => setIsEditing(false)}
           setOpen={setOpen}
           open={open}
+          refreshMatches={fetchMatches}
         />
       ) : (
         <MatchForm
@@ -152,6 +153,7 @@ export const MatchesPage = () => {
           createMatch={handleCreateMatch}
           setOpen={setOpen}
           open={open}
+          refreshMatches={fetchMatches}
         />
       )}
     </div>

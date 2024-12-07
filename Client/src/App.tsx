@@ -17,7 +17,6 @@ import { MatchPage2 } from "./pages/Matches/MatchPageHolder";
 
 export const PORT = 1349;
 export const HOST = `http://localhost`;
-
 export const { GSI, socket } = GSISocket(`${HOST}:${PORT}`, "update");
 
 /*
@@ -39,14 +38,12 @@ export const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path="/" element={<LandingPage />}>
-        <Route path="admin" element={<AdminPanel />}>
-          <Route index element={<MatchesPage />} />
-          <Route path="matches" element={<MatchesPage />} />
-          <Route path="players" element={<PlayersPage />} />
-          <Route path="teams" element={<TeamsPage />} />
-          <Route path="dashboard" element={<Dashboard />} />
-        </Route>
+      <Route path="/" element={<AdminPanel />}>
+        <Route index element={<MatchesPage />} />
+        <Route path="matches" element={<MatchesPage />} />
+        <Route path="players" element={<PlayersPage />} />
+        <Route path="teams" element={<TeamsPage />} />
+        <Route path="dashboard" element={<Dashboard gameData={gameData} />} />
         <Route path="hud" element={<Hud />} />
       </Route>,
     ),
