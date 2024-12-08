@@ -1,8 +1,5 @@
-import { Delete } from "@mui/icons-material";
 import { Match } from "../../api/interfaces";
-import { Edit } from "@mui/icons-material";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { MdPlayArrow, MdCancel, MdDelete, MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { socket } from "../../App";
@@ -156,7 +153,7 @@ const MatchRow = ({
               onClick={handleStopMatch}
               className="relative inline-flex min-w-[40px] items-center justify-center rounded border border-secondary/50 p-2 px-4 py-1 text-secondary transition-colors hover:bg-secondary/10"
             >
-              <CancelIcon />
+              <MdCancel className="size-6" />
             </button>
           </div>
         ) : (
@@ -165,20 +162,20 @@ const MatchRow = ({
               onClick={handleStartMatch}
               className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
             >
-              <PlayArrowIcon />
+              <MdPlayArrow className="size-6" />
             </button>
             <button
               className="relative inline-flex min-w-[40px] items-center justify-center border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
               onClick={() => handleEditClick()}
             >
-              <Edit />
+              <MdEdit className="size-6" />
             </button>
 
             <button
               className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
               onClick={() => deleteMatch(match.id)}
             >
-              <Delete />
+              <MdDelete className="size-6" />
             </button>
           </div>
         )}

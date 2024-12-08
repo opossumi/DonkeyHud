@@ -1,5 +1,5 @@
 import React from "react";
-import SearchIcon from "@mui/icons-material/Search";
+import { MdSearch } from "react-icons/md";
 
 export const Search = () => {
   return (
@@ -7,7 +7,7 @@ export const Search = () => {
       id="Search"
       className="relative flex size-full items-center justify-center gap-2 rounded bg-background px-2 py-1.5 text-sm text-textcolor lg:bg-background2"
     >
-      <SearchIcon />
+      <MdSearch className="size-6" />
       <input
         type="text"
         placeholder="Search"

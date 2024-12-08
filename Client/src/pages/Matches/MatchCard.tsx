@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { Match } from "../../api/interfaces";
-import AddIcon from "@mui/icons-material/Add";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import RemoveIcon from "@mui/icons-material/Remove";
+import { MdRemove, MdAdd } from "react-icons/md";
 import axios from "axios";
 import knifeImage from "../../assets/knifeRound.png";
 import { PORT, HOST } from "../../App";
@@ -19,7 +17,6 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
   const [teamOneId, setTeamOneId] = useState(null);
   const [teamTwoId, setTeamTwoId] = useState(null);
-  const [swapTeams, setSwapTeams] = useState(false);
 
   useEffect(() => {
     const fetchTeamNames = async () => {
@@ -153,14 +150,14 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                     className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
                     onClick={() => handleChangeScore("left", "add")}
                   >
-                    <AddIcon />
+                    <MdAdd />
                   </button>
 
                   <button
                     className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
                     onClick={() => handleChangeScore("left", "subtract")}
                   >
-                    <RemoveIcon />
+                    <MdRemove />
                   </button>
                 </div>
               </div>
@@ -175,14 +172,14 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                     className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
                     onClick={() => handleChangeScore("right", "add")}
                   >
-                    <AddIcon />
+                    <MdAdd />
                   </button>
 
                   <button
                     className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
                     onClick={() => handleChangeScore("right", "subtract")}
                   >
-                    <RemoveIcon />
+                    <MdRemove />
                   </button>
                 </div>
               </div>

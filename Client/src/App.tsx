@@ -3,17 +3,16 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
   RouterProvider,
+  Navigate,
 } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import { CSGO, GSISocket, CSGORaw } from "csgogsi-socket";
 import { AdminPanel } from "./pages/AdminPanel";
-import { LandingPage } from "./pages/Landing";
 import { Dashboard } from "./pages/Dashboard";
 import { MatchesPage } from "./pages/Matches/MatchPage";
 import { PlayersPage } from "./pages/Players/PlayersPage";
 import { TeamsPage } from "./pages/Teams";
 import { Hud } from "./pages/HUD/Hud";
-import { MatchPage2 } from "./pages/Matches/MatchPageHolder";
 
 export const PORT = 1349;
 export const HOST = `http://localhost`;
@@ -40,7 +39,7 @@ export const App = () => {
     createRoutesFromElements(
       <Route path="/" element={<AdminPanel />}>
         <Route index element={<MatchesPage />} />
-        <Route path="matches" element={<MatchesPage />} />
+        <Route path="matches" element={<Navigate to="/" />} />
         <Route path="players" element={<PlayersPage />} />
         <Route path="teams" element={<TeamsPage />} />
         <Route path="dashboard" element={<Dashboard gameData={gameData} />} />

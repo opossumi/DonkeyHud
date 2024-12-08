@@ -1,9 +1,8 @@
 import React from "react";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { Search } from "./Search";
-import MenuIcon from "@mui/icons-material/Menu";
 import { NavLink } from "react-router-dom";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import { FaGithub } from "react-icons/fa";
+import { MdMenu } from "react-icons/md";
 
 interface TopbarProps {
   toggleDrawer: (open: boolean) => void;
@@ -21,7 +20,7 @@ export const Topbar = ({ toggleDrawer }: TopbarProps) => {
             className="flex items-center justify-center lg:hidden"
             onClick={() => toggleDrawer(true)}
           >
-            <MenuIcon />
+            <MdMenu className="size-7" />
           </button>
           <NavLink to="/" className="lg:hidden">
             <span className="text-2xl font-bold text-primary-light">OPEN</span>
@@ -36,7 +35,7 @@ export const Topbar = ({ toggleDrawer }: TopbarProps) => {
             className="text-primary-light transition-colors hover:text-secondary"
             rel="noreferrer"
           >
-            <GitHubIcon />
+            <FaGithub className="size-6" />
           </a>
           <a
             href="https://discord.gg/HApB9HyaWM"

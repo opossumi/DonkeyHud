@@ -1,7 +1,6 @@
 import { PlayerSilhouette } from "./PlayersPage";
 import { PlayerProps } from "./PlayersPage";
-import EditIcon from "@mui/icons-material/Edit";
-import Delete from "@mui/icons-material/Delete";
+import { MdEdit, MdDelete } from "react-icons/md";
 import { useState } from "react";
 
 interface PlayerCardProps {
@@ -32,44 +31,46 @@ export const PlayerCard = ({
   };
 
   return (
-    <div className="relative flex h-36 w-full bg-background2 px-4 py-2">
-      <div className="flex w-full flex-col justify-between">
-        <img
-          className="absolute bottom-0 right-0 h-full"
-          src={player.avatar ? player.avatar : PlayerSilhouette}
-          alt="Player Avatar"
-        ></img>
-        <div>
-          <h4>{player.username}</h4>
-          <div className="flex">
-            <p className="text-text-secondary">
-              {player.firstName} {player.lastName}
-            </p>
+    <div className="flex flex-col divide-y divide-border rounded-lg bg-background2 px-2">
+      <div className="relative flex w-full px-2 pt-2">
+        <div className="flex w-full justify-between">
+          <div>
+            <h4 className="font-semibold">{player.username}</h4>
+            <div className="flex">
+              <p className="text-text-secondary">
+                {player.firstName} {player.lastName}
+              </p>
+            </div>
+            {player.team && <h5>{player.team}</h5>}
           </div>
-          {player.team && <h6>{player.team}</h6>}
+          <img
+            className="size-32"
+            src={player.avatar ? player.avatar : PlayerSilhouette}
+            alt="Player Avatar"
+          ></img>
         </div>
-        <div className="flex justify-between gap-2">
+      </div>
+      <div className="flex justify-between gap-2 p-2">
+        <button
+          onClick={() => handleCopyClick(player.steamid)}
+          className="inline-flex min-w-[115px] items-center justify-center rounded bg-primary px-2 py-1 text-sm font-semibold text-text transition-colors hover:bg-primary-dark"
+        >
+          {!isCopied && player.steamid}
+          {isCopied && "Copied!"}
+        </button>
+        <div className="inline-flex">
           <button
-            onClick={() => handleCopyClick(player.steamid)}
-            className="inline-flex min-w-[115px] items-center justify-center rounded bg-primary px-2 py-1 text-sm font-semibold text-text transition-colors hover:bg-primary-dark"
+            className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary bg-background p-2 px-4 py-1 text-primary transition-colors hover:border-primary-dark hover:text-primary-dark"
+            onClick={() => handleEditClick()}
           >
-            {!isCopied && player.steamid}
-            {isCopied && "Copied!"}
+            <MdEdit className="size-5" />
           </button>
-          <div className="inline-flex">
-            <button
-              className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
-              onClick={() => handleEditClick()}
-            >
-              <EditIcon />
-            </button>
-            <button
-              className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-sky-400/50 bg-background p-2 px-4 py-1 text-sky-400 transition-colors hover:border-sky-600/50 hover:text-sky-600"
-              onClick={() => deletePlayer(player.id)}
-            >
-              <Delete />
-            </button>
-          </div>
+          <button
+            className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary bg-background p-2 px-4 py-1 text-primary transition-colors hover:border-primary-dark hover:text-primary-dark"
+            onClick={() => deletePlayer(player.id)}
+          >
+            <MdDelete className="size-5" />
+          </button>
         </div>
       </div>
     </div>

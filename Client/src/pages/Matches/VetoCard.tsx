@@ -85,7 +85,7 @@ export const VetoCard: React.FC<VetoCardProps> = ({
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
             <option value="" disabled>
-              Select Team
+              Team
             </option>
             {type === "decider" && <option value="decider">Decider</option>}
             {leftTeamId && leftTeam && (
@@ -109,6 +109,9 @@ export const VetoCard: React.FC<VetoCardProps> = ({
             name="Map"
             className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
           >
+            <option value="" disabled>
+              Map
+            </option>
             {maps.map((map) => (
               <option key={map} value={map}>
                 {map}

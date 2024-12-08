@@ -1,5 +1,4 @@
-import { Delete } from "@mui/icons-material";
-import { Edit } from "@mui/icons-material";
+import { MdDelete, MdEdit } from "react-icons/md";
 import { Team } from "../../api/interfaces";
 
 interface TeamsTableProps {
@@ -85,14 +84,14 @@ const TeamRow = ({ team, onEdit, deleteTeam, refreshTeams }: TeamRowProps) => {
             className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
             onClick={() => handleEditClick()}
           >
-            <Edit />
+            <MdEdit className="size-5" />
           </button>
 
           <button
             className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
             onClick={() => deleteTeam(team._id)}
           >
-            <Delete />
+            <MdDelete className="size-5" />
           </button>
         </div>
       </td>

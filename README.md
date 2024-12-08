@@ -9,8 +9,6 @@ Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
 # To Do:
 
-- Full Screen overlay fully functioning
-- Reverse Team Sides
 - Start Supporting uploading local files for team logos and player pictures.
 - Work on readability of code
 - (others listed under App.tsx)

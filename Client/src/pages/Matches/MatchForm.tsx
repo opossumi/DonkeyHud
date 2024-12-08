@@ -220,10 +220,10 @@ export const MatchForm = ({
             </select>
           </form>
 
-          <h5 className="mt-4">Set Vetos:</h5>
+          <h5 className="mt-4 font-semibold">Set Vetos:</h5>
           <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
             {vetoSource.map((veto, index) => (
-              <div className="bg-zinc-900 p-4">
+              <div className="rounded-lg bg-zinc-900 px-4 py-2">
                 <VetoCard
                   key={index}
                   index={index}

@@ -1,41 +1,42 @@
-import { SvgIconComponent } from "@mui/icons-material";
 import { NavLink } from "react-router-dom";
-import PersonIcon from "@mui/icons-material/Person";
-import GroupsIcon from "@mui/icons-material/Groups";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import { IconType } from "react-icons";
+import {
+  MdOutlinePerson,
+  MdGroups,
+  MdDashboard,
+  MdAddCircle,
+  MdPlayArrow,
+} from "react-icons/md";
 
 interface RouteProps {
-  Icon: SvgIconComponent;
+  Icon: IconType;
   title: string;
   target?: string;
 }
 
 const routes: RouteProps[] = [
-  { Icon: AddCircleIcon, title: "Matches" },
-  { Icon: PersonIcon, title: "Players" },
-  { Icon: GroupsIcon, title: "Teams" },
-  { Icon: DashboardIcon, title: "Dashboard" },
+  { Icon: MdOutlinePerson, title: "Players" },
+  { Icon: MdGroups, title: "Teams" },
+  { Icon: MdDashboard, title: "Dashboard" },
+  { Icon: MdPlayArrow, title: "Hud", target: "_blank" },
 ];
 
 export const RouteSelect = () => {
   return (
     <div className="w-full">
-      <div className="border-b border-gray-800 py-4">
+      <div className="py-4">
+        <NavLink
+          to={`/`}
+          className={({ isActive }) =>
+            `mb-1 flex w-[90%] items-center justify-start gap-4 rounded-r-lg border-l-2 px-6 py-3 transition-[box-shadow,_background-color,_color] ${isActive ? "border-primary bg-gray-800 text-text shadow" : "border-transparent text-stone-300 shadow-none hover:bg-gray-800"}`
+          }
+        >
+          {<MdAddCircle className="size-5" />}
+          <p className="font-semibold">Matches</p>
+        </NavLink>
         {routes.map((route, index) => (
           <NavRoutes key={index} {...route} />
         ))}
-      </div>
-      <div className="mt-4 flex w-full items-center justify-center">
-        <NavLink
-          to="hud"
-          target="_blank"
-          className={`flex w-3/4 items-center justify-center gap-4 rounded bg-sky-700 p-2 text-text shadow-none transition-[box-shadow,_background-color,_color] hover:bg-sky-900`}
-        >
-          <PlayArrowIcon />
-          Hud
-        </NavLink>
       </div>
     </div>
   );
@@ -47,11 +48,11 @@ const NavRoutes = ({ Icon, title, target }: RouteProps) => {
       to={`${title.toLowerCase()}`}
       target={target}
       className={({ isActive }) =>
-        `flex w-full items-center justify-start gap-4 px-6 py-3 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-primary text-text shadow" : "bg-transparent text-stone-300 shadow-none hover:bg-gray-800"}`
+        `mb-1 flex w-[90%] items-center justify-start gap-4 rounded-r-lg border-l-2 px-6 py-3 transition-[box-shadow,_background-color,_color] ${isActive ? "border-primary bg-gray-800 text-text shadow" : "border-transparent text-stone-300 shadow-none hover:bg-gray-800"}`
       }
     >
-      {<Icon />}
-      {title}
+      {<Icon className="size-5" />}
+      <p className="font-semibold">{title}</p>
     </NavLink>
   );
 };

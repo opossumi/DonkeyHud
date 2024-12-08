@@ -116,71 +116,67 @@ export const PlayerForm = ({
         </h3>
       </div>
       <Container>
-        <div className="flex w-full flex-1 flex-col overflow-y-scroll p-6">
-          <div className="my-2 flex flex-col gap-3">
-            <TextInput
-              label="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              error={!!errorMessage} // Set error state based on errorMessage
-              errorMessage={errorMessage} // Show error message below field
-            />
-            <TextInput
-              label="SteamID64"
-              value={steamId}
-              onChange={(e) => setSteamId(e.target.value)}
-              required
-              error={!!errorMessage} // Set error state based on errorMessage
-              errorMessage={errorMessage} // Show error message below field
-            />
-            <TextInput
-              label="Avatar URL"
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
-            />
-            <TextInput
-              label="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <TextInput
-              label="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-            <TextInput
-              label="Team"
-              value={team}
-              onChange={(e) => setTeam(e.target.value)}
-            />
-            <form className="mb-4">
-              <label className="mb-2 block font-medium text-text">
-                Country
-              </label>
-              <select
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
+        <div className="grid w-full flex-1 grid-cols-2 gap-4 overflow-y-scroll p-6">
+          <TextInput
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            error={!!errorMessage} // Set error state based on errorMessage
+            errorMessage={errorMessage} // Show error message below field
+          />
+          <TextInput
+            label="SteamID64"
+            value={steamId}
+            onChange={(e) => setSteamId(e.target.value)}
+            required
+            error={!!errorMessage} // Set error state based on errorMessage
+            errorMessage={errorMessage} // Show error message below field
+          />
+          <TextInput
+            label="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <TextInput
+            label="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <TextInput
+            label="Avatar URL"
+            value={avatar}
+            onChange={(e) => setAvatar(e.target.value)}
+          />
+          <TextInput
+            label="Team"
+            value={team}
+            onChange={(e) => setTeam(e.target.value)}
+          />
+          <form className="mb-4">
+            <label className="mb-2 block font-medium text-text">Country</label>
+            <select
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
+            >
+              <option
+                value=""
+                className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
               >
+                Country
+              </option>
+              {Object.entries(countries).map(([key, value]) => (
                 <option
-                  value=""
+                  key={key}
+                  value={key}
                   className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
                 >
-                  Country
+                  {value as string}
                 </option>
-                {Object.entries(countries).map(([key, value]) => (
-                  <option
-                    key={key}
-                    value={key}
-                    className="w-full rounded-md border border-zinc-800 bg-zinc-950 p-4"
-                  >
-                    {value as string}
-                  </option>
-                ))}
-              </select>
-            </form>
-          </div>
+              ))}
+            </select>
+          </form>
         </div>
       </Container>
       <div className="inline-flex w-full justify-end gap-2 border-t border-zinc-800 p-2">

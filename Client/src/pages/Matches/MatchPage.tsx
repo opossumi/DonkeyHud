@@ -5,7 +5,6 @@ import { Team } from "../../api/interfaces";
 import { getTeams } from "../Teams";
 import { MatchesTable } from "./MatchesTable";
 import { MatchForm } from "./MatchForm";
-// import { getCurrentMatch } from "../../HUD/HUD";
 import axios from "axios";
 import { socket } from "../../App";
 import { ButtonContained } from "../Components";
@@ -40,7 +39,6 @@ export const getMatches = async () => {
   if (!matches) {
     return [];
   }
-  // console.log('Matches data:', matches.data)
   return matches.data;
 };
 
@@ -53,7 +51,6 @@ export const MatchesPage = () => {
   const [open, setOpen] = useState(false);
   const [currentMatch, setCurrentMatch] = useState<Match | null>(null);
 
-  // Fetch teams data when the component mounts
   useEffect(() => {
     getTeams().then((data) => {
       setTeams(data);
@@ -107,7 +104,6 @@ export const MatchesPage = () => {
     setOpen(true);
     setIsEditing(true);
     setSelectedMatch(match);
-    console.log(isEditing);
   };
 
   const handleDeleteMatch = async (id: string) => {

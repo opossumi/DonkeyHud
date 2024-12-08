@@ -19,7 +19,6 @@ export interface PlayerProps {
 }
 
 export const getPlayers = async () => {
-  //Async Function Expression
   const players = await axios.get(`${HOST}:${PORT}/players`);
   if (axios.isAxiosError(players)) {
     console.log("Error fetching players data");
@@ -107,7 +106,7 @@ export const PlayersPage = () => {
         />
       )}
       <Container>
-        <div className="grid grid-cols-1 justify-items-center gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 justify-items-center gap-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
           {players.length === 0 && (
             <h6 className="font-semibold">No Players created</h6>
           )}
