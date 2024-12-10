@@ -6,7 +6,7 @@ import { useState } from "react";
 interface PlayerCardProps {
   player: PlayerProps;
   deletePlayer: (id: string) => void;
-  onEdit?: (player: PlayerProps) => void; // Added onEdit prop
+  onEdit?: (player: PlayerProps) => void;
 }
 
 export const PlayerCard = ({
@@ -14,41 +14,38 @@ export const PlayerCard = ({
   deletePlayer,
   onEdit,
 }: PlayerCardProps) => {
-  const [isCopied, setIsCopied] = useState(false); // Flag to track copy state
-
+  const [isCopied, setIsCopied] = useState(false);
   const handleCopyClick = (steamId: string) => {
     navigator.clipboard.writeText(steamId);
-    setIsCopied(true); // Set copied flag to true
+    setIsCopied(true);
     setTimeout(() => {
-      setIsCopied(false); // Reset copied flag after timeout
+      setIsCopied(false);
     }, 1250);
   };
 
   const handleEditClick = () => {
     if (onEdit) {
-      onEdit(player); // Call onEdit prop function if provided
+      onEdit(player);
     }
   };
 
   return (
-    <div className="flex flex-col divide-y divide-border rounded-lg bg-background2 px-2">
-      <div className="relative flex w-full px-2 pt-2">
-        <div className="flex w-full justify-between">
-          <div>
-            <h4 className="font-semibold">{player.username}</h4>
-            <div className="flex">
-              <p className="text-text-secondary">
-                {player.firstName} {player.lastName}
-              </p>
-            </div>
-            {player.team && <h5>{player.team}</h5>}
+    <div className="flex w-full flex-col divide-y divide-border rounded-lg bg-background2 px-2">
+      <div className="relative flex w-full justify-between px-2 pt-2">
+        <div>
+          <h4 className="font-semibold">{player.username}</h4>
+          <div className="flex">
+            <p className="text-text-secondary">
+              {player.firstName} {player.lastName}
+            </p>
           </div>
-          <img
-            className="size-32"
-            src={player.avatar ? player.avatar : PlayerSilhouette}
-            alt="Player Avatar"
-          ></img>
+          {player.team && <h5>{player.team}</h5>}
         </div>
+        <img
+          className="size-32"
+          src={player.avatar ? player.avatar : PlayerSilhouette}
+          alt="Player Avatar"
+        ></img>
       </div>
       <div className="flex justify-between gap-2 p-2">
         <button

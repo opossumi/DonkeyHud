@@ -9,13 +9,15 @@ import { fileURLToPath } from "url";
 import * as teams from "./database/teams/teams.js";
 import * as players from "./database/players/players.js";
 import * as matches from "./database/matches/matches.js";
-
+import { CSGOGSI } from "csgogsi";
 const app = express();
 const server = http.createServer(app);
 const HOST = "localhost";
 const PORT = 1349;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const GSI = new CSGOGSI();
 
 // Create a new instance of the socket.io server to send real time updates to the client
 const io = new Server(server, {
@@ -77,6 +79,10 @@ io.on("connection", (socket) => {
     io.emit("swap-teams", swapTeams);
     console.log("Teams swapped", swapTeams);
   });
+
+  socket.on("matchEnd", (score) => {
+    console.log(score);
+  });
 });
 
 // Listen for the game data POST requests to /gsi
@@ -84,8 +90,155 @@ app.post("/gsi", express.json(), (req, res) => {
   let data = req.body;
   // console.log(data);
   fixGSIData(data);
+  GSI.digest(data);
   io.emit("update", data);
   res.sendStatus(200);
+});
+// const onRoundEnd = async (score) => {
+//   if (score.loser && score.loser.logo) {
+//     delete score.loser.logo;
+//   }
+//   if (score.winner && score.winner.logo) {
+//     delete score.winner.logo;
+//   }
+//   const matches = await getMatches();
+//   const match = matches.filter((match) => match.current)[0];
+//   if (!match) return;
+//   const { vetos } = match;
+//   const mapName = score.map.name.substring(score.map.name.lastIndexOf("/") + 1);
+//   vetos.map((veto) => {
+//     if (
+//       veto.mapName !== mapName ||
+//       !score.map.team_ct.id ||
+//       !score.map.team_t.id ||
+//       veto.mapEnd
+//     ) {
+//       return veto;
+//     }
+//     if (!veto.score) {
+//       veto.score = {};
+//     }
+//     veto.score[score.map.team_ct.id] = score.map.team_ct.score;
+//     veto.score[score.map.team_t.id] = score.map.team_t.score;
+//     if (veto.reverseSide) {
+//       veto.score[score.map.team_t.id] = score.map.team_ct.score;
+//       veto.score[score.map.team_ct.id] = score.map.team_t.score;
+//     }
+//     return veto;
+//   });
+//   match.vetos = vetos;
+//   await updateMatch(match);
+
+//   io.emit("match", true);
+// };
+
+// const onMatchEnd = async (score) => {
+//   console.log("Match Ended");
+//   const matches = await matches.readMatches((err, rows) => {
+//     if (err) {
+//       return err.message;
+//     } else {
+//       return rows;
+//     }
+//   });
+//   const match = matches.filter((match) => match.current)[0];
+//   const mapName = score.map.name.substring(score.map.name.lastIndexOf("/") + 1);
+//   if (match) {
+//     const { vetos } = match;
+//     const isReversed = vetos.filter(
+//       (veto) => veto.mapName === mapName && veto.reverseSide
+//     )[0];
+//     vetos.map((veto) => {
+//       if (
+//         veto.mapName !== mapName ||
+//         !score.map.team_ct.id ||
+//         !score.map.team_t.id
+//       ) {
+//         return veto;
+//       }
+//       veto.winner =
+//         score.map.team_ct.score > score.map.team_t.score
+//           ? score.map.team_ct.id
+//           : score.map.team_t.id;
+//       if (isReversed) {
+//         veto.winner =
+//           score.map.team_ct.score > score.map.team_t.score
+//             ? score.map.team_t.id
+//             : score.map.team_ct.id;
+//       }
+//       if (veto.score && veto.score[veto.winner]) {
+//         veto.score[veto.winner]++;
+//       }
+//       veto.mapEnd = true;
+//       return veto;
+//     });
+//     if (match.left.id === score.winner.id) {
+//       if (isReversed) {
+//         match.right.wins++;
+//       } else {
+//         match.left.wins++;
+//       }
+//     } else if (match.right.id === score.winner.id) {
+//       if (isReversed) {
+//         match.left.wins++;
+//       } else {
+//         match.right.wins++;
+//       }
+//     }
+//     match.vetos = vetos;
+//     await updateMatch(match);
+//     await createNextMatch(match.id);
+//     io.emit("match", true);
+//   }
+// };
+
+let last;
+
+GSI.on("data", async (data) => {
+  // await updateRound(data);
+  // let round;
+  // if (
+  //   (last?.map.team_ct.score !== data.map.team_ct.score) !==
+  //   (last?.map.team_t.score !== data.map.team_t.score)
+  // ) {
+  //   if (last?.map.team_ct.score !== data.map.team_ct.score) {
+  //     round = {
+  //       winner: data.map.team_ct,
+  //       loser: data.map.team_t,
+  //       map: data.map,
+  //       mapEnd: false,
+  //     };
+  //   } else {
+  //     round = {
+  //       winner: data.map.team_t,
+  //       loser: data.map.team_ct,
+  //       map: data.map,
+  //       mapEnd: false,
+  //     };
+  //   }
+  // }
+  // console.log(round);
+  // if (round) {
+  //   await onRoundEnd(round);
+  // }
+  // if (data.map.phase === "gameover" && last.map.phase !== "gameover") {
+  //   const winner =
+  //     data.map.team_ct.score > data.map.team_t.score
+  //       ? data.map.team_ct
+  //       : data.map.team_t;
+  //   const loser =
+  //     data.map.team_ct.score > data.map.team_t.score
+  //       ? data.map.team_t
+  //       : data.map.team_ct;
+  //   const final = {
+  //     winner,
+  //     loser,
+  //     map: data.map,
+  //     mapEnd: true,
+  //   };
+  //   await onMatchEnd(final);
+  // }
+  // last = GSI.last;
 });
 
 app.post("/api/upload", upload.single("file"), (req, res) => {

@@ -7,12 +7,6 @@ Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 - Styling: TailwindCSS (admin panel) / Sass (hud)
 - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
 
-# To Do:
-
-- Start Supporting uploading local files for team logos and player pictures.
-- Work on readability of code
-- (others listed under App.tsx)
-
 # Getting Started:
 
 - [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
@@ -25,10 +19,10 @@ Hopefully it ends up looking very nice and lets a lot of people use it in their 
 
 # OpenHud React Hud based on [Lexogrine react hud](https://github.com/JohnTimmermann/OpenHud-React-Hud)
 
-![Custom CS2 Hud](https://i.imgur.com/RH76sfA.png)
+![Custom CS2 Hud](https://i.imgur.com/9KgBN89.png)
 
 # Admin Panel
 
-![AdminPanel/Matches](https://i.imgur.com/13QOpMn.png)
-![AdminPanel/Players](https://i.imgur.com/uKwU7Kt.png)
-![AdminPanel/Teams](https://i.imgur.com/MNGA5lP.png)
+![AdminPanel/Matches](https://i.imgur.com/opfMv1j.png)
+![AdminPanel/Players](https://i.imgur.com/KXQHTKy.png)
+![AdminPanel/Teams](https://i.imgur.com/bXM2Ozl.png)

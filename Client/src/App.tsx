@@ -18,18 +18,24 @@ export const PORT = 1349;
 export const HOST = `http://localhost`;
 export const { GSI, socket } = GSISocket(`${HOST}:${PORT}`, "update");
 
+GSI.on("matchEnd", (score) => {
+  console.log(score);
+});
+
+GSI.on("intermissionEnd", () => {
+  console.log("switching sides");
+});
+
 /*
   TODO:
-  - Add a new route for the HUD component. Look into React Portals, Server-Side File Uploads, and iFrames (need a way to use tailwindcss for only the admin panel and scss for the hud).
+  - Start Supporting uploading local files for team logos and player pictures.
+  - Rework server to use typescript and csgogsi better
   - useMem and useContext hooks for cacheing so we don't have to make an api call every action.
   - Work on an Electron App.
-  - Work on a temp HUD overlay while the Electron app is being developed.
-  - Update ports so they are not using a common port, and also not hardcoded in.
   - Local file uploads for players pictures and teams logo.
-  - Better way of handling Reversing Teams.
-  - Add a way to set winners for matches (in the actual vetos).
-  - Avatars (players without pictures) not swapping when teams switch sides
-  - Player stats to players in team boxes
+  - Avatars (players without pictures) not swapping when teams switch sides 
+  - Set players teams by id, and use the players id to check if teams need to be reversed
+  - Use the GSI event "matchEnd" (or whatever the end of game event is) to make the server set the score of the map.
 */
 
 export const App = () => {
