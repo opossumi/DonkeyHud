@@ -3,7 +3,7 @@ import { Match } from "../../api/interfaces";
 import { MdRemove, MdAdd } from "react-icons/md";
 import axios from "axios";
 import knifeImage from "../../assets/knifeRound.png";
-import { PORT, HOST } from "../../App";
+import { apiUrl } from "../../api/api";
 
 interface MatchCardProps {
   match: Match;
@@ -11,39 +11,38 @@ interface MatchCardProps {
 }
 
 export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
+  const [teamOneId, setTeamOneId] = useState(null);
   const [teamOneName, setTeamOneName] = useState("");
   const [teamOneLogo, setTeamOneLogo] = useState("");
+  const [teamOneWins, setTeamOneWins] = useState<number>(match.left.wins | 0);
+
+  const [teamTwoId, setTeamTwoId] = useState(null);
   const [teamTwoName, setTeamTwoName] = useState("");
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
-  const [teamOneId, setTeamOneId] = useState(null);
-  const [teamTwoId, setTeamTwoId] = useState(null);
+  const [teamTwoWins, setTeamTwoWins] = useState<number>(match.right.wins | 0);
 
   useEffect(() => {
     const fetchTeamNames = async () => {
       try {
-        const teamOne = await axios.get(
-          `${HOST}:${PORT}/teams/${match.left.id}`,
-        );
-        const teamTwo = await axios.get(
-          `${HOST}:${PORT}/teams/${match.right.id}`,
-        );
+        const teamOne = await axios.get(`${apiUrl}/teams/${match.left.id}`);
+        const teamTwo = await axios.get(`${apiUrl}/teams/${match.right.id}`);
+        setTeamOneId(teamOne.data._id);
         setTeamOneName(teamOne.data.name);
         setTeamOneLogo(teamOne.data.logo);
+
+        setTeamTwoId(teamTwo.data._id);
         setTeamTwoName(teamTwo.data.name);
         setTeamTwoLogo(teamTwo.data.logo);
-        setTeamOneId(teamOne.data._id);
-        setTeamTwoId(teamTwo.data._id);
       } catch (error) {
         console.error("Error fetching team names:", error);
       }
     };
-
     fetchTeamNames();
   }, []);
 
   const handleStopMatch = async () => {
     try {
-      await axios.put(`${HOST}:${PORT}/matches/${match.id}/current`, {
+      await axios.put(`${apiUrl}/matches/${match.id}/current`, {
         current: false,
       });
       refreshMatches();
@@ -62,7 +61,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     };
 
     try {
-      await axios.put(`${HOST}:${PORT}/matches/current/update`, updatedMatch);
+      await axios.put(`${apiUrl}/matches/current/update`, updatedMatch);
       refreshMatches();
     } catch (error) {
       console.error("Error updating veto:", error);
@@ -79,30 +78,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
     };
 
     try {
-      await axios.put(`${HOST}:${PORT}/matches/current/update`, updatedMatch);
-      refreshMatches();
-    } catch (error) {
-      console.error("Error updating veto:", error);
-    }
-  };
-  const handleSetScore = async (
-    index: number,
-    teamOneScore: number,
-    teamTwoScore: number,
-  ) => {
-    const updatedVetos = [...match.vetos];
-    updatedVetos[index].score = {
-      teamOne: teamOneScore,
-      teamTwo: teamTwoScore,
-    };
-
-    const updatedMatch = {
-      ...match,
-      vetos: updatedVetos,
-    };
-
-    try {
-      await axios.put(`${HOST}:${PORT}/matches/current/update`, updatedMatch);
+      await axios.put(`${apiUrl}/matches/current/update`, updatedMatch);
       refreshMatches();
     } catch (error) {
       console.error("Error updating veto:", error);
@@ -111,15 +87,42 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
 
   const handleChangeScore = async (
     team: "left" | "right",
-    action: "add" | "subtract",
+    action: "add" | "subtract"
   ) => {
+    let newTeamOneWins = teamOneWins;
+    let newTeamTwoWins = teamTwoWins;
+
+    if (team === "left") {
+      if (action === "add") {
+        newTeamOneWins += 1;
+      } else {
+        newTeamOneWins -= 1;
+      }
+      setTeamOneWins(newTeamOneWins);
+    } else {
+      if (action === "add") {
+        newTeamTwoWins += 1;
+      } else {
+        newTeamTwoWins -= 1;
+      }
+      setTeamTwoWins(newTeamTwoWins);
+    }
+
+    const updatedMatch: Match = {
+      ...match,
+      left: {
+        ...match.left,
+        wins: newTeamOneWins,
+      },
+      right: {
+        ...match.right,
+        wins: newTeamTwoWins,
+      },
+    };
     try {
-      await axios.put(`${HOST}:${PORT}/matches/${match.id}/${team}`, {
-        action,
-      });
-      refreshMatches();
+      await axios.put(`${apiUrl}/matches/current/update`, updatedMatch);
     } catch (error) {
-      console.error("Error updating match:", error);
+      console.error("Error updating score:", error);
     }
   };
 
@@ -144,7 +147,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                 className="flex flex-col items-center justify-center gap-1"
               >
                 <h1 className="text-6xl font-bold">{match.left.wins}</h1>
-                <img src={teamOneLogo} alt="team1" width="50" />
+                <img src={teamOneLogo} alt="team1" className="size-14" />
                 <div className="inline-flex">
                   <button
                     className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
@@ -166,7 +169,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                 className="flex flex-col items-center justify-center gap-1"
               >
                 <h1 className="text-6xl font-bold">{match.right.wins}</h1>
-                <img src={teamTwoLogo} alt="team2" width="50" />
+                <img src={teamTwoLogo} alt="team2" className="size-14" />
                 <div className="inline-flex">
                   <button
                     className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
@@ -214,9 +217,6 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
             <th className="p-1 text-sm" align="center">
               ReverseSide
             </th>
-            {/* <th className="p-1 text-sm" align="center">
-              Map Score
-            </th> */}
           </tr>
         </thead>
         <tbody>
@@ -271,36 +271,6 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
                     onChange={() => handleReverseSideChange(index)}
                   />
                 </td>
-                {/* <td className="p-2 text-lg font-semibold" align="center">
-                  {veto.type !== "ban" && (
-                    <div className="flex w-1/3 gap-2">
-                      <input
-                        className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
-                        type="number"
-                        value={veto.score?.teamOne || 0}
-                        onChange={(e) =>
-                          handleSetScore(
-                            index,
-                            veto.score?.teamOne || 0,
-                            parseInt(e.target.value),
-                          )
-                        }
-                      />
-                      <input
-                        className={`h-14 w-full rounded-md border border-gray-500 bg-background2 px-3 py-2 placeholder:text-text-secondary focus:border-0 focus:outline-none focus:ring-2 focus:ring-primary`}
-                        type="number"
-                        value={veto.score?.teamOne || 0}
-                        onChange={(e) =>
-                          handleSetScore(
-                            index,
-                            veto.score?.teamOne || 0,
-                            parseInt(e.target.value),
-                          )
-                        }
-                      />
-                    </div>
-                  )}
-                </td> */}
               </tr>
             ))}
         </tbody>

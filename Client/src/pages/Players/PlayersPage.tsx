@@ -1,25 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { PlayerCard } from "./PlayerCard";
 import PlayerSilhouette from "../../assets/player_silhouette.webp";
 import { PlayerForm } from "./PlayersForm";
 import axios from "axios";
 import { ButtonContained, Container } from "../Components";
-import { PORT, HOST } from "../../App";
-
-export interface PlayerProps {
-  id: string;
-  firstName?: string;
-  lastName?: string;
-  username: string;
-  avatar?: string;
-  country?: string;
-  steamid: string;
-  team?: string;
-  extra?: Record<string, string>;
-}
+import { apiUrl } from "../../api/api";
+import { Player } from "../../api/interfaces";
 
 export const getPlayers = async () => {
-  const players = await axios.get(`${HOST}:${PORT}/players`);
+  const players = await axios.get(`${apiUrl}/players`);
   if (axios.isAxiosError(players)) {
     console.log("Error fetching players data");
     return [];
@@ -33,10 +22,8 @@ export const getPlayers = async () => {
 export const PlayersPage = () => {
   const [players, setPlayers] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [selectedPlayer, setSelectedPlayer] = useState<PlayerProps | null>(
-    null,
-  ); // Store selected player for editing
+  // const [isLoading, setIsLoading] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null); // Store selected player for editing
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -46,39 +33,39 @@ export const PlayersPage = () => {
     });
   }, []);
 
-  const handleCreatePlayer = async (player: PlayerProps) => {
+  const handleCreatePlayer = async (player: Player) => {
     // Handle create or update player logic
-    setIsLoading(true);
-    await axios.post(`${HOST}:${PORT}/players`, player);
+    // setIsLoading(true);
+    await axios.post(`${apiUrl}/players`, player);
     await getPlayers().then((data) => {
       setPlayers(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
-  const handleEditPlayer = (player: PlayerProps) => {
+  const handleEditPlayer = (player: Player) => {
     // Handle edit player logic
     setIsEditing(true);
     setOpen(true);
     setSelectedPlayer(player); // Set selected player for editing
   };
 
-  const handleUpdatePlayer = async (player: PlayerProps) => {
+  const handleUpdatePlayer = async (player: Player) => {
     // Handle update player logic
-    setIsLoading(true);
-    await axios.put(`${HOST}:${PORT}/players/${player.id}`, player);
+    // setIsLoading(true);
+    await axios.put(`${apiUrl}/players/${player._id}`, player);
     await getPlayers().then((data) => {
       setPlayers(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleDeletePlayer = async (id: string) => {
     // Handle delete player logic
-    setIsLoading(true);
-    await axios.delete(`${HOST}:${PORT}/players/${id}`);
-    setPlayers(players.filter((player: PlayerProps) => player.id !== id));
-    setIsLoading(false);
+    // setIsLoading(true);
+    await axios.delete(`${apiUrl}/players/${id}`);
+    setPlayers(players.filter((player: Player) => player._id !== id));
+    // setIsLoading(false);
   };
 
   return (
@@ -110,7 +97,7 @@ export const PlayersPage = () => {
           {players.length === 0 && (
             <h6 className="font-semibold">No Players created</h6>
           )}
-          {players.map((player: PlayerProps, index) => (
+          {players.map((player: Player, index) => (
             <PlayerCard
               key={index}
               player={player}

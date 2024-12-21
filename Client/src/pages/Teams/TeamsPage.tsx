@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { TeamsTable } from "./TeamsTable";
 import { TeamsForm } from "./TeamForm";
 import axios from "axios";
-import { ButtonContained, Container } from "../Components";
+import { ButtonContained } from "../Components";
 import { Team } from "../../api/interfaces";
-import { PORT, HOST } from "../../App";
+import { apiUrl } from "../../api/api";
 
 export const getTeams = async () => {
-  const teams = await axios.get(`${HOST}:${PORT}/teams`);
+  const teams = await axios.get(`${apiUrl}/teams`);
   if (axios.isAxiosError(teams)) {
     console.log("Error fetching teams data");
     return [];
@@ -19,7 +19,7 @@ export const getTeams = async () => {
 };
 
 export const getTeamsById = async (id: string) => {
-  const team = await axios.get(`${HOST}:${PORT}/teams/${id}`);
+  const team = await axios.get(`${apiUrl}/teams/${id}`);
   if (axios.isAxiosError(team)) {
     console.log("Error fetching team data");
     return [];
@@ -33,7 +33,7 @@ export const getTeamsById = async (id: string) => {
 export const TeamsPage = () => {
   const [teams, setTeams] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null); // Store selected player for editing
   const [open, setOpen] = useState(false);
 
@@ -46,12 +46,12 @@ export const TeamsPage = () => {
 
   const handleCreateTeam = async (team: Team) => {
     // Handle create or update player logic
-    setIsLoading(true);
-    await axios.post(`${HOST}:${PORT}/teams`, team);
+    // setIsLoading(true);
+    await axios.post(`${apiUrl}/teams`, team);
     await getTeams().then((data) => {
       setTeams(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleEditTeam = (team: Team) => {
@@ -64,20 +64,20 @@ export const TeamsPage = () => {
   const handleUpdateTeam = async (team: Team) => {
     // Handle update player logic
     console.log(team);
-    setIsLoading(true);
-    await axios.put(`${HOST}:${PORT}/teams/${team._id}`, team);
+    // setIsLoading(true);
+    await axios.put(`${apiUrl}/teams/${team._id}`, team);
     await getTeams().then((data) => {
       setTeams(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleDeleteTeam = async (id: string) => {
     // Handle delete player logic
-    setIsLoading(true);
-    await axios.delete(`${HOST}:${PORT}/teams/${id}`);
+    // setIsLoading(true);
+    await axios.delete(`${apiUrl}/teams/${id}`);
     setTeams(teams.filter((team: Team) => team._id !== id));
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   return (
@@ -108,7 +108,6 @@ export const TeamsPage = () => {
         teams={teams}
         deleteTeam={handleDeleteTeam}
         onEdit={handleEditTeam}
-        refreshTeams={getTeams}
       />
     </div>
   );

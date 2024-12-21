@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { PlayerProps } from "./PlayersPage";
+import { useEffect, useState } from "react";
 import { Dialog } from "../Components/Dialog";
 import { ButtonContained, Container, TextInput } from "../Components";
 import { countries } from "../../api/countries";
+import { Player } from "../../api/interfaces";
 
 interface PlayerFormProps {
-  player?: PlayerProps;
-  createPlayer?: (player: PlayerProps) => void;
-  updatePlayer?: (player: PlayerProps) => void;
+  player?: Player;
+  createPlayer?: (player: Player) => void;
+  updatePlayer?: (player: Player) => void;
   isEditing?: boolean;
   onCancel?: () => void;
   open: boolean;
@@ -67,8 +67,8 @@ export const PlayerForm = ({
     if (!validateForm()) return; // Early return if validation fails
 
     setIsSubmitting(true);
-    const newPlayer: PlayerProps = {
-      id: player?.id || "",
+    const newPlayer: Player = {
+      _id: player?._id || "",
       username,
       avatar,
       firstName: firstName,
@@ -76,6 +76,7 @@ export const PlayerForm = ({
       steamid: steamId,
       team,
       country: country,
+      extra: player?.extra || {},
     };
 
     if (isEditing && updatePlayer) {

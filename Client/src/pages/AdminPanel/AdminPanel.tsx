@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Sidebar } from "../Sidebar";
 import { MainPanel } from "../MainPanel";
 import { Outlet, useLocation } from "react-router-dom";

@@ -1,12 +1,12 @@
 import { PlayerSilhouette } from "./PlayersPage";
-import { PlayerProps } from "./PlayersPage";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useState } from "react";
+import { Player } from "../../api/interfaces";
 
 interface PlayerCardProps {
-  player: PlayerProps;
+  player: Player;
   deletePlayer: (id: string) => void;
-  onEdit?: (player: PlayerProps) => void;
+  onEdit?: (player: Player) => void;
 }
 
 export const PlayerCard = ({
@@ -50,7 +50,7 @@ export const PlayerCard = ({
       <div className="flex justify-between gap-2 p-2">
         <button
           onClick={() => handleCopyClick(player.steamid)}
-          className="inline-flex min-w-[115px] items-center justify-center rounded bg-primary px-2 py-1 text-sm font-semibold text-text transition-colors hover:bg-primary-dark"
+          className="flex w-full items-center justify-center rounded bg-primary px-2 py-1 text-sm font-semibold text-text transition-colors hover:bg-primary-dark"
         >
           {!isCopied && player.steamid}
           {isCopied && "Copied!"}
@@ -64,7 +64,7 @@ export const PlayerCard = ({
           </button>
           <button
             className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary bg-background p-2 px-4 py-1 text-primary transition-colors hover:border-primary-dark hover:text-primary-dark"
-            onClick={() => deletePlayer(player.id)}
+            onClick={() => deletePlayer(player._id)}
           >
             <MdDelete className="size-5" />
           </button>

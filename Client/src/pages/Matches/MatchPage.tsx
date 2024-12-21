@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Match } from "../../api/interfaces";
 import { MatchCard } from "./MatchCard";
 import { Team } from "../../api/interfaces";
@@ -6,12 +6,12 @@ import { getTeams } from "../Teams";
 import { MatchesTable } from "./MatchesTable";
 import { MatchForm } from "./MatchForm";
 import axios from "axios";
-import { socket } from "../../App";
+import { socket } from "../../api/socket";
 import { ButtonContained } from "../Components";
-import { PORT, HOST } from "../../App";
+import { apiUrl } from "../../api/api";
 
 export const getCurrentMatch = async () => {
-  const match = await axios.get(`${HOST}:${PORT}/current_match`);
+  const match = await axios.get(`${apiUrl}/current_match`);
   const currentMatch: Match = match.data;
   return currentMatch;
 };
@@ -31,7 +31,7 @@ export const maps = [
 ];
 
 export const getMatches = async () => {
-  const matches = await axios.get(`${HOST}:${PORT}/matches`);
+  const matches = await axios.get(`${apiUrl}/matches`);
   if (axios.isAxiosError(matches)) {
     console.log("Error fetching matches data");
     return [];
@@ -46,7 +46,7 @@ export const MatchesPage = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const [selectedMatch, setSelectedMatch] = useState<Match | null>(null); // Store selected player for editing
   const [open, setOpen] = useState(false);
   const [currentMatch, setCurrentMatch] = useState<Match | null>(null);
@@ -71,7 +71,7 @@ export const MatchesPage = () => {
 
     loadMatch();
 
-    socket.on("match", (data) => {
+    socket.on("match", () => {
       loadMatch();
     });
   }, []);
@@ -82,22 +82,22 @@ export const MatchesPage = () => {
   };
 
   const handleCreateMatch = async (match: Match) => {
-    setIsLoading(true);
+    // setIsLoading(true);
     console.log(match);
-    await axios.post(`${HOST}:${PORT}/matches`, match);
+    await axios.post(`${apiUrl}/matches`, match);
     await getMatches().then((data) => {
       setMatches(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleUpdateMatch = async (match: Match) => {
-    setIsLoading(true);
-    await axios.put(`${HOST}:${PORT}/matches/${match.id}`, match);
+    // setIsLoading(true);
+    await axios.put(`${apiUrl}/matches/${match.id}`, match);
     await getMatches().then((data) => {
       setMatches(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const handleEditMatch = (match: Match) => {
@@ -107,12 +107,12 @@ export const MatchesPage = () => {
   };
 
   const handleDeleteMatch = async (id: string) => {
-    setIsLoading(true);
-    await axios.delete(`${HOST}:${PORT}/matches/${id}`);
+    // setIsLoading(true);
+    await axios.delete(`${apiUrl}/matches/${id}`);
     await getMatches().then((data) => {
       setMatches(data);
     });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   return (

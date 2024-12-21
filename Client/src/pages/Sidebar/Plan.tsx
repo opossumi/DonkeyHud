@@ -1,4 +1,3 @@
-import React from "react";
 import Patreon from "../../assets/patreon.svg";
 
 export const Plan = () => {
@@ -7,7 +6,7 @@ export const Plan = () => {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm font-bold text-textcolor">Free</p>
-          <p className="text-stone-500">Support on Patreon</p>
+          <p className="text-slate-400">Support on Patreon</p>
         </div>
         <a
           href="https://www.patreon.com/JTMythic"

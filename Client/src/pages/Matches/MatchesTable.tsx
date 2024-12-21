@@ -2,8 +2,8 @@ import { Match } from "../../api/interfaces";
 import { MdPlayArrow, MdCancel, MdDelete, MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { socket } from "../../App";
-import { PORT, HOST } from "../../App";
+import { socket } from "../../api/socket";
+import { apiUrl } from "../../api/api";
 
 interface MatchTableProps {
   matches: Match[];
@@ -19,7 +19,7 @@ export const MatchesTable = ({
   refreshMatches,
 }: MatchTableProps) => {
   useEffect(() => {
-    socket.on("match", (data) => {
+    socket.on("match", () => {
       refreshMatches();
     });
   }, []);
@@ -74,12 +74,8 @@ const MatchRow = ({
   useEffect(() => {
     const fetchTeamNames = async () => {
       try {
-        const teamOne = await axios.get(
-          `${HOST}:${PORT}/teams/${match.left.id}`,
-        );
-        const teamTwo = await axios.get(
-          `${HOST}:${PORT}/teams/${match.right.id}`,
-        );
+        const teamOne = await axios.get(`${apiUrl}/teams/${match.left.id}`);
+        const teamTwo = await axios.get(`${apiUrl}/teams/${match.right.id}`);
         setTeamOneName(teamOne.data.name);
         setTeamOneLogo(teamOne.data.logo);
         setTeamTwoName(teamTwo.data.name);
@@ -98,7 +94,7 @@ const MatchRow = ({
 
   const handleStartMatch = async () => {
     try {
-      await axios.put(`${HOST}:${PORT}/matches/${match.id}/current`, {
+      await axios.put(`${apiUrl}/matches/${match.id}/current`, {
         current: true,
       });
 
@@ -110,7 +106,7 @@ const MatchRow = ({
 
   const handleStopMatch = async () => {
     try {
-      await axios.put(`${HOST}:${PORT}/matches/${match.id}/current`, {
+      await axios.put(`${apiUrl}/matches/${match.id}/current`, {
         current: false,
       });
       refreshMatches();

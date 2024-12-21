@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Match, Veto } from "../../api/interfaces";
-import { MatchTypes, maps } from "./MatchPage";
+import { MatchTypes } from "./MatchPage";
 import { Team } from "../../api/interfaces";
 import { VetoCard } from "./VetoCard";
 import { Dialog } from "../Components/Dialog";
@@ -30,7 +30,7 @@ export const MatchForm = ({
   isEditing,
 }: MatchFormProps) => {
   const [matchType, setMatchType] = useState<"bo1" | "bo2" | "bo3" | "bo5">(
-    "bo1",
+    "bo1"
   );
   const [leftTeamId, setLeftTeamId] = useState<string | null>(null);
   const [leftTeamWins, setLeftTeamWins] = useState<number>(0);
@@ -44,11 +44,11 @@ export const MatchForm = ({
       .fill(null)
       .map(() => ({
         teamId: "",
-        mapName: maps[0],
+        mapName: "",
         side: "NO",
         type: "ban",
         mapEnd: false,
-      })),
+      }))
   );
 
   const leftTeam = teams.find((team) => team._id === leftTeamId);
@@ -58,6 +58,8 @@ export const MatchForm = ({
     if (isEditing && match) {
       setLeftTeamId(match.left.id);
       setRightTeamId(match.right.id);
+      setLeftTeamWins(match.left.wins);
+      setRightTeamWins(match.right.wins);
       setMatchType(match.matchType);
       setCurrentMatch(match.current);
       setVetos(match.vetos);
@@ -223,9 +225,8 @@ export const MatchForm = ({
           <h5 className="mt-4 font-semibold">Set Vetos:</h5>
           <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3">
             {vetoSource.map((veto, index) => (
-              <div className="rounded-lg bg-zinc-900 px-4 py-2">
+              <div key={index} className="rounded-lg bg-zinc-900 px-4 py-2">
                 <VetoCard
-                  key={index}
                   index={index}
                   veto={veto}
                   leftTeamId={leftTeamId}

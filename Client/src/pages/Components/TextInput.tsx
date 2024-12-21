@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 interface TextInputProps {
   label: string;
@@ -19,7 +19,6 @@ export const TextInput = ({
   error,
   errorMessage,
 }: TextInputProps) => {
-  const [isFocused, setIsFocused] = useState(false);
   return (
     <div className="mb-4">
       <label htmlFor={label} className="mb-2 block font-medium text-text">
@@ -31,7 +30,6 @@ export const TextInput = ({
         placeholder={required ? `${label} *` : `${label}`}
         required={required}
         value={value}
-        onFocus={() => setIsFocused(true)}
         onChange={onChange}
         className={`h-14 w-full rounded-md border bg-background2 px-3 py-2 focus:border-0 focus:outline-none focus:ring-2 ${
           error

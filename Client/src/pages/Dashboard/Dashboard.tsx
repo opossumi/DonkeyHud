@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { Container } from "../Components";
-import { CSGO, GSISocket, CSGORaw } from "csgogsi-socket";
+import { CSGO } from "csgogsi";
+import { GSI } from "../../api/HUD";
 import { Tile } from "./Tile";
 
-interface DashboardProps {
-  gameData: CSGO | null;
-}
-
-export const Dashboard = ({ gameData }: DashboardProps) => {
+export const Dashboard = () => {
+  const [gameData, setGameData] = useState<CSGO | null>(null);
+  useEffect(() => {
+    GSI.on("data", (data: CSGO) => {
+      setGameData(data);
+    });
+  }, []);
   return (
     <div className="relative flex size-full flex-col gap-4">
       <div className="flex items-center justify-between">

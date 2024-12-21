@@ -5,15 +5,9 @@ interface TeamsTableProps {
   teams: Team[];
   deleteTeam: (id: string) => void;
   onEdit: (team: Team) => void;
-  refreshTeams: () => void;
 }
 
-export const TeamsTable = ({
-  teams,
-  deleteTeam,
-  onEdit,
-  refreshTeams,
-}: TeamsTableProps) => {
+export const TeamsTable = ({ teams, deleteTeam, onEdit }: TeamsTableProps) => {
   return (
     <table className="table-fixed bg-background2">
       <thead className="border-b border-border">
@@ -42,7 +36,6 @@ export const TeamsTable = ({
             team={team}
             onEdit={onEdit}
             deleteTeam={deleteTeam}
-            refreshTeams={refreshTeams}
           />
         ))}
       </tbody>
@@ -54,10 +47,9 @@ interface TeamRowProps {
   team: Team;
   onEdit: (team: Team) => void;
   deleteTeam: (id: string) => void;
-  refreshTeams: () => void;
 }
 
-const TeamRow = ({ team, onEdit, deleteTeam, refreshTeams }: TeamRowProps) => {
+const TeamRow = ({ team, onEdit, deleteTeam }: TeamRowProps) => {
   const handleEditClick = () => {
     if (onEdit) {
       onEdit(team); // Call onEdit prop function if provided

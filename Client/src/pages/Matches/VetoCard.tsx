@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Veto } from "../../api/interfaces";
 import { maps } from "./MatchPage";
-import { Team } from "../../api/types";
+import { Team } from "../../api/interfaces";
 
 interface VetoCardProps {
   index: number;
@@ -21,17 +21,17 @@ export const VetoCard: React.FC<VetoCardProps> = ({
   onVetoChange,
 }) => {
   const [teamID, setTeamID] = useState<string | null>(
-    veto.type === "decider" ? "decider" : veto.teamId || "",
+    veto.type === "decider" ? "decider" : veto.teamId || ""
   );
   const [leftTeam, setLeftTeam] = useState<Team | undefined>(undefined);
   const [rightTeam, setRightTeam] = useState<Team | undefined>(undefined);
   const [type, setType] = useState<"ban" | "pick" | "decider">(
-    veto?.type || "ban",
+    veto?.type || "ban"
   );
   const [mapName, setMapName] = useState<string | null>(veto?.mapName || null);
   const [side, setSide] = useState<"CT" | "T" | "NO">(veto.side);
   const [reverseSide, setReverseSide] = useState<boolean | null>(
-    veto?.reverseSide || false,
+    veto?.reverseSide || false
   );
 
   useEffect(() => {

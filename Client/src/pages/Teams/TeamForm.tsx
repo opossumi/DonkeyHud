@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Team } from "../../api/interfaces";
 import { ButtonContained, Container, TextInput } from "../Components";
 import { Dialog } from "../Components/Dialog";

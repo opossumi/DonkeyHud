@@ -139,3 +139,6 @@ yarn-error.log*
 Logo.psd
 Server/database/Database.db
 *.db
+/Server/node_modules
+Server/database/Database.db
+Server/database/Database.db

@@ -1,21 +1,24 @@
 {
   "name": "openhud",
-  "version": "1.0.5",
-  "description": "Start of an open source CS2 Custom Hud.\r <br/>\r EXTREMELY EARLY AND EXPERIMENTAL.\r <br/>\r - Styling: TailwindCSS / Material UI / Sass\r - Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3",
+  "version": "2.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "concurrently \"npm run server:start\" \"npm run client:start\"",
     "install": "concurrently \"npm run server:install\" \"npm run client:install\"",
-    "server:start": "cd Server  && node index.js",
-    "client:start": "cd Client && npm start",
-    "server:install": "cd Server  && npm install",
-    "client:install": "cd Client && npm install"
+    "build": "concurrently \"npm run server:build\" \"npm run client:build\"",
+    "server:start": "cd server && npm run dev",
+    "client:start": "cd client && npm run dev",
+    "server:install": "cd server && npm install",
+    "client:install": "cd client && npm install",
+    "server:build": "cd server && tsc",
+    "client:build": "cd client && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "concurrently": "^9.0.1"
+  "description": "",
+  "dependencies": {
+    "concurrently": "^9.1.0"
   }
 }
