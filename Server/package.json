@@ -17,6 +17,7 @@
     "mongoose": "^8.8.4",
     "socket.io": "^4.8.1",
     "sqlite3": "^5.1.7",
+    "ts-node": "^10.9.2",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
