@@ -1,7 +1,4 @@
-# OpenHud - Open source CS2 Hud and Admin Panel
-
-Start of an open source CS2 Custom Hud.
-<br/>
+# OpenHud - An open source CS2 Custom Hud.
 Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
 - Styling: TailwindCSS (admin panel) / Sass (hud)
@@ -9,11 +6,13 @@ Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
 # Getting Started:
 
-- [NodeJS](https://nodejs.org/en) needs to be installed on your computer.
-- Place the cfg file in `/public/cfgs/gamestate_integration_openhud.cfg` in your games cfg folder at `steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`
-- Run the RUN_OpenHUD.bat file
-- For OBS overlay, create a `Browser Source`, delete all of the custom css, and use the url: `http://localhost:1349/hud`
-- For ingame Overlay download it [Here](https://drive.google.com/file/d/1qluO3iujecZ1wNGQrf2aJiYV0Qe0SyFH/view?usp=sharing) (run OpenHUD Overlay).
+- Download the latest .zip form the releases page and unzip it.
+- Copy the gamestate_integration_openhud.cfg file from the .zip /resources/src/assets to your CS config folder (the same folder you'd put an autoexec.cfg). (Will make it automatic in the future)
+- Launch openhud.exe and run CS2 in WindowedFullscreen mode.
+- You're done! Create your players, teams, and matches. Start CS2 and join a match (or demo) as a spectator.
+- For the Spectator overlay, click the overlay button in the side menu of the app.
+- For OBS overlay, create a Browser Source, delete all of the custom css, and use the url: http://localhost:1349/hud
+
 
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
