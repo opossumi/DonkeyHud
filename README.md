@@ -1,4 +1,5 @@
 # OpenHud - An open source CS2 Custom Hud.
+
 Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
 - Styling: TailwindCSS (admin panel) / Sass (hud)
@@ -13,12 +14,11 @@ Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 - For the Spectator overlay, click the overlay button in the side menu of the app.
 - For OBS overlay, create a Browser Source, delete all of the custom css, and use the url: http://localhost:1349/hud
 
-
 Hopefully it ends up looking very nice and lets a lot of people use it in their streams!
 
 # OpenHud React Hud based on [Lexogrine react hud](https://github.com/JohnTimmermann/OpenHud-React-Hud)
 
-![Custom CS2 Hud](https://i.imgur.com/9KgBN89.png)
+![Custom CS2 Hud](https://i.imgur.com/OWexW9T.png)
 
 # Admin Panel
 

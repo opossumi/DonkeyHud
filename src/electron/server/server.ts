@@ -25,6 +25,7 @@ export const startServer = (mainWindow: BrowserWindow) => {
 
   /* Hud */
   app.get("/hud", (_req, res) => {
+    // console.log(path.join(getHudPath(), "index.html"));
     res.sendFile(path.join(getHudPath(), "index.html"));
   });
 
