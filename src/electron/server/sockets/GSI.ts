@@ -25,16 +25,12 @@ const fixGSIData = (data: CSGORaw) => {
   }
 
   if (data.allplayers) {
-    for (const playerId in data.allplayers) {
-      if (data.allplayers?.playerId) {
-        if (data.allplayers[playerId]) {
-          data.allplayers[playerId].observer_slot =
-            data.allplayers[playerId].observer_slot === 9
-              ? 0
-              : (data.allplayers[playerId].observer_slot || 0) + 1;
-        }
+    Object.entries(data.allplayers).forEach(([, player]) => {
+      if (player) {
+        player.observer_slot =
+          player.observer_slot === 9 ? 0 : (player.observer_slot || 0) + 1;
       }
-    }
+    });
   }
 };
 
