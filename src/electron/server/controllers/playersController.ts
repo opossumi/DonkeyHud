@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { Player } from "../../types/types.js";
 import {
   createPlayer,
   deletePlayer,
@@ -55,7 +54,7 @@ export const updatePlayerController = async (req: Request, res: Response) => {
 
 export const getPlayerBySteamIdController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const { steamid } = req.params;
 

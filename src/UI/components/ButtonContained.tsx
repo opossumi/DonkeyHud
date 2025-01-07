@@ -2,7 +2,7 @@ import React from "react";
 
 interface ButtonContainedProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: any;
+  children: React.ReactNode;
   color?: string;
 }
 
@@ -17,7 +17,7 @@ export const ButtonContained = ({
   return (
     <button
       {...rest}
-      className={`${bgColor} flex max-w-40 items-center justify-center rounded px-5 py-1.5 text-sm font-semibold uppercase text-text drop-shadow-md transition-colors`}
+      className={`${bgColor} flex items-center justify-center rounded px-5 py-1.5 text-sm font-semibold uppercase text-text drop-shadow-md transition-colors`}
     >
       {children}
     </button>

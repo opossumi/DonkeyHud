@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { Team } from "../../api/types";
-import { ButtonContained, Container, TextInput } from "../../components";
-import { Dialog } from "../../components/Dialog";
+import {
+  ButtonContained,
+  Container,
+  TextInput,
+  Dialog,
+} from "../../components";
 import { countries } from "../../api/countries";
+import { useTeams } from "../../hooks";
 
 interface TeamsFormProps {
   team?: Team;
-  createTeam?: (team: Team) => void;
-  updateTeam?: (team: Team) => void;
   isEditing?: boolean;
   onCancel?: () => void;
   open: boolean;
@@ -16,8 +18,6 @@ interface TeamsFormProps {
 
 export const TeamsForm = ({
   team,
-  createTeam,
-  updateTeam,
   isEditing,
   onCancel,
   open,
@@ -29,6 +29,8 @@ export const TeamsForm = ({
   const [logo, setLogo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { createTeam, updateTeam } = useTeams();
 
   useEffect(() => {
     if (isEditing && team) {

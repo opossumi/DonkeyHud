@@ -1,32 +1,17 @@
 import { PlayerSilhouette } from "./PlayersPage";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useState } from "react";
-import { Player } from "../../api/types";
+import { usePlayers } from "../../hooks";
 
 interface PlayerCardProps {
   player: Player;
-  deletePlayer: (id: string) => void;
   onEdit?: (player: Player) => void;
 }
 
-export const PlayerCard = ({
-  player,
-  deletePlayer,
-  onEdit,
-}: PlayerCardProps) => {
+export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
   const [isCopied, setIsCopied] = useState(false);
-  // const [avatar, setAvatar] = useState<File | null>();
 
-  // useEffect(() => {
-  //   const fetchAvatar = async () => {
-  //     const res = await axios.get(
-  //       "http://localhost:1349/players/pictures/76561198153580036.jpg"
-  //     );
-  //     setAvatar(res.data[0]);
-  //     console.log(res);
-  //   };
-  //   fetchAvatar();
-  // }, []);
+  const { deletePlayer } = usePlayers();
 
   const handleCopyClick = (steamId: string) => {
     navigator.clipboard.writeText(steamId);

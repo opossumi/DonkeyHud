@@ -3,6 +3,7 @@ import { Container } from "../../components";
 import { CSGO } from "csgogsi";
 import { GSI } from "../../api/socket";
 import { Tile } from "./Tile";
+import { Topbar } from "../MainPanel/Topbar";
 
 export const Dashboard = () => {
   const [gameData, setGameData] = useState<CSGO | null>(null);
@@ -13,9 +14,7 @@ export const Dashboard = () => {
   }, []);
   return (
     <div className="relative flex size-full flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="font-bold">Dashboard</h1>
-      </div>
+      <Topbar header="Dashboard" />
       <Container>
         {gameData ? (
           <div className="grid grid-cols-3">
@@ -33,7 +32,7 @@ export const Dashboard = () => {
             />
           </div>
         ) : (
-          <h1>Not connected to a server</h1>
+          <h3>Not connected to a server</h3>
         )}
       </Container>
     </div>

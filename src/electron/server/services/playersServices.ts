@@ -1,5 +1,4 @@
 import db from "../../database/database.js";
-import { Player } from "../../types/types.js";
 
 export const getPlayers = (): Promise<Player[]> => {
   const sql = `SELECT * FROM players`;
@@ -40,11 +39,11 @@ export const createPlayer = (player: Player) => {
           reject(err);
         } else {
           console.log(
-            `Player ${player.username} created with ID ${player._id}`
+            `Player ${player.username} created with ID ${player._id}`,
           );
           resolve(player);
         }
-      }
+      },
     );
   });
 };
@@ -88,7 +87,7 @@ export const updatePlayer = (id: string, player: Player) => {
           console.log(`Player updated with id: ${id}`);
           resolve(`Player updated with id: ${id}`);
         }
-      }
+      },
     );
   });
 };

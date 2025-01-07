@@ -1,16 +1,15 @@
 import { useEffect, useState } from "react";
-import { Match } from "../../api/types";
 import { MdRemove, MdAdd } from "react-icons/md";
 import axios from "axios";
 import knifeImage from "../../assets/knifeRound.png";
 import { apiUrl } from "../../api/api";
+import { useMatches } from "../../hooks";
 
 interface MatchCardProps {
   match: Match;
-  refreshMatches: () => void;
 }
 
-export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
+export const MatchCard = ({ match }: MatchCardProps) => {
   const [teamOneId, setTeamOneId] = useState(null);
   const [teamOneName, setTeamOneName] = useState("");
   const [teamOneLogo, setTeamOneLogo] = useState("");
@@ -20,6 +19,8 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
   const [teamTwoName, setTeamTwoName] = useState("");
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
   const [teamTwoWins, setTeamTwoWins] = useState<number>(match.right.wins | 0);
+
+  const { fetchMatches } = useMatches();
 
   useEffect(() => {
     const fetchTeamNames = async () => {
@@ -45,7 +46,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
       await axios.put(`${apiUrl}/matches/${match.id}/current`, {
         current: false,
       });
-      refreshMatches();
+      fetchMatches();
     } catch (error) {
       console.error("Error updating match:", error);
     }
@@ -62,7 +63,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
 
     try {
       await axios.put(`${apiUrl}/matches/current/update`, updatedMatch);
-      refreshMatches();
+      fetchMatches();
     } catch (error) {
       console.error("Error updating veto:", error);
     }
@@ -79,7 +80,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
 
     try {
       await axios.put(`${apiUrl}/matches/current/update`, updatedMatch);
-      refreshMatches();
+      fetchMatches();
     } catch (error) {
       console.error("Error updating veto:", error);
     }
@@ -87,7 +88,7 @@ export const MatchCard = ({ match, refreshMatches }: MatchCardProps) => {
 
   const handleChangeScore = async (
     team: "left" | "right",
-    action: "add" | "subtract"
+    action: "add" | "subtract",
   ) => {
     let newTeamOneWins = teamOneWins;
     let newTeamTwoWins = teamTwoWins;

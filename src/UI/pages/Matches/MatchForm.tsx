@@ -1,35 +1,26 @@
 import { useEffect, useState } from "react";
-import { Match, Veto, Team } from "../../api/types";
 import { MatchTypes } from "./MatchPage";
 import { VetoRow } from "./VetoRow";
-import { Dialog } from "../../components/Dialog";
-import { ButtonContained, Container } from "../../components";
+import { ButtonContained, Container, Dialog } from "../../components";
+import { useTeams, useMatches } from "../../hooks";
 
 interface MatchFormProps {
-  teams: Team[];
   match?: Match;
-  createMatch?: (match: Match) => void;
-  updateMatch?: (match: Match) => void;
   isEditing?: boolean;
   onCancel?: () => void;
-  refreshMatches: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
 export const MatchForm = ({
-  teams,
   match,
-  createMatch,
-  updateMatch,
-  refreshMatches,
   onCancel,
   open,
   setOpen,
   isEditing,
 }: MatchFormProps) => {
   const [matchType, setMatchType] = useState<"bo1" | "bo2" | "bo3" | "bo5">(
-    "bo1"
+    "bo1",
   );
   const [leftTeamId, setLeftTeamId] = useState<string | null>(null);
   const [leftTeamWins, setLeftTeamWins] = useState<number>(0);
@@ -47,8 +38,11 @@ export const MatchForm = ({
         side: "NO",
         type: "ban",
         mapEnd: false,
-      }))
+      })),
   );
+
+  const { teams } = useTeams();
+  const { createMatch, updateMatch, fetchMatches } = useMatches();
 
   const leftTeam = teams.find((team) => team._id === leftTeamId);
   const rightTeam = teams.find((team) => team._id === rightTeamId);
@@ -111,7 +105,7 @@ export const MatchForm = ({
     setIsSubmitting(false);
     setOpen(false);
     handleReset();
-    refreshMatches();
+    fetchMatches();
   };
 
   const handleCancel = () => {
@@ -193,11 +187,11 @@ export const MatchForm = ({
             </div>
           </div>
 
-          <div className="flex justify-center items-center">
-            <form className="bg-background flex flex-col justify-center items-center">
+          <div className="flex items-center justify-center">
+            <form className="flex flex-col items-center justify-center bg-background">
               <label
                 htmlFor="Match Type"
-                className="text-gray-400 font-semibold uppercase text-sm"
+                className="text-sm font-semibold uppercase text-gray-400"
               >
                 Best of
               </label>
@@ -230,7 +224,7 @@ export const MatchForm = ({
                 <TableTH title="Reverse side" />
               </tr>
             </thead>
-            <tbody className="p-4 divide-y divide-slate-700">
+            <tbody className="divide-y divide-slate-700 p-4">
               {vetoSource.map((veto, index) => (
                 <VetoRow
                   key={index}
@@ -274,7 +268,7 @@ interface TableTHProps {
 
 const TableTH: React.FC<TableTHProps> = ({ title }) => {
   return (
-    <th className="px-6 py-3 text-center text-xs font-medium text-gray-400 uppercase tracking-wider">
+    <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-400">
       {title}
     </th>
   );

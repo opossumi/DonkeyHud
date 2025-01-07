@@ -1,17 +1,15 @@
 import { NavLogo } from "./NavLogo";
 import { RouteSelect } from "./RouteSelect";
 import { Plan } from "./Plan";
-
+import "./sidebar.css";
 export const Sidebar = () => {
   return (
     <nav
-      id="sidebar"
-      className="hidden border-r border-border bg-background2 lg:block"
+      id="Sidebar"
+      className="relative hidden h-full w-[210px] flex-col justify-between bg-background2 px-3 lg:flex"
     >
-      <div className="fixed h-[calc(100vh-32px-48px)] w-[210px]">
-        <NavLogo />
-        <RouteSelect />
-      </div>
+      <NavLogo />
+      <RouteSelect />
       <Plan />
     </nav>
   );

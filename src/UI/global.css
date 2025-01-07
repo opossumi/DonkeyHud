@@ -36,7 +36,7 @@
   [multiple],
   textarea,
   select {
-    @apply w-full rounded-md border-border bg-background2 focus:ring-primary-light focus:border-primary-light;
+    @apply w-full rounded-md border-border bg-background2 focus:border-primary-light focus:ring-primary-light;
   }
 }
 
@@ -53,7 +53,7 @@ body,
   line-height: normal;
 }
 
-#TopBar {
+#AppFrame {
   -webkit-app-region: drag;
 }
 
@@ -63,24 +63,24 @@ body,
 
 /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgb(15, 20, 26);
+  background: rgb(var(--border-color));
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(31, 41, 55);
+  background: rgb(111, 144, 190);
   border-radius: 5px;
 }
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
   background: rgb(43, 57, 77);
-}
+} */
 
 .dark {
   --background-primary: 8 10 13;
@@ -97,5 +97,5 @@ body,
   --text: "#fff";
   --text-secondary: "rgba(255, 255, 255, 0.7)";
   --text-disabled: "rgba(255, 255, 255, 0.5)";
-  background: rgba(var(--background-primary));
+  background: rgba(var(--background-secondary));
 }

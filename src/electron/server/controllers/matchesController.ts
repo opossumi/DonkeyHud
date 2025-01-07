@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { v4 as uuidv4 } from "uuid";
-import { Match } from "../../types/types.js";
 import {
   createMatch,
   deleteMatch,
@@ -73,7 +72,7 @@ export const updateMatchController = async (req: Request, res: Response) => {
 
 export const getCurrentMatchController = async (
   _req: Request,
-  res: Response
+  res: Response,
 ) => {
   try {
     const result: any = await getCurrentMatch();
@@ -117,13 +116,13 @@ export const getCurrentMatchController = async (
     }
   } catch (error) {
     res.status(400).json("Failed to get current match");
-    console.log(error)
+    console.log(error);
   }
 };
 
 export const updateCurrentMatchController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const match = req.body;
   try {
@@ -139,7 +138,7 @@ export const updateCurrentMatchController = async (
 
 export const setCurrentMatchController = async (
   req: Request,
-  res: Response
+  res: Response,
 ) => {
   const id = req.params.id;
   const { current } = req.body;

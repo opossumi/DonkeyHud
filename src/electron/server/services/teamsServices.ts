@@ -1,5 +1,4 @@
 import db from "../../database/database.js";
-import { Team } from "../../types/types.js";
 
 //Services don't know they are working with express.
 
@@ -41,7 +40,7 @@ export const createTeam = (team: Team) => {
           console.log(`team ${team.name} created with ID ${team._id}`);
           resolve(team);
         }
-      }
+      },
     );
   });
 };
@@ -75,7 +74,7 @@ export const updateTeam = (id: string, team: Team) => {
           console.log(`Team updated with id: ${id}`);
           resolve(`Team updated with id: ${id}`);
         }
-      }
+      },
     );
   });
 };

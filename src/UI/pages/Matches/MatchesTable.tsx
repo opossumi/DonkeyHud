@@ -1,30 +1,24 @@
-import { Match } from "../../api/types";
 import { MdPlayArrow, MdCancel, MdDelete, MdEdit } from "react-icons/md";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { socket } from "../../api/socket";
 import { apiUrl } from "../../api/api";
+import { useMatches } from "../../hooks";
 
 interface MatchTableProps {
-  matches: Match[];
-  deleteMatch: (id: string) => void;
   onEdit: (match: Match) => void;
-  refreshMatches: () => void;
 }
 
-export const MatchesTable = ({
-  matches,
-  deleteMatch,
-  onEdit,
-  refreshMatches,
-}: MatchTableProps) => {
+export const MatchesTable = ({ onEdit }: MatchTableProps) => {
+  const { matches, fetchMatches } = useMatches();
+
   useEffect(() => {
     socket.on("match", () => {
-      refreshMatches();
+      fetchMatches();
     });
   }, []);
   return (
-    <table className="table-fixed bg-background2">
+    <table className="table-fixed rounded-lg bg-background2">
       <thead className="border-b border-border">
         <tr className="p-2">
           <th className="p-4 text-sm" align="left">
@@ -41,15 +35,9 @@ export const MatchesTable = ({
           </th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="divide-y divide-border">
         {matches.map((match: Match, index) => (
-          <MatchRow
-            key={index}
-            match={match}
-            onEdit={onEdit}
-            deleteMatch={deleteMatch}
-            refreshMatches={refreshMatches}
-          />
+          <MatchRow key={index} match={match} onEdit={onEdit} />
         ))}
       </tbody>
     </table>
@@ -59,20 +47,14 @@ export const MatchesTable = ({
 interface MatchRowProps {
   match: Match;
   onEdit: (match: Match) => void;
-  deleteMatch: (id: string) => void;
-  refreshMatches: () => void;
 }
 
-const MatchRow = ({
-  match,
-  onEdit,
-  deleteMatch,
-  refreshMatches,
-}: MatchRowProps) => {
+const MatchRow = ({ match, onEdit }: MatchRowProps) => {
   const [teamOneName, setTeamOneName] = useState("");
   const [teamOneLogo, setTeamOneLogo] = useState("");
   const [teamTwoName, setTeamTwoName] = useState("");
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
+  const { fetchMatches, deleteMatch } = useMatches();
 
   useEffect(() => {
     const fetchTeamNames = async () => {
@@ -101,7 +83,7 @@ const MatchRow = ({
         current: true,
       });
 
-      refreshMatches();
+      fetchMatches();
     } catch (error) {
       console.error("Error updating match:", error);
     }
@@ -112,14 +94,14 @@ const MatchRow = ({
       await axios.put(`${apiUrl}/matches/${match.id}/current`, {
         current: false,
       });
-      refreshMatches();
+      fetchMatches();
     } catch (error) {
       console.error("Error updating match:", error);
     }
   };
 
   return (
-    <tr className="relative border-b border-border">
+    <tr>
       <td className="p-4 text-xl font-semibold md:text-2xl" align="left">
         <span className="mr-4">
           {teamOneName} vs {teamTwoName}
@@ -130,7 +112,7 @@ const MatchRow = ({
           ""
         )}
       </td>
-      <td className="p-4 text-gray-400 uppercase font-semibold" align="center">
+      <td className="p-4 font-semibold uppercase text-gray-400" align="center">
         {match.matchType}
       </td>
       <td className="p-4 text-lg font-semibold" align="center">

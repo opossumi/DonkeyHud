@@ -2,8 +2,8 @@
 
 Join the community [Discord](https://discord.gg/HApB9HyaWM)!
 
+- Tech: Electron, React, Typescript, NodeJS, Express, Socketio, SQLite3
 - Styling: TailwindCSS (admin panel) / Sass (hud)
-- Tech: NodeJS, Express, React, Typescript, Axios, Socketio, SQLite3
 
 # Getting Started:
 
@@ -22,6 +22,6 @@ Hopefully it ends up looking very nice and lets a lot of people use it in their 
 
 # Admin Panel
 
-![AdminPanel/Matches](https://i.imgur.com/opfMv1j.png)
-![AdminPanel/Players](https://i.imgur.com/KXQHTKy.png)
-![AdminPanel/Teams](https://i.imgur.com/bXM2Ozl.png)
+![AdminPanel/Matches](https://i.imgur.com/hTIINK5.png)
+![AdminPanel/Players](https://i.imgur.com/VuX5ncs.png)
+![AdminPanel/Teams](https://i.imgur.com/NqtWXyD.png)

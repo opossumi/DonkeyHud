@@ -15,13 +15,18 @@ import { createHudWindow } from "./hudWindow.js";
 import http from "http";
 
 /* 
-TODO: figure out database/hud build being coppied over (probably store in electron app.path('userData'))
-TODO: Possibly use child process for hud window to fix the malicous url error
+TODO: Auto generate cfg file in users steam cfg folder
+TODO: Added login/auth system with supabase
+TODO: Use actual Teams data for setting a players team
+TODO: Auto-update for app
+TODO: Select/Delete all for player cards and teams/matches tables
+TODO: Delete confirmation buttons/alerts
+TODO: Light/Dark modes and or themes
 */
 
 let server: http.Server;
 
-// Disable custom menu
+// Disable custom menu when not in dev
 if (isDev() !== true) {
   Menu.setApplicationMenu(null);
 }

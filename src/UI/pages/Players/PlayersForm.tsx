@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { Dialog } from "../../components/Dialog";
-import { ButtonContained, Container, TextInput } from "../../components";
+import {
+  ButtonContained,
+  Container,
+  TextInput,
+  Dialog,
+} from "../../components";
 import { countries } from "../../api/countries";
-import { Player } from "../../api/types";
-// import axios from "axios";
-// import { apiUrl } from "../../api/api";
+import { usePlayers } from "../../hooks";
 
 interface PlayerFormProps {
   player?: Player;
-  createPlayer?: (player: Player) => void;
-  updatePlayer?: (player: Player) => void;
   isEditing?: boolean;
   onCancel?: () => void;
   open: boolean;
@@ -18,8 +18,6 @@ interface PlayerFormProps {
 
 export const PlayerForm = ({
   player,
-  createPlayer,
-  updatePlayer,
   isEditing,
   onCancel,
   open,
@@ -32,9 +30,10 @@ export const PlayerForm = ({
   const [steamId, setSteamId] = useState(player?.steamid || "");
   const [team, setTeam] = useState(player?.team || "");
   const [country, setCountry] = useState(player?.country || "");
-  // const [file, setFile] = useState<File | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { createPlayer, updatePlayer } = usePlayers();
 
   useEffect(() => {
     if (isEditing && player) {
@@ -92,26 +91,6 @@ export const PlayerForm = ({
     setOpen(false);
     handleReset();
   };
-
-  // const handleTestSubmit = async () => {
-  //   const formData = new FormData();
-  //   formData.append("username", username);
-  //   formData.append("firstName", firstName);
-  //   formData.append("lastName", lastName);
-  //   formData.append("steamId", steamId);
-  //   formData.append("country", country);
-  //   formData.append("team", team);
-  //   if (file) {
-  //     formData.append("avatar", file);
-  //   }
-
-  //   console.log(formData);
-
-  //   await axios
-  //     .post(`${apiUrl}/test`, formData)
-  //     .then((res) => console.log(res))
-  //     .catch((err) => console.log(err));
-  // };
 
   const handleCancel = () => {
     handleReset(); // Reset form fields

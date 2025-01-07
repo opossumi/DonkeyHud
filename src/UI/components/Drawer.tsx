@@ -18,11 +18,11 @@ export const Drawer = ({ children, onClose, open }: DialogProps) => {
         onClick={onClose}
       />
       <div
-        className={`fixed left-0 top-0 z-30 flex h-screen w-[210px] flex-col rounded bg-background transition-all lg:hidden ${className}`}
+        className={`fixed left-0 top-0 z-30 flex h-screen w-[210px] flex-col bg-background2 transition-transform lg:hidden ${className} px-2`}
       >
         {children}
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };

@@ -1,56 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TeamsTable } from "./TeamsTable";
 import { TeamsForm } from "./TeamForm";
-import axios from "axios";
-import { ButtonContained } from "../../components";
-import { Team } from "../../api/types";
-import { apiUrl } from "../../api/api";
-
-export const getTeams = async () => {
-  const teams = await axios.get(`${apiUrl}/teams`);
-  if (axios.isAxiosError(teams)) {
-    console.log("Error fetching teams data");
-    return [];
-  }
-  if (!teams) {
-    return [];
-  }
-  return teams.data;
-};
-
-export const getTeamsById = async (id: string) => {
-  const team = await axios.get(`${apiUrl}/teams/${id}`);
-  if (axios.isAxiosError(team)) {
-    console.log("Error fetching team data");
-    return [];
-  }
-  if (!team) {
-    return null;
-  }
-  return team.data;
-};
+import { Topbar } from "../MainPanel/Topbar";
 
 export const TeamsPage = () => {
-  const [teams, setTeams] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
   const [open, setOpen] = useState(false);
-
-  async function fetchTeams() {
-    const teams = await getTeams();
-    setTeams(teams);
-  }
-
-  useEffect(() => {
-    // Fetch players data when the component mounts
-    fetchTeams();
-  }, []);
-
-  const handleCreateTeam = async (team: Team) => {
-    // Handle create or update player logic
-    await axios.post(`${apiUrl}/teams`, team);
-    fetchTeams();
-  };
 
   const handleEditTeam = (team: Team) => {
     // Handle edit player logic
@@ -59,47 +15,21 @@ export const TeamsPage = () => {
     setOpen(true);
   };
 
-  const handleUpdateTeam = async (team: Team) => {
-    // Handle update player logic
-    await axios.put(`${apiUrl}/teams/${team._id}`, team);
-    fetchTeams();
-  };
-
-  const handleDeleteTeam = async (id: string) => {
-    // Handle delete player logic
-    await axios.delete(`${apiUrl}/teams/${id}`);
-    fetchTeams();
-  };
-
   return (
     <div className="relative flex size-full flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="font-bold">Teams</h1>
-        <ButtonContained onClick={() => setOpen(true)}>
-          Create Team
-        </ButtonContained>
-      </div>
+      <Topbar header="Teams" buttonText="Team" openForm={setOpen} />
       {isEditing && selectedTeam ? (
         <TeamsForm
           team={selectedTeam}
-          updateTeam={handleUpdateTeam}
           isEditing={isEditing}
           onCancel={() => setIsEditing(false)}
           open={open}
           setOpen={setOpen}
         />
       ) : (
-        <TeamsForm
-          createTeam={handleCreateTeam}
-          open={open}
-          setOpen={setOpen}
-        />
+        <TeamsForm open={open} setOpen={setOpen} />
       )}
-      <TeamsTable
-        teams={teams}
-        deleteTeam={handleDeleteTeam}
-        onEdit={handleEditTeam}
-      />
+      <TeamsTable onEdit={handleEditTeam} />
     </div>
   );
 };

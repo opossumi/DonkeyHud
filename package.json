@@ -1,14 +1,14 @@
 {
   "name": "openhud",
   "private": true,
-  "version": "3.0.2",
+  "version": "3.0.3",
   "type": "module",
   "main": "dist-electron/main.js",
   "author": {
     "name": "JohnTimmermann",
     "email": "johnwtimmermann@yahoo.com"
   },
-  "description": "CS2 Admin Panel / HUD",
+  "description": "OpenHud - CS2 Admin Panel / HUD",
   "scripts": {
     "dev": "npm-run-all --parallel dev:react dev:electron",
     "dev:react": "vite",

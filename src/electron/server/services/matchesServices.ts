@@ -1,5 +1,4 @@
 import db from "../../database/database.js";
-import { Match } from "../../types/types.js";
 
 //Services don't know they are working with express.
 
@@ -51,7 +50,7 @@ export const createMatch = (match: Match) => {
           console.log(`${match.matchType} created with ID ${match.id}`);
           resolve(match);
         }
-      }
+      },
     );
   });
 };
@@ -116,7 +115,7 @@ export const updateMatch = (id: string, match: Match) => {
           console.log(`Match updated with id: ${id}`);
           resolve(`Match updated with id: ${id}`);
         }
-      }
+      },
     );
   });
 };
@@ -198,7 +197,7 @@ export const updateCurrentMatch = (match: Match) => {
         } else {
           resolve(`Match updated with id: ${this.lastID}`);
         }
-      }
+      },
     );
   });
 };

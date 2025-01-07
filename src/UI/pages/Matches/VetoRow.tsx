@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { maps } from "./MatchPage";
-import { Team, Veto } from "../../api/types";
 
 interface VetoRowProps {
   index: number;
@@ -20,17 +19,17 @@ export const VetoRow: React.FC<VetoRowProps> = ({
   onVetoChange,
 }) => {
   const [teamID, setTeamID] = useState<string | null>(
-    veto.type === "decider" ? "decider" : veto.teamId || ""
+    veto.type === "decider" ? "decider" : veto.teamId || "",
   );
   const [leftTeam, setLeftTeam] = useState<Team | undefined>(undefined);
   const [rightTeam, setRightTeam] = useState<Team | undefined>(undefined);
   const [type, setType] = useState<"ban" | "pick" | "decider">(
-    veto?.type || "ban"
+    veto?.type || "ban",
   );
   const [mapName, setMapName] = useState<string | null>(veto?.mapName || null);
   const [side, setSide] = useState<"CT" | "T" | "NO">(veto.side);
   const [reverseSide, setReverseSide] = useState<boolean | null>(
-    veto?.reverseSide || false
+    veto?.reverseSide || false,
   );
 
   useEffect(() => {
@@ -50,11 +49,11 @@ export const VetoRow: React.FC<VetoRowProps> = ({
   return (
     <tr key={index} className="bg-background2 odd:bg-background">
       <td className="px-6 py-4">
-        <h4 className=" font-semibold text-center">Veto {index + 1}</h4>
+        <h4 className="text-center font-semibold">Veto {index + 1}</h4>
       </td>
       <td className="px-6 py-4">
-        <form className="w-full flex flex-col">
-          <div className="flex space-y-1 w-full justify-center flex-col">
+        <form className="flex w-full flex-col">
+          <div className="flex w-full flex-col justify-center space-y-1">
             {["ban", "pick", "decider"].map((option) => (
               <label key={option} className="flex items-center space-x-2">
                 <input

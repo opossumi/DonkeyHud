@@ -1,15 +1,14 @@
 import { MdDelete, MdEdit } from "react-icons/md";
-import { Team } from "../../api/types";
+import { useTeams } from "../../hooks";
 
 interface TeamsTableProps {
-  teams: Team[];
-  deleteTeam: (id: string) => void;
   onEdit: (team: Team) => void;
 }
 
-export const TeamsTable = ({ teams, deleteTeam, onEdit }: TeamsTableProps) => {
+export const TeamsTable = ({ onEdit }: TeamsTableProps) => {
+  const { filteredTeams, deleteTeam } = useTeams();
   return (
-    <table className="table-fixed bg-background2">
+    <table className="table-fixed rounded-lg bg-background2">
       <thead className="border-b border-border">
         <tr className="p-2">
           <th className="p-4 text-sm" align="left">
@@ -30,7 +29,7 @@ export const TeamsTable = ({ teams, deleteTeam, onEdit }: TeamsTableProps) => {
         </tr>
       </thead>
       <tbody className="divide-y divide-border">
-        {teams.map((team: Team, index) => (
+        {filteredTeams.map((team: Team, index) => (
           <TeamRow
             key={index}
             team={team}
