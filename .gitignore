@@ -28,3 +28,5 @@ dist-electron
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+.env.development
+.env.production
