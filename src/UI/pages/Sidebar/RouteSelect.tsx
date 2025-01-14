@@ -12,44 +12,26 @@ import { ButtonContained } from "../../components";
 interface RouteProps {
   Icon: IconType;
   title: string;
+  to: string;
   target?: string;
 }
 
 const routes: RouteProps[] = [
-  { Icon: MdOutlinePerson, title: "Players" },
-  { Icon: MdGroups, title: "Teams" },
-  { Icon: MdDashboard, title: "Dashboard" },
+  /* Matches redirect to home (/) */
+  { Icon: MdAddCircle, title: "Matches", to: "" },
+  { Icon: MdOutlinePerson, title: "Players", to: "players" },
+  { Icon: MdGroups, title: "Teams", to: "teams" },
+  { Icon: MdDashboard, title: "Dashboard", to: "dashboard" },
 ];
 
 export const RouteSelect = () => {
   return (
     <div className="h-full w-full overflow-y-auto">
       <div className="py-4">
-        {/* Matches has to be separate because it redirects to homepage */}
-        <NavLink
-          to={`/`}
-          className={({ isActive }) =>
-            `mb-1 flex w-[100%] items-center justify-start gap-4 rounded-lg px-6 py-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-gray-800 text-text shadow" : "text-stone-300 shadow-none hover:bg-gray-800"}`
-          }
-        >
-          {({ isActive }) => (
-            <>
-              <MdAddCircle
-                className={`size-7 ${isActive ? "text-primary-light" : "text-gray-400"}`}
-              />
-              <p
-                className={`font-semibold ${isActive ? "text-text" : "text-gray-400"}`}
-              >
-                Matches
-              </p>
-            </>
-          )}
-        </NavLink>
-
         {routes.map((route, index) => (
           <NavRoutes key={index} {...route} />
         ))}
-        <div className="mt-4 flex size-full items-center justify-center border-t border-border p-4">
+        <div className="mt-4 flex size-full justify-center border-t border-border pt-4">
           <ButtonContained onClick={() => window.electron.startOverlay()}>
             <MdPlayArrow className="mr-2 size-5" />
             Overlay
@@ -60,13 +42,13 @@ export const RouteSelect = () => {
   );
 };
 
-const NavRoutes = ({ Icon, title, target }: RouteProps) => {
+const NavRoutes = ({ Icon, title, target, to }: RouteProps) => {
   return (
     <NavLink
-      to={`${title.toLowerCase()}`}
+      to={to}
       target={target}
       className={({ isActive }) =>
-        `mb-1 flex w-[100%] items-center justify-start gap-4 rounded-lg px-6 py-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-gray-800 text-text shadow" : "text-gray-400 shadow-none hover:bg-gray-800"}`
+        `mb-1 flex w-[100%] items-center justify-start gap-4 rounded-lg px-6 py-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-background-hover text-text shadow" : "text-text-secondary shadow-none hover:bg-background-hover"}`
       }
     >
       {({ isActive }) => (

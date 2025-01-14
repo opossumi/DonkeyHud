@@ -130,10 +130,10 @@ export const MatchCard = ({ match }: MatchCardProps) => {
   return (
     <div
       key={match.id}
-      className="relative flex flex-col bg-background2 p-4 lg:flex-row"
+      className="relative flex flex-col bg-background-secondary p-4 lg:flex-row"
     >
       <div className="flex flex-auto flex-col items-center justify-center gap-2 p-2">
-        <div className="flex flex-auto flex-col items-center justify-center rounded-lg bg-background px-14 py-5">
+        <div className="flex flex-auto flex-col items-center justify-center rounded-lg bg-background-primary px-14 py-5">
           <h1 className="text-4xl font-bold text-sky-500 md:text-5xl">
             MATCH LIVE
           </h1>
@@ -250,7 +250,7 @@ export const MatchCard = ({ match }: MatchCardProps) => {
                 <td className="p-2 text-lg font-semibold" align="center">
                   <form>
                     <select
-                      className="rounded-md border border-border bg-background p-2"
+                      className="rounded-md border border-border bg-background-primary p-2"
                       value={veto.winner ? veto.winner : ""}
                       onChange={(e) => handleSetWinner(index, e.target.value)}
                     >

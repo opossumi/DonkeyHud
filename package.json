@@ -9,6 +9,7 @@
     "email": "johnwtimmermann@yahoo.com"
   },
   "description": "OpenHud - CS2 Admin Panel / HUD",
+  "repository": "https://github.com/JohnTimmermann/OpenHud",
   "scripts": {
     "dev": "npm-run-all --parallel dev:react dev:electron",
     "dev:react": "vite",
@@ -24,6 +25,7 @@
     "test:unit": "vitest src"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.47.11",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "csgogsi": "^3.0.7",

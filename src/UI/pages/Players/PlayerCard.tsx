@@ -1,7 +1,7 @@
 import { PlayerSilhouette } from "./PlayersPage";
 import { MdEdit, MdDelete } from "react-icons/md";
-import { useState } from "react";
-import { usePlayers } from "../../hooks";
+import { useEffect, useState } from "react";
+import { usePlayers, useTeams } from "../../hooks";
 
 interface PlayerCardProps {
   player: Player;
@@ -10,8 +10,26 @@ interface PlayerCardProps {
 
 export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
   const [isCopied, setIsCopied] = useState(false);
-
+  const [team, setTeam] = useState<Team | null>(null);
   const { deletePlayer } = usePlayers();
+  const { getTeamById } = useTeams();
+
+  useEffect(() => {
+    const fetchTeam = async () => {
+      try {
+        const teamData = await getTeamById(player.team);
+        if (!teamData) {
+          setTeam(null);
+          return;
+        }
+        setTeam(teamData);
+      } catch (error) {
+        console.log(error);
+        setTeam(null);
+      }
+    };
+    fetchTeam();
+  }, [player, getTeamById]);
 
   const handleCopyClick = (steamId: string) => {
     navigator.clipboard.writeText(steamId);
@@ -28,7 +46,7 @@ export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
   };
 
   return (
-    <div className="flex w-full flex-col divide-y divide-border rounded-lg bg-background2 px-2">
+    <div className="flex w-full flex-col divide-y divide-border rounded-lg bg-background-secondary px-2">
       <div className="relative flex w-full justify-between px-2 pt-2">
         <div>
           <h4 className="font-semibold">{player.username}</h4>
@@ -37,7 +55,9 @@ export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
               {player.firstName} {player.lastName}
             </p>
           </div>
-          {player.team && <h5>{player.team}</h5>}
+          {team?.logo && (
+            <img className="size-8" src={team.logo} alt={`${team.name} logo`} />
+          )}
         </div>
         <img
           className="size-32"

@@ -1,6 +1,6 @@
 import { BrowserWindow } from "electron";
-import { getHudPath, getPreloadPath } from "./pathResolver.js";
-import { checkDirectories } from "./util.js";
+import { getHudPath, getPreloadPath } from "./helpers/index.js";
+import { checkDirectories } from "./helpers/util.js";
 import path from "path";
 
 export function createHudWindow() {

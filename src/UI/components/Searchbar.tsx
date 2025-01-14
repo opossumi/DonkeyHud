@@ -23,7 +23,7 @@ export const Searchbar = ({ dataSearch }: SearchBarProps) => {
     <div className="flex flex-col gap-2">
       <div
         id="Search"
-        className="noDrag relative flex size-full items-center justify-center gap-2 rounded bg-background2 px-2 text-sm text-textcolor"
+        className="noDrag text-textcolor relative flex size-full items-center justify-center gap-2 rounded bg-background-secondary px-2 text-sm"
       >
         <MdSearch className="size-6" />
         <input

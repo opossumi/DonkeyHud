@@ -82,6 +82,7 @@ export function checkDirectories() {
   }
 }
 
+
 export function showNotification(body: string) {
   new Notification({
     title: "OpenHud:",

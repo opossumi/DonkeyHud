@@ -1,23 +1,23 @@
 import React from "react";
+import { twMerge } from "tailwind-merge";
 
 interface ButtonContainedProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  color?: string;
 }
 
 export const ButtonContained = ({
   children,
-  color,
+  className,
   ...rest
 }: ButtonContainedProps) => {
-  const bgColor = color
-    ? `bg-${color} hover:bg-${color}-dark`
-    : "bg-primary hover:bg-primary-dark";
   return (
     <button
       {...rest}
-      className={`${bgColor} flex items-center justify-center rounded px-5 py-1.5 text-sm font-semibold uppercase text-text drop-shadow-md transition-colors`}
+      className={twMerge(
+        "text-button-text flex items-center justify-center rounded bg-primary px-5 py-1.5 text-sm font-semibold uppercase drop-shadow-md transition-colors hover:bg-primary-dark",
+        className,
+      )}
     >
       {children}
     </button>

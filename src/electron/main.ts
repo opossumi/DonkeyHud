@@ -5,9 +5,10 @@ import {
   ipcMainOn,
   isDev,
   showNotification,
-} from "./util.js";
+  getPreloadPath,
+  getUIPath,
+} from "./helpers/index.js";
 import { shutDown, startServer } from "./server/server.js";
-import { getPreloadPath, getUIPath } from "./pathResolver.js";
 import { getPlayers } from "./server/services/playersServices.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
@@ -17,11 +18,13 @@ import http from "http";
 /* 
 TODO: Auto generate cfg file in users steam cfg folder
 TODO: Added login/auth system with supabase
-TODO: Use actual Teams data for setting a players team
 TODO: Auto-update for app
 TODO: Select/Delete all for player cards and teams/matches tables
 TODO: Delete confirmation buttons/alerts
 TODO: Light/Dark modes and or themes
+TODO: Make Tutorials
+TODO: Swap sides / refresh hud keybinds
+TODO: Upload local pictures/logos
 */
 
 let server: http.Server;
@@ -36,7 +39,7 @@ app.on("ready", () => {
     width: 1200,
     minWidth: 800,
     height: 700,
-    minHeight: 500,
+    minHeight: 513,
     frame: isDev(),
     webPreferences: {
       preload: getPreloadPath(),

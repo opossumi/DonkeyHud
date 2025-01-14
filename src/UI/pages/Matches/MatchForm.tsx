@@ -147,7 +147,7 @@ export const MatchForm = ({
       <Container>
         <div className="flex flex-1 flex-col overflow-y-scroll p-6">
           <div className="my-2 flex items-center justify-center gap-4">
-            <div className="bg-background">
+            <div className="bg-background-primary">
               <select
                 value={leftTeamId || ""}
                 onChange={(e) => setLeftTeamId(e.target.value)}
@@ -167,7 +167,7 @@ export const MatchForm = ({
             </div>
             <h2 className="font-semibold">VS</h2>
 
-            <div className="bg-background">
+            <div className="bg-background-primary">
               <select
                 value={rightTeamId || ""}
                 onChange={(e) => setRightTeamId(e.target.value)}
@@ -188,7 +188,7 @@ export const MatchForm = ({
           </div>
 
           <div className="flex items-center justify-center">
-            <form className="flex flex-col items-center justify-center bg-background">
+            <form className="flex flex-col items-center justify-center bg-background-primary">
               <label
                 htmlFor="Match Type"
                 className="text-sm font-semibold uppercase text-gray-400"
@@ -214,7 +214,7 @@ export const MatchForm = ({
           <h5 className="mt-4 font-semibold">Set Vetos:</h5>
           {/* <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3"> */}
           <table className="min-w-full divide-y divide-slate-400">
-            <thead className="bg-background2">
+            <thead className="bg-background-secondary">
               <tr>
                 <TableTH title="veto" />
                 <TableTH title="type" />

@@ -1,8 +1,15 @@
 {
   "appId": "com.openhud.electron-app",
+  "productName": "OpenHud",
   "files": ["dist-electron", "dist-react"],
   "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
   "icon": "./desktopIcon.png",
+  "publish": {
+    "provider": "github",
+    "owner": "JohnTimmermann",
+    "repo": "OpenHud",
+    "releaseType": "release"
+  },
   "mac": {
     "target": "dmg"
   },
@@ -11,6 +18,7 @@
     "category": "Utility"
   },
   "win": {
-    "target": ["portable", "msi"]
+    "target": ["portable", "msi"],
+    "publish": ["github"]
   }
 }

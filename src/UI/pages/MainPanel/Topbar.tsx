@@ -13,10 +13,21 @@ export const Topbar = ({ header, buttonText, openForm }: TopBarProps) => {
   const { searchPlayers } = usePlayers();
   const { searchTeams } = useTeams();
 
+  switch (location.pathname) {
+    case "/players":
+      break;
+
+    case "/teams":
+      break;
+
+    default:
+      break;
+  }
+
   return (
     <div
       id="TopBar"
-      className="relative flex items-center justify-between border-b border-border p-4"
+      className="relative flex h-20 shrink-0 items-center justify-between border-b border-border"
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4">

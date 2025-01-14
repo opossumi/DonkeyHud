@@ -11,14 +11,14 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
   return (
     <div
       id="AppFrame"
-      className="relative z-10 flex h-14 w-full items-center justify-end gap-10 lg:h-10"
+      className="relative flex w-full shrink-0 items-center justify-end gap-10 bg-background-secondary pl-5 text-text lg:h-8"
     >
       <div className="flex items-center gap-2 lg:hidden">
         <button
           className="noDrag flex items-center justify-center"
           onClick={() => toggleDrawer(true)}
         >
-          <MdMenu className="size-7" />
+          <MdMenu className="size-7 transition-colors hover:text-gray-400" />
         </button>
         <NavLink to="/" className="noDrag lg:hidden">
           <span className="text-2xl font-bold text-primary-light">OPEN</span>
@@ -56,25 +56,25 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
           </svg>
         </button>
       </div>
-      <div className="inline-flex h-full w-full justify-end gap-4 lg:w-min">
+      <div className="inline-flex h-full w-full justify-end lg:w-min">
         <button
           id="minimize"
           onClick={() => window.electron.sendFrameAction("MINIMIZE")}
-          className="noDrag flex w-14 items-center justify-center transition-colors hover:bg-border hover:text-primary"
+          className="noDrag flex w-12 items-center justify-center transition-colors hover:bg-border hover:text-primary"
         >
           <VscChromeMinimize className="size-5" />
         </button>
         <button
           id="maximize"
           onClick={() => window.electron.sendFrameAction("MAXIMIZE")}
-          className="noDrag flex w-14 items-center justify-center transition-colors hover:bg-border hover:text-primary"
+          className="noDrag flex w-12 items-center justify-center transition-colors hover:bg-border hover:text-primary"
         >
           <VscChromeMaximize className="size-5" />
         </button>
         <button
           id="quit"
           onClick={() => window.electron.sendFrameAction("CLOSE")}
-          className="noDrag flex w-14 items-center justify-center transition-colors hover:bg-border hover:bg-red-400"
+          className="noDrag flex w-12 items-center justify-center transition-colors hover:bg-border hover:bg-red-400"
         >
           <MdClose className="size-5" />
         </button>

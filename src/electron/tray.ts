@@ -1,6 +1,6 @@
 import { app, BrowserWindow, Menu, Tray } from "electron";
 import path from "path";
-import { getAssetPath } from "./pathResolver.js";
+import { getAssetPath } from "./helpers/index.js";
 
 export function createTray(mainWindow: BrowserWindow) {
   /* 
@@ -27,6 +27,6 @@ export function createTray(mainWindow: BrowserWindow) {
         label: "Quit",
         click: () => app.quit(),
       },
-    ])
+    ]),
   );
 }

@@ -6,7 +6,7 @@ import {
   Dialog,
 } from "../../components";
 import { countries } from "../../api/countries";
-import { usePlayers } from "../../hooks";
+import { usePlayers, useTeams } from "../../hooks";
 
 interface PlayerFormProps {
   player?: Player;
@@ -32,8 +32,8 @@ export const PlayerForm = ({
   const [country, setCountry] = useState(player?.country || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
   const { createPlayer, updatePlayer } = usePlayers();
+  const { teams } = useTeams();
 
   useEffect(() => {
     if (isEditing && player) {
@@ -151,11 +151,30 @@ export const PlayerForm = ({
             value={avatar}
             onChange={(e) => setAvatar(e.target.value)}
           />
-          <TextInput
-            label="Team"
-            value={team}
-            onChange={(e) => setTeam(e.target.value)}
-          />
+
+          <div>
+            <label htmlFor="team" className="mb-2 block font-medium text-text">
+              Team
+            </label>
+            <select
+              value={team}
+              onChange={(e) => setTeam(e.target.value)}
+              name="Team"
+            >
+              <option value="" className="p-4 text-text">
+                Team
+              </option>
+              {teams.map((team) => (
+                <option
+                  key={team._id}
+                  value={team._id}
+                  className="p-4 text-text"
+                >
+                  {team.name}
+                </option>
+              ))}
+            </select>
+          </div>
           {/* <input type="file" onChange={(e) => setFile(e.target.files?.[0])} /> */}
           <div className="mb-4">
             <label className="mb-2 block font-medium">Country</label>

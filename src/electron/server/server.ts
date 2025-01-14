@@ -5,8 +5,8 @@ import { initializeSocket } from "./sockets/socket.js";
 import { readGameData } from "./sockets/GSI.js";
 import { playerRoutes, teamRoutes, matchRoutes } from "./routes/index.js";
 import { BrowserWindow } from "electron";
-import { ipcWebContentsSend } from "../util.js";
-import { getHudPath } from "../pathResolver.js";
+import { ipcWebContentsSend } from "../helpers/util.js";
+import { getHudPath } from "../helpers/index.js";
 import path from "path";
 
 const port = process.env.PORT || "1349";
@@ -41,7 +41,7 @@ export const startServer = (mainWindow: BrowserWindow) => {
   ipcWebContentsSend(
     "startServer",
     mainWindow.webContents,
-    "Server started on port"
+    "Server started on port",
   );
 
   return server;

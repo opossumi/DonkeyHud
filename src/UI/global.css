@@ -36,7 +36,7 @@
   [multiple],
   textarea,
   select {
-    @apply w-full rounded-md border-border bg-background2 focus:border-primary-light focus:ring-primary-light;
+    @apply w-full rounded-md border-border bg-background-secondary focus:border-primary-light focus:ring-primary-light;
   }
 }
 
@@ -53,7 +53,8 @@ body,
   line-height: normal;
 }
 
-#AppFrame {
+#AppFrame,
+#HomeLogo {
   -webkit-app-region: drag;
 }
 
@@ -68,12 +69,12 @@ body,
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: rgb(var(--border-color));
+  background: hsl(var(--border-color));
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgb(111, 144, 190);
+  background: hsl(var(--background-light));
   border-radius: 5px;
 }
 
@@ -83,19 +84,63 @@ body,
 } */
 
 .dark {
-  --background-primary: 8 10 13;
-  --background-secondary: 15 20 26;
-  --text-color: 255, 255, 255;
-  --border-color: 31 41 55;
-  --button-color: 60, 172, 116;
-  --primary: "#0c9852";
-  --primary-light: "rgb(60, 172, 116)";
-  --primary-dark: "rgb(8, 106, 57)";
-  --secondary: "#f50057";
-  --secondary-light: "rgb(247, 51, 120)";
-  --secondary-dark: "rgb(171, 0, 60)";
-  --text: "#fff";
-  --text-secondary: "rgba(255, 255, 255, 0.7)";
-  --text-disabled: "rgba(255, 255, 255, 0.5)";
-  background: rgba(var(--background-secondary));
+  --background-primary: 220, 15%, 8%; /* main background color */
+  --background-secondary: 220, 15%, 11%; /* spacing, secondary elements */
+  --background-hover: 220, 15%, 18%; /* slightly lighter for hover */
+  --background-light: 220, 15%, 28%; /* even lighter for light background */
+  --text-color: 0, 0%, 100%; /* White */
+  --border-color: 220, 15%, 20%; /* same as hover */
+  --button-color: 120, 50%, 50%; /* Medium Green */
+  --button-text: 0, 0%, 100%; /* White */
+  --primary: 150 85.4% 32.2%; /* Dark Green */
+  --primary-light: 150, 65%, 45.5%; /* Light Green */
+  --primary-dark: 150, 86%, 22.4%; /* Darker Green */
+  --secondary: 340, 100%, 50%; /* Bright Red */
+  --secondary-light: 340, 100%, 70%; /* Light Red */
+  --secondary-dark: 340, 100%, 30%; /* Dark Red */
+  --text: 0, 0%, 100%; /* White */
+  --text-secondary: 0, 0%, 100%, 0.7; /* Semi-transparent White */
+  --text-disabled: 0, 0%, 100%, 0.5; /* More Transparent White */
+  background: hsl(var(--background-secondary));
+}
+
+.light {
+  --background-primary: 0, 0%, 100%; /* White */
+  --background-secondary: 0, 0%, 94%; /* Light Gray */
+  --background-hover: 0, 0%, 86%; /* Gray */
+  --background-light: 0, 0%, 78%; /* Darker Gray */
+  --text-color: 0, 0%, 0%; /* Black */
+  --border-color: 0, 0%, 78%; /* Darker Gray */
+  --button-text: 0, 0%, 100%; /* White */
+  --primary: 210, 100%, 40%; /* Muted Blue */
+  --primary-light: 210, 80%, 51%; /* Muted Light Blue */
+  --primary-dark: 210, 100%, 32%; /* Darker Muted Blue */
+  --secondary: 0, 100%, 60%; /* Red */
+  --secondary-light: 0, 100%, 70%; /* Light Red */
+  --secondary-dark: 0, 100%, 40%; /* Dark Red */
+  --text: 0, 0%, 0%; /* Black */
+  --text-secondary: 0, 0%, 0%, 0.7; /* Semi-transparent Black */
+  --text-disabled: 0, 0%, 0%, 0.5; /* More Transparent Black */
+  background: hsl(var(--background-secondary));
+}
+
+.colorful {
+  --background-primary: 120, 20%, 15%; /* Dark Forest Green */
+  --background-secondary: 120, 20%, 12%; /* Very Dark Green */
+  --background-hover: 120, 20%, 20%; /* Darker Forest Green */
+  --background-light: 120, 20%, 25%; /* Dark Grayish Green */
+  --text-color: 0, 0%, 100%; /* White */
+  --border-color: 120, 20%, 25%; /* Dark Grayish Green */
+  --button-color: 120, 60%, 34%; /* Forest Green */
+  --button-text: 0, 0%, 100%; /* White */
+  --primary: 16, 100%, 57%; /* Deep Orange */
+  --primary-light: 16, 100%, 74%; /* Light Salmon */
+  --primary-dark: 16, 75%, 31%; /* Saddle Brown */
+  --secondary: 195, 100%, 50%; /* Deep Sky Blue */
+  --secondary-light: 195, 73%, 75%; /* Light Sky Blue */
+  --secondary-dark: 195, 100%, 27%; /* Dark Cyan */
+  --text: 0, 0%, 100%; /* White */
+  --text-secondary: 0, 0%, 100%, 0.7; /* Semi-transparent White */
+  --text-disabled: 0, 0%, 100%, 0.5; /* More Transparent White */
+  background: hsl(var(--background-secondary));
 }

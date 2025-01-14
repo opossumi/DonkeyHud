@@ -1,19 +1,31 @@
 interface Window {
   electron: {
     startServer: (callback: (message: string) => void) => void;
-    getPlayers: () => Promise<Player[]>;
     sendFrameAction: (payload: FrameWindowAction) => void;
     startOverlay: () => void;
     openExternalLink: (url: string) => void;
+  };
+  update: {
+    updateMessage: (callback: (message: string) => void) => void;
+  };
+  players: {
+    getPlayers: () => Promise<Player[]>;
+  };
+  teams: {
+    getTeams: () => Promise<Team[]>;
+  };
+  matches: {
+    getMatches: () => Promise<Match[]>;
   };
 }
 
 type EventPayloadMapping = {
   startServer: string;
-  getPlayers: Promise<Player[]>;
-  sendFrameAction: FramWindowAction;
   startOverlay;
+  sendFrameAction: FrameWindowAction;
   openExternalLink: string;
+  getPlayers: Promise<Player[]>;
+  updateMessage: string;
 };
 
 type FrameWindowAction = "CLOSE" | "MAXIMIZE" | "MINIMIZE";

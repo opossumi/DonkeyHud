@@ -47,7 +47,10 @@ export const VetoRow: React.FC<VetoRowProps> = ({
   };
 
   return (
-    <tr key={index} className="bg-background2 odd:bg-background">
+    <tr
+      key={index}
+      className="bg-background-secondary odd:bg-background-primary"
+    >
       <td className="px-6 py-4">
         <h4 className="text-center font-semibold">Veto {index + 1}</h4>
       </td>

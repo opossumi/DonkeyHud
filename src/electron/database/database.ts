@@ -1,5 +1,5 @@
 import sqlite3 from "sqlite3";
-import { getDatabasePath } from "../pathResolver.js";
+import { getDatabasePath } from "../helpers/index.js";
 
 // Initialize the SQLite database
 const dbPath = getDatabasePath();
@@ -24,7 +24,7 @@ export const db = new sqlite3.Database(dbPath, (err) => {
       if (err) {
         console.error(err.message);
       }
-    }
+    },
   );
   db.run(
     `CREATE TABLE IF NOT EXISTS teams(
@@ -39,7 +39,7 @@ export const db = new sqlite3.Database(dbPath, (err) => {
       if (err) {
         console.error(err.message);
       }
-    }
+    },
   );
 });
 
@@ -58,7 +58,7 @@ db.run(
     if (err) {
       console.error(err.message);
     }
-  }
+  },
 );
 
 export default db;

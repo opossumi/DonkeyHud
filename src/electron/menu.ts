@@ -1,5 +1,5 @@
 import { app, BrowserWindow, Menu } from "electron";
-import { isDev } from "./util.js";
+import { isDev } from "./helpers/util.js";
 
 export function createMenu(mainWindow: BrowserWindow) {
   Menu.setApplicationMenu(
@@ -29,6 +29,6 @@ export function createMenu(mainWindow: BrowserWindow) {
         },
         visible: isDev(),
       },
-    ])
+    ]),
   );
 }

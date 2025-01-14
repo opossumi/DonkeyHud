@@ -60,7 +60,7 @@ export const useTeams = () => {
     }
   };
 
-  const getTeamsById = async (id: string) => {
+  const getTeamById = async (id: string) => {
     try {
       const team = await axios.get(`${apiUrl}/teams/${id}`);
       if (!teams) {
@@ -84,6 +84,6 @@ export const useTeams = () => {
     updateTeam,
     deleteTeam,
     getTeams,
-    getTeamsById,
+    getTeamById,
   };
 };

@@ -1,23 +1,39 @@
+import { MdLogout } from "react-icons/md";
 import Patreon from "../../assets/patreon.svg";
+import { useUser } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 export const Plan = () => {
+  const { logoutUser } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logoutUser();
+    navigate("/");
+  };
   return (
     <div
       id="Plan"
-      className="relative flex items-center justify-center border-t border-border bg-background2 px-2 py-4 text-xs text-text"
+      className="relative flex items-center justify-between rounded-lg bg-background-primary text-xs text-text"
     >
       <button
-        className="relative flex items-center justify-center gap-2 rounded bg-border px-3 py-2 transition-colors hover:bg-primary"
+        className="relative flex size-full items-center justify-center rounded-l-lg bg-border px-3 py-2 transition-colors hover:bg-primary"
         onClick={() =>
           window.electron.openExternalLink("https://www.patreon.com/JTMythic")
         }
       >
         <p className="text-center font-bold">Support on Patreon</p>
         <img
-          className="flex size-5 items-center justify-center"
+          className="flex size-4 items-center justify-center"
           src={Patreon}
           alt="Patreon"
         />
+      </button>
+      <button
+        onClick={handleLogout}
+        className="relative flex h-full items-center overflow-hidden rounded-r-lg p-1 transition-colors hover:bg-red-400"
+      >
+        <MdLogout className="size-5 shrink-0" />
       </button>
     </div>
   );
