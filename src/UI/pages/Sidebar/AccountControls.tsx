@@ -34,24 +34,15 @@ export const AccountToggle = () => {
           {!user?.is_anonymous && (
             <button
               onClick={() => setOpen(true)}
-<<<<<<< Updated upstream
               disabled
               className="relative flex items-center gap-2 overflow-hidden rounded p-1 text-stone-600 transition-colors"
-=======
-              className="relative flex items-center gap-2 overflow-hidden rounded p-1 transition-colors hover:bg-border"
->>>>>>> Stashed changes
             >
               <MdAccountCircle className="size-5 shrink-0 rounded-full" />
             </button>
           )}
           <button
-<<<<<<< Updated upstream
             disabled
             className="relative flex items-center gap-2 overflow-hidden rounded p-1 text-stone-600 transition-colors"
-=======
-            // onClick={logoutUser}
-            className="relative flex items-center gap-2 overflow-hidden rounded p-1 transition-colors hover:bg-border"
->>>>>>> Stashed changes
           >
             <MdSettings className="size-5 shrink-0 rounded-full" />
           </button>
@@ -70,12 +61,8 @@ export const AccountToggle = () => {
         </div>
         <button
           onClick={handleLogout}
-<<<<<<< Updated upstream
           disabled
           className="relative flex items-center gap-2 overflow-hidden rounded p-1 text-stone-600 transition-colors"
-=======
-          className="relative flex items-center gap-2 overflow-hidden rounded p-1 transition-colors hover:bg-red-400"
->>>>>>> Stashed changes
         >
           <MdLogout className="size-5 shrink-0 rounded-full" />
         </button>
