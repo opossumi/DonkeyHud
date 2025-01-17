@@ -13,6 +13,7 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
       id="AppFrame"
       className="relative flex w-full shrink-0 items-center justify-end gap-10 bg-background-secondary pl-5 text-text lg:h-8"
     >
+<<<<<<< Updated upstream
       {toggleDrawer && (
         <div className="flex items-center gap-2 lg:hidden">
           <button
@@ -27,6 +28,20 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
           </NavLink>
         </div>
       )}
+=======
+      <div className="flex items-center gap-2 lg:hidden">
+        <button
+          className="noDrag flex items-center justify-center"
+          onClick={() => toggleDrawer(true)}
+        >
+          <MdMenu className="size-7 transition-colors hover:text-gray-400" />
+        </button>
+        <NavLink to="/" className="noDrag lg:hidden">
+          <span className="text-2xl font-bold text-primary-light">OPEN</span>
+          <span className="text-2xl font-bold">HUD</span>
+        </NavLink>
+      </div>
+>>>>>>> Stashed changes
       <div className="flex items-center gap-4">
         <button
           onClick={() =>
