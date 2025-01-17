@@ -9,6 +9,16 @@ export const db = new sqlite3.Database(dbPath, (err) => {
   }
   console.log("Connected to the database.");
   db.run(
+    `CREATE TABLE IF NOT EXISTS coaches(
+      steamid TEXT PRIMARY KEY
+    )`,
+    (err) => {
+      if (err) {
+        console.error("Error creating coaches table:", err.message);
+      }
+    },
+  );
+  db.run(
     `CREATE TABLE IF NOT EXISTS players(
       _id TEXT PRIMARY KEY,
       firstName TEXT,

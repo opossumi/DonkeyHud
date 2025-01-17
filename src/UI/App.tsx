@@ -5,11 +5,11 @@ import { PlayersPage } from "./pages/Players/PlayersPage";
 import { TeamsPage } from "./pages/Teams/TeamsPage";
 import { AdminPanel } from "./pages/AdminPanel";
 import { AppProviders } from "./context/AppProviders";
-import { ForgotPassword, SignUp } from "./pages/Login";
-import { Login } from "./pages/Login";
-import { useUser } from "./hooks";
 import { UpdateUser } from "./pages/Account/UpdateUser";
-import { ThemesProvider } from "./context";
+// import { ForgotPassword, SignUp } from "./pages/Login";
+// import { Login } from "./pages/Login";
+// import { useUser } from "./hooks";
+// import { ThemesProvider } from "./context";
 
 const AuthenticatedRoutes = () => (
   <AppProviders>
@@ -28,20 +28,21 @@ const AuthenticatedRoutes = () => (
   </AppProviders>
 );
 
-const UnauthenticatedRoutes = () => (
-  <ThemesProvider>
-    <MemoryRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Navigate to="/" />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/forgotpassword" element={<ForgotPassword />} />
-      </Routes>
-    </MemoryRouter>
-  </ThemesProvider>
-);
+// const UnauthenticatedRoutes = () => (
+//   <ThemesProvider>
+//     <MemoryRouter>
+//       <Routes>
+//         <Route path="/" element={<Login />} />
+//         <Route path="/login" element={<Navigate to="/" />} />
+//         <Route path="/signup" element={<SignUp />} />
+//         <Route path="/forgotpassword" element={<ForgotPassword />} />
+//       </Routes>
+//     </MemoryRouter>
+//   </ThemesProvider>
+// );
 
 export const App = () => {
-  const { user } = useUser();
-  return user ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />;
+  // const { user } = useUser();
+  // return user ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />;
+  return <AuthenticatedRoutes />;
 };

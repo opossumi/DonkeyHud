@@ -3,7 +3,12 @@ import cors from "cors";
 import http from "http";
 import { initializeSocket } from "./sockets/socket.js";
 import { readGameData } from "./sockets/GSI.js";
-import { playerRoutes, teamRoutes, matchRoutes } from "./routes/index.js";
+import {
+  playerRoutes,
+  teamRoutes,
+  matchRoutes,
+  coachRoutes,
+} from "./routes/index.js";
 import { BrowserWindow } from "electron";
 import { ipcWebContentsSend } from "../helpers/util.js";
 import { getHudPath } from "../helpers/index.js";
@@ -33,6 +38,7 @@ export const startServer = (mainWindow: BrowserWindow) => {
   app.use(playerRoutes);
   app.use(teamRoutes);
   app.use(matchRoutes);
+  app.use(coachRoutes);
 
   server.listen(port, () => {
     console.log(`Server listening on port ${port}`);

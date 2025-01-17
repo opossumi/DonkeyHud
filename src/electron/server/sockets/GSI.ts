@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
 import { CSGO, CSGOGSI, CSGORaw, RoundOutcome, Score } from "csgogsi";
 import { io } from "../sockets/socket.js";
-import { getCurrentMatch, updateCurrentMatch } from "../services/index.js";
+import {
+  getCoaches,
+  getCurrentMatch,
+  updateCurrentMatch,
+} from "../services/index.js";
 
 export const GSI = new CSGOGSI();
 let lastGSI: CSGO;
@@ -10,13 +14,16 @@ GSI.overtimeMR = 3;
 
 export const readGameData = async (req: Request, res: Response) => {
   const data: CSGORaw = req.body;
-  fixGSIData(data);
+  const coaches = (await getCoaches()).map(
+    (coach) => coach.steamid,
+  ) as string[];
+  fixGSIData(data, coaches);
   GSI.digest(data);
   io.emit("update", data);
   res.sendStatus(200);
 };
 
-const fixGSIData = (data: CSGORaw) => {
+const fixGSIData = (data: CSGORaw, coaches: string[]) => {
   if (data.player) {
     data.player.observer_slot =
       data.player.observer_slot !== undefined && data.player.observer_slot === 9
@@ -25,10 +32,14 @@ const fixGSIData = (data: CSGORaw) => {
   }
 
   if (data.allplayers) {
-    Object.entries(data.allplayers).forEach(([, player]) => {
-      if (player) {
+    Object.entries(data.allplayers).forEach(([id, player]) => {
+      if (player && !coaches.includes(id)) {
         player.observer_slot =
           player.observer_slot === 9 ? 0 : (player.observer_slot || 0) + 1;
+      } else {
+        if (data.allplayers) {
+          delete data.allplayers[id];
+        }
       }
     });
   }
@@ -45,7 +56,7 @@ GSI.on("intermissionEnd", async () => {
     const updatedVetos = vetos.map((veto) =>
       veto.mapName === GSI.current?.map.name
         ? { ...veto, reverseSide: !veto.reverseSide }
-        : veto
+        : veto,
     );
     match.vetos = updatedVetos;
     await updateCurrentMatch(match);
@@ -60,7 +71,7 @@ GSI.on("matchEnd", async (score: Score) => {
   if (match) {
     const { vetos } = match;
     const isReversed = vetos.filter(
-      (veto) => veto.mapName === mapName && veto.reverseSide
+      (veto) => veto.mapName === mapName && veto.reverseSide,
     )[0];
     vetos.map((veto) => {
       if (

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MdRemove, MdAdd } from "react-icons/md";
+import { MdRemove, MdAdd, MdClose } from "react-icons/md";
 import axios from "axios";
 import knifeImage from "../../assets/knifeRound.png";
 import { apiUrl } from "../../api/api";
@@ -20,6 +20,9 @@ export const MatchCard = ({ match }: MatchCardProps) => {
   const [teamTwoLogo, setTeamTwoLogo] = useState("");
   const [teamTwoWins, setTeamTwoWins] = useState<number>(match.right.wins | 0);
 
+  const [coaches, setCoaches] = useState<{ steamid: string }[]>([]);
+  const [coachInput, setCoachInput] = useState<string>("");
+
   const { fetchMatches } = useMatches();
 
   useEffect(() => {
@@ -39,7 +42,36 @@ export const MatchCard = ({ match }: MatchCardProps) => {
       }
     };
     fetchTeamNames();
+    fetchCoaches();
   }, []);
+
+  const fetchCoaches = async () => {
+    try {
+      const coachesData = await axios.get(`${apiUrl}/coaches/`);
+      setCoaches(coachesData.data);
+    } catch (error) {
+      console.error("Error fetching coaches", error);
+    }
+  };
+
+  const handleAddCoach = async () => {
+    try {
+      await axios.post(`${apiUrl}/coaches/`, { steamid: coachInput });
+      await fetchCoaches();
+      setCoachInput("");
+    } catch (error) {
+      console.error("Error adding coach", error);
+    }
+  };
+
+  const handleDeleteCoach = async (coachId: string) => {
+    try {
+      await axios.delete(`${apiUrl}/coaches/${coachId}`);
+      await fetchCoaches();
+    } catch (error) {
+      console.error("Error deleting coach", error);
+    }
+  };
 
   const handleStopMatch = async () => {
     try {
@@ -195,6 +227,38 @@ export const MatchCard = ({ match }: MatchCardProps) => {
           >
             Stop Match
           </button>
+          <div className="mt-2 flex flex-col items-center">
+            <h5>Coaches</h5>
+            <div className="flex gap-2">
+              <input
+                className="h-5/6"
+                placeholder="steamid"
+                name="coaches"
+                type="text"
+                value={coachInput}
+                onChange={(e) => setCoachInput(e.target.value)}
+              />
+              <button
+                className="h-5/6 rounded bg-background-light px-2"
+                onClick={handleAddCoach}
+              >
+                Add
+              </button>
+            </div>
+            {coaches.map((coach, index) => (
+              <div key={index} className="flex">
+                <div className="rounded-l-lg bg-background-light px-2">
+                  {coach.steamid}
+                </div>
+                <button
+                  className="rounded-r-lg bg-red-400 px-1"
+                  onClick={() => handleDeleteCoach(coach.steamid)}
+                >
+                  <MdClose />
+                </button>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
       <table className="flex-auto table-fixed">
