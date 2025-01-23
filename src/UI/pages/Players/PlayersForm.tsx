@@ -9,44 +9,45 @@ import { countries } from "../../api/countries";
 import { usePlayers, useTeams } from "../../hooks";
 
 interface PlayerFormProps {
-  player?: Player;
-  isEditing?: boolean;
-  onCancel?: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const PlayerForm = ({
-  player,
-  isEditing,
-  onCancel,
-  open,
-  setOpen,
-}: PlayerFormProps) => {
-  const [username, setUsername] = useState(player?.username || "");
-  const [avatar, setAvatar] = useState(player?.avatar || "");
-  const [firstName, setFirstName] = useState(player?.firstName || "");
-  const [lastName, setLastName] = useState(player?.lastName || "");
-  const [steamId, setSteamId] = useState(player?.steamid || "");
-  const [team, setTeam] = useState(player?.team || "");
-  const [country, setCountry] = useState(player?.country || "");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const { createPlayer, updatePlayer } = usePlayers();
+export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
+  const {
+    createPlayer,
+    updatePlayer,
+    selectedPlayer,
+    isEditing,
+    setIsEditing,
+    setSelectedPlayer,
+  } = usePlayers();
   const { teams } = useTeams();
 
+  const [username, setUsername] = useState("");
+  const [avatar, setAvatar] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [steamId, setSteamId] = useState("");
+  const [team, setTeam] = useState("");
+  const [country, setCountry] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
-    if (isEditing && player) {
-      // Update form fields when player prop changes
-      setUsername(player.username);
-      setAvatar(player.avatar || "");
-      setFirstName(player.firstName || "");
-      setLastName(player.lastName || "");
-      setSteamId(player.steamid);
-      setTeam(player.team || "");
-      setCountry(player.country || "");
+    if (isEditing && selectedPlayer) {
+      // Update form fields when selectedPlayer prop changes
+      setUsername(selectedPlayer.username);
+      setAvatar(selectedPlayer.avatar || "");
+      setFirstName(selectedPlayer.firstName || "");
+      setLastName(selectedPlayer.lastName || "");
+      setSteamId(selectedPlayer.steamid);
+      setTeam(selectedPlayer.team || "");
+      setCountry(selectedPlayer.country || "");
+    } else {
+      handleReset();
     }
-  }, [isEditing, player]); // Update form fields when player prop changes
+  }, [isEditing, selectedPlayer]);
 
   const validateForm = () => {
     let isValid = true;
@@ -70,7 +71,7 @@ export const PlayerForm = ({
 
     setIsSubmitting(true);
     const newPlayer: Player = {
-      _id: player?._id || "",
+      _id: selectedPlayer?._id || "",
       username,
       avatar,
       firstName: firstName,
@@ -78,10 +79,10 @@ export const PlayerForm = ({
       steamid: steamId,
       team,
       country: country,
-      extra: player?.extra || {},
+      extra: selectedPlayer?.extra || {},
     };
 
-    if (isEditing && updatePlayer) {
+    if (isEditing && selectedPlayer) {
       await updatePlayer(newPlayer);
     } else if (createPlayer) {
       await createPlayer(newPlayer);
@@ -95,12 +96,11 @@ export const PlayerForm = ({
   const handleCancel = () => {
     handleReset(); // Reset form fields
     setOpen(false);
-    if (onCancel) {
-      onCancel(); // Call onCancel prop function if provided
-    }
   };
 
   const handleReset = () => {
+    setIsEditing(false);
+    setSelectedPlayer(null);
     setUsername("");
     setAvatar("");
     setFirstName("");
@@ -113,6 +113,7 @@ export const PlayerForm = ({
 
   return (
     <Dialog onClose={handleCancel} open={open}>
+      <h1>{isEditing && "Editing"}</h1>
       <div className="flex flex-1 border-b border-border">
         <h3 className="px-6 py-4 font-semibold">
           {isEditing ? `Updating: ${username}` : "Create Player"}

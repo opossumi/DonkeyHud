@@ -6,7 +6,7 @@ export const NavLogo = () => {
     <NavLink
       id="HomeLogo"
       to="/"
-      className="relative flex h-28 w-full shrink-0 items-center justify-center gap-2 border-b border-border transition-colors"
+      className="relative flex h-20 w-full shrink-0 items-center justify-center border-b border-border transition-colors"
     >
       <img
         src={Logo}

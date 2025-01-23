@@ -9,20 +9,11 @@ import { countries } from "../../api/countries";
 import { useTeams } from "../../hooks";
 
 interface TeamsFormProps {
-  team?: Team;
-  isEditing?: boolean;
-  onCancel?: () => void;
   open: boolean;
   setOpen: (open: boolean) => void;
 }
 
-export const TeamsForm = ({
-  team,
-  isEditing,
-  onCancel,
-  open,
-  setOpen,
-}: TeamsFormProps) => {
+export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
   const [teamName, setTeamName] = useState("");
   const [shortName, setShortName] = useState("");
   const [country, setCountry] = useState("");
@@ -30,16 +21,25 @@ export const TeamsForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { createTeam, updateTeam } = useTeams();
+  const {
+    createTeam,
+    updateTeam,
+    isEditing,
+    setIsEditing,
+    selectedTeam,
+    setSelectedTeam,
+  } = useTeams();
 
   useEffect(() => {
-    if (isEditing && team) {
-      setTeamName(team.name || "");
-      setShortName(team.shortName || "");
-      setCountry(team.country || "");
-      setLogo(team.logo || "");
+    if (isEditing && selectedTeam) {
+      setTeamName(selectedTeam.name || "");
+      setShortName(selectedTeam.shortName || "");
+      setCountry(selectedTeam.country || "");
+      setLogo(selectedTeam.logo || "");
+    } else {
+      handleReset();
     }
-  }, [isEditing, team]);
+  }, [isEditing, selectedTeam]);
 
   const validateForm = () => {
     let isValid = true;
@@ -58,15 +58,15 @@ export const TeamsForm = ({
 
     setIsSubmitting(true);
     const newTeam: Team = {
-      _id: team?._id || "",
+      _id: selectedTeam?._id || "",
       name: teamName,
       logo,
       shortName: shortName || "",
       country: country || "",
-      extra: team?.extra || {},
+      extra: selectedTeam?.extra || {},
     };
 
-    if (isEditing && updateTeam) {
+    if (isEditing && selectedTeam) {
       await updateTeam(newTeam);
     } else if (createTeam) {
       await createTeam(newTeam);
@@ -78,14 +78,13 @@ export const TeamsForm = ({
   };
 
   const handleCancel = () => {
-    setOpen(false);
     handleReset();
-    if (onCancel) {
-      onCancel();
-    }
+    setOpen(false);
   };
 
   const handleReset = () => {
+    setIsEditing(false);
+    setSelectedTeam(null);
     setTeamName("");
     setShortName("");
     setCountry("");

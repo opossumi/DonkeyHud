@@ -87,7 +87,7 @@ body,
   --background-primary: 220, 15%, 8%; /* main background color */
   --background-secondary: 220, 15%, 11%; /* spacing, secondary elements */
   --background-hover: 220, 15%, 18%; /* slightly lighter for hover */
-  --background-light: 220, 15%, 28%; /* even lighter for light background */
+  --background-light: 220, 15%, 35%; /* even lighter for light background */
   --text-color: 0, 0%, 100%; /* White */
   --border-color: 220, 15%, 20%; /* same as hover */
   --button-color: 120, 50%, 50%; /* Medium Green */
@@ -125,22 +125,22 @@ body,
 }
 
 .colorful {
-  --background-primary: 120, 20%, 15%; /* Dark Forest Green */
-  --background-secondary: 120, 20%, 12%; /* Very Dark Green */
-  --background-hover: 120, 20%, 20%; /* Darker Forest Green */
-  --background-light: 120, 20%, 25%; /* Dark Grayish Green */
-  --text-color: 0, 0%, 100%; /* White */
-  --border-color: 120, 20%, 25%; /* Dark Grayish Green */
-  --button-color: 120, 60%, 34%; /* Forest Green */
-  --button-text: 0, 0%, 100%; /* White */
-  --primary: 16, 100%, 57%; /* Deep Orange */
-  --primary-light: 16, 100%, 74%; /* Light Salmon */
-  --primary-dark: 16, 75%, 31%; /* Saddle Brown */
-  --secondary: 195, 100%, 50%; /* Deep Sky Blue */
-  --secondary-light: 195, 73%, 75%; /* Light Sky Blue */
-  --secondary-dark: 195, 100%, 27%; /* Dark Cyan */
-  --text: 0, 0%, 100%; /* White */
-  --text-secondary: 0, 0%, 100%, 0.7; /* Semi-transparent White */
-  --text-disabled: 0, 0%, 100%, 0.5; /* More Transparent White */
+  --background-primary: 160, 25%, 15%; /* Darker Evergreen */
+  --background-secondary: 160, 25%, 10%; /* Even Darker Evergreen */
+  --background-hover: 160, 25%, 20%; /* Muted Dark Evergreen */
+  --background-light: 160, 25%, 25%; /* Lighter Muted Dark Evergreen */
+  --text-color: 0, 0%, 90%; /* Off-White */
+  --border-color: 160, 25%, 25%; /* Muted Dark Evergreen */
+  --button-color: 160, 40%, 20%; /* Muted Bright Dark Evergreen */
+  --button-text: 0, 0%, 90%; /* Off-White */
+  --primary: 270, 40%, 40%; /* Muted Purple */
+  --primary-light: 270, 40%, 60%; /* Light Muted Purple */
+  --primary-dark: 270, 40%, 20%; /* Dark Muted Purple */
+  --secondary: 210, 80%, 30%; /* Dark Muted Sky Blue */
+  --secondary-light: 210, 80%, 50%; /* Light Muted Sky Blue */
+  --secondary-dark: 210, 80%, 20%; /* Darker Muted Sky Blue */
+  --text: 0, 0%, 90%; /* Off-White */
+  --text-secondary: 0, 0%, 90%, 0.7; /* Semi-transparent Off-White */
+  --text-disabled: 0, 0%, 90%, 0.5; /* More Transparent Off-White */
   background: hsl(var(--background-secondary));
 }

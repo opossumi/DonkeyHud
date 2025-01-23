@@ -28,7 +28,7 @@ type EventPayloadMapping = {
   updateMessage: string;
 };
 
-type FrameWindowAction = "CLOSE" | "MAXIMIZE" | "MINIMIZE";
+type FrameWindowAction = "CLOSE" | "MAXIMIZE" | "MINIMIZE" | "CONSOLE";
 
 interface Player {
   _id: string;

@@ -5,11 +5,15 @@ import axios from "axios";
 export const usePlayers = () => {
   const {
     players,
+    selectedPlayer,
     filteredPlayers,
     isLoading,
+    isEditing,
+    setSelectedPlayer,
     setFilteredPlayers,
     fetchPlayers,
     setIsLoading,
+    setIsEditing,
   } = usePlayersContext();
 
   const searchPlayers = (searchValue: string) => {
@@ -36,6 +40,7 @@ export const usePlayers = () => {
     setIsLoading(true);
     await axios.put(`${apiUrl}/players/${player._id}`, player);
     fetchPlayers();
+    setSelectedPlayer(null);
     setIsLoading(false);
   };
 
@@ -49,9 +54,13 @@ export const usePlayers = () => {
 
   return {
     players,
+    selectedPlayer,
     filteredPlayers,
     isLoading,
+    isEditing,
+    setSelectedPlayer,
     setFilteredPlayers,
+    setIsEditing,
     fetchPlayers,
     createPlayer,
     updatePlayer,

@@ -30,3 +30,4 @@ dist-electron
 /playwright/.cache/
 .env
 .env.development
+TODO.TXT

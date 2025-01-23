@@ -22,6 +22,6 @@ Hopefully it ends up looking very nice and lets a lot of people use it in their 
 
 # Admin Panel
 
-![AdminPanel/Matches](https://i.imgur.com/hTIINK5.png)
-![AdminPanel/Players](https://i.imgur.com/VuX5ncs.png)
-![AdminPanel/Teams](https://i.imgur.com/NqtWXyD.png)
+![AdminPanel/Matches](https://i.imgur.com/8WwunXg.png)
+![AdminPanel/Players](https://i.imgur.com/3oKFgIJ.png)
+![AdminPanel/Teams](https://i.imgur.com/vIlKeM6.png)

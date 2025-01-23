@@ -7,33 +7,21 @@ import { Topbar } from "../MainPanel/Topbar";
 import { usePlayers } from "../../hooks";
 
 export const PlayersPage = () => {
-  const [isEditing, setIsEditing] = useState(false);
-  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null); // Store selected player for editing
   const [open, setOpen] = useState(false);
 
-  const { players, filteredPlayers } = usePlayers();
+  const { players, filteredPlayers, setSelectedPlayer, setIsEditing } =
+    usePlayers();
 
   const handleEditPlayer = (player: Player) => {
-    // Handle edit player logic
     setIsEditing(true);
     setOpen(true);
-    setSelectedPlayer(player); // Set selected player for editing
+    setSelectedPlayer(player);
   };
 
   return (
     <section className="relative flex size-full flex-col gap-4">
       <Topbar header="Players" buttonText="Player" openForm={setOpen} />
-      {isEditing && selectedPlayer ? (
-        <PlayerForm
-          player={selectedPlayer}
-          isEditing={isEditing}
-          onCancel={() => setIsEditing(false)}
-          open={open}
-          setOpen={setOpen}
-        />
-      ) : (
-        <PlayerForm open={open} setOpen={setOpen} />
-      )}
+      <PlayerForm open={open} setOpen={setOpen} />
       <Container>
         <div
           className={

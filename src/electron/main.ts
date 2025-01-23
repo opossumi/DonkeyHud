@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, shell } from "electron";
+import { app, BrowserWindow, shell } from "electron";
 import {
   checkDirectories,
   ipcMainHandle,
@@ -15,45 +15,11 @@ import { createMenu } from "./menu.js";
 import { createHudWindow } from "./hudWindow.js";
 import http from "http";
 
-/* 
-TODO: Auto generate cfg file in users steam cfg folder
-TODO: Added login/auth system with supabase
-TODO: Auto-update for app
-TODO: Select/Delete all for player cards and teams/matches tables
-TODO: Delete confirmation buttons/alerts
-TODO: Light/Dark modes and or themes
-TODO: Make Tutorials
-TODO: Swap sides / refresh hud keybinds
-TODO: Upload local pictures/logos
-*/
-
 let server: http.Server;
-
-// Disable custom menu when not in dev
-if (isDev() !== true) {
-  Menu.setApplicationMenu(null);
-}
+let mainWindow: BrowserWindow;
 
 app.on("ready", () => {
-  const mainWindow = new BrowserWindow({
-    width: 1200,
-    minWidth: 800,
-    height: 700,
-    minHeight: 513,
-    frame: isDev(),
-    webPreferences: {
-      preload: getPreloadPath(),
-    },
-  });
-
-  if (isDev()) {
-    /* if in dev, load the vite server on the port we gave it in vite.config.ts */
-    mainWindow.loadURL("http://localhost:5123");
-  } else {
-    /* if not in dev load the built react file using built in path module from node (so it works on all platforms) */
-    mainWindow.loadFile(getUIPath());
-  }
-
+  mainWindow = createMainWindow();
   checkDirectories();
   server = startServer(mainWindow);
 
@@ -74,6 +40,8 @@ app.on("ready", () => {
       case "MAXIMIZE":
         mainWindow.maximize();
         break;
+      case "CONSOLE":
+        mainWindow.webContents.toggleDevTools();
     }
   });
 
@@ -91,6 +59,26 @@ app.on("ready", () => {
   createMenu(mainWindow);
 });
 
+function createMainWindow() {
+  const mainWindow = new BrowserWindow({
+    width: 1200,
+    minWidth: 800,
+    height: 700,
+    minHeight: 513,
+    frame: false,
+    webPreferences: {
+      preload: getPreloadPath(),
+    },
+  });
+
+  if (isDev()) {
+    mainWindow.loadURL("http://localhost:5123");
+  } else {
+    mainWindow.loadFile(getUIPath());
+  }
+
+  return mainWindow;
+}
 function handleCloseEvents(mainWindow: BrowserWindow) {
   /* Handle minimizing to tray */
   let willClose = false;

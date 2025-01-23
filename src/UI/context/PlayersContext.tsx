@@ -5,11 +5,15 @@ import { Player } from "../api/types";
 
 interface PlayersContextProps {
   players: Player[];
+  selectedPlayer: Player | null;
   filteredPlayers: Player[];
+  isEditing: boolean;
   isLoading: boolean;
   setFilteredPlayers: React.Dispatch<React.SetStateAction<Player[]>>;
+  setSelectedPlayer: React.Dispatch<React.SetStateAction<Player | null>>;
   fetchPlayers: () => Promise<void>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PlayersContext = createContext<PlayersContextProps | undefined>(
@@ -21,6 +25,8 @@ export const PlayersProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [filteredPlayers, setFilteredPlayers] = useState<Player[]>([]);
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchPlayers = async () => {
@@ -43,11 +49,15 @@ export const PlayersProvider: React.FC<{ children: React.ReactNode }> = ({
     <PlayersContext.Provider
       value={{
         players,
+        selectedPlayer,
         filteredPlayers,
         isLoading,
+        isEditing,
+        setSelectedPlayer,
         setFilteredPlayers,
         fetchPlayers,
         setIsLoading,
+        setIsEditing,
       }}
     >
       {children}

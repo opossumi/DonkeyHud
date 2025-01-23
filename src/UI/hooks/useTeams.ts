@@ -5,11 +5,15 @@ import { apiUrl } from "../api/api";
 export const useTeams = () => {
   const {
     teams,
+    selectedTeam,
     filteredTeams,
     isLoading,
+    isEditing,
+    setSelectedTeam,
     setFilteredTeams,
     fetchTeams,
     setIsLoading,
+    setIsEditing,
   } = useTeamsContext();
 
   const searchTeams = (searchValue: string) => {
@@ -36,6 +40,7 @@ export const useTeams = () => {
     setIsLoading(true);
     await axios.put(`${apiUrl}/teams/${team._id}`, team);
     fetchTeams();
+    setSelectedTeam(null);
     setIsLoading(false);
   };
 
@@ -75,9 +80,13 @@ export const useTeams = () => {
 
   return {
     teams,
+    selectedTeam,
     filteredTeams,
     isLoading,
+    isEditing,
     setFilteredTeams,
+    setSelectedTeam,
+    setIsEditing,
     fetchTeams,
     searchTeams,
     createTeam,

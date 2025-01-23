@@ -1,16 +1,7 @@
 import { MdLogout } from "react-icons/md";
 import Patreon from "../../assets/patreon.svg";
-import { useUser } from "../../hooks";
-import { useNavigate } from "react-router-dom";
 
 export const Plan = () => {
-  const { logoutUser } = useUser();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    await logoutUser();
-    navigate("/");
-  };
   return (
     <div
       id="Plan"
@@ -29,10 +20,7 @@ export const Plan = () => {
           alt="Patreon"
         />
       </button>
-      <button
-        onClick={handleLogout}
-        className="relative flex h-full items-center overflow-hidden rounded-r-lg p-1 transition-colors hover:bg-red-400"
-      >
+      <button className="relative flex h-full items-center overflow-hidden rounded-r-lg p-1 transition-colors hover:bg-red-400">
         <MdLogout className="size-5 shrink-0" />
       </button>
     </div>

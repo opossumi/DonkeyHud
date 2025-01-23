@@ -4,7 +4,7 @@ export const PageContainer = () => {
   return (
     <div
       id="PageContainer"
-      className="relative flex h-full w-full items-center justify-center overflow-y-auto bg-background-primary px-4 lg:rounded-lg"
+      className="relative flex h-full w-full items-center justify-center overflow-y-auto bg-background-primary px-4 lg:rounded-tl-lg"
     >
       <Outlet />
     </div>

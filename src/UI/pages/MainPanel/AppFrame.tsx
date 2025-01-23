@@ -1,6 +1,7 @@
 import { FaGithub } from "react-icons/fa";
 import { MdClose, MdMenu } from "react-icons/md";
 import { VscChromeMinimize, VscChromeMaximize } from "react-icons/vsc";
+import { VscDebugConsole } from "react-icons/vsc";
 import { NavLink } from "react-router-dom";
 
 interface AppFrameProps {
@@ -11,15 +12,15 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
   return (
     <div
       id="AppFrame"
-      className="relative flex w-full shrink-0 items-center justify-end gap-10 bg-background-secondary pl-5 text-text lg:h-8"
+      className="flex h-8 w-full items-center justify-end gap-10 bg-background-secondary text-text lg:pl-4"
     >
       {toggleDrawer && (
-        <div className="flex items-center gap-2 lg:hidden">
+        <div className="noDrag flex items-center gap-2 lg:hidden">
           <button
             className="noDrag flex items-center justify-center"
             onClick={() => toggleDrawer(true)}
           >
-            <MdMenu className="size-7 transition-colors hover:text-gray-400" />
+            <MdMenu className="noDrag size-7 transition-colors hover:text-gray-400" />
           </button>
           <NavLink to="/" className="noDrag lg:hidden">
             <span className="text-2xl font-bold text-primary-light">OPEN</span>
@@ -27,6 +28,12 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
           </NavLink>
         </div>
       )}
+      <button
+        className="noDrag text-gray-400 transition-colors hover:text-secondary-light"
+        onClick={() => window.electron.sendFrameAction("CONSOLE")}
+      >
+        <VscDebugConsole className="size-6" />
+      </button>
       <div className="flex items-center gap-4">
         <button
           onClick={() =>
