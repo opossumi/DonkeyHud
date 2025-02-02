@@ -1,19 +1,16 @@
-import { app, BrowserWindow, shell } from "electron";
+import { app, BrowserWindow } from "electron";
 import {
   checkDirectories,
-  ipcMainHandle,
-  ipcMainOn,
   isDev,
   showNotification,
   getPreloadPath,
   getUIPath,
 } from "./helpers/index.js";
 import { shutDown, startServer } from "./server/server.js";
-import { getPlayers } from "./server/services/playersServices.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
-import { createHudWindow } from "./hudWindow.js";
 import http from "http";
+import { ipcMainOnEvents } from "./ipcEvents/index.js";
 
 let server: http.Server;
 let mainWindow: BrowserWindow;
@@ -22,41 +19,10 @@ app.on("ready", () => {
   mainWindow = createMainWindow();
   checkDirectories();
   server = startServer(mainWindow);
-
-  // Handle expects a response
-  ipcMainHandle("getPlayers", async () => {
-    const players = await getPlayers();
-    return players;
-  });
-
-  ipcMainOn("sendFrameAction", (payload) => {
-    switch (payload) {
-      case "CLOSE":
-        mainWindow.close();
-        break;
-      case "MINIMIZE":
-        mainWindow.minimize();
-        break;
-      case "MAXIMIZE":
-        mainWindow.maximize();
-        break;
-      case "CONSOLE":
-        mainWindow.webContents.toggleDevTools();
-    }
-  });
-
-  ipcMainOn("startOverlay", () => {
-    const hudWindow = createHudWindow();
-    hudWindow.show();
-  });
-
-  ipcMainOn("openExternalLink", (url) => {
-    shell.openExternal(url);
-  });
-
   createTray(mainWindow);
-  handleCloseEvents(mainWindow);
   createMenu(mainWindow);
+  handleCloseEvents(mainWindow);
+  ipcMainOnEvents(mainWindow);
 });
 
 function createMainWindow() {
@@ -79,6 +45,7 @@ function createMainWindow() {
 
   return mainWindow;
 }
+
 function handleCloseEvents(mainWindow: BrowserWindow) {
   /* Handle minimizing to tray */
   let willClose = false;

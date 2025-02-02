@@ -8,6 +8,7 @@ import {
   teamRoutes,
   matchRoutes,
   coachRoutes,
+  settingsRoutes,
 } from "./routes/index.js";
 import { BrowserWindow } from "electron";
 import { ipcWebContentsSend } from "../helpers/util.js";
@@ -39,6 +40,7 @@ export const startServer = (mainWindow: BrowserWindow) => {
   app.use(teamRoutes);
   app.use(matchRoutes);
   app.use(coachRoutes);
+  app.use(settingsRoutes);
 
   server.listen(port, () => {
     console.log(`Server listening on port ${port}`);

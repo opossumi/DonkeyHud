@@ -18,6 +18,7 @@ electron.contextBridge.exposeInMainWorld("electron", {
 
   startOverlay: () => ipcSend("startOverlay", null),
   openExternalLink: (url) => ipcSend("openExternalLink", url),
+  openHudsDirectory: () => ipcSend("openHudsDirectory", undefined),
 } satisfies Window["electron"]);
 
 function ipcInvoke<Key extends keyof EventPayloadMapping>(

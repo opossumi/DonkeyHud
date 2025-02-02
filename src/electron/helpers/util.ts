@@ -1,9 +1,9 @@
 import { ipcMain, WebContents, WebFrameMain, Notification } from "electron";
 import { getUIPath } from "./pathResolver.js";
 import { pathToFileURL } from "url";
-import fs from "fs";
-import { app } from "electron";
+import { app, shell } from "electron";
 import path from "path";
+import fs from "fs";
 
 export let userHasCustomHud: boolean;
 
@@ -14,7 +14,7 @@ export function isDev(): boolean {
 // Using generics to set the type of key which determines the handler type
 export function ipcMainHandle<Key extends keyof EventPayloadMapping>(
   key: Key,
-  handler: () => EventPayloadMapping[Key]
+  handler: () => EventPayloadMapping[Key],
 ) {
   ipcMain.handle(key, (event) => {
     // Verify the url the user is accessing the fil from
@@ -26,7 +26,7 @@ export function ipcMainHandle<Key extends keyof EventPayloadMapping>(
 }
 export function ipcMainOn<Key extends keyof EventPayloadMapping>(
   key: Key,
-  handler: (payload: EventPayloadMapping[Key]) => void
+  handler: (payload: EventPayloadMapping[Key]) => void,
 ) {
   ipcMain.on(key, (event, payload) => {
     // Verify the url the user is accessing the fil from
@@ -40,7 +40,7 @@ export function ipcMainOn<Key extends keyof EventPayloadMapping>(
 export function ipcWebContentsSend<Key extends keyof EventPayloadMapping>(
   key: Key,
   webContents: WebContents,
-  payload: EventPayloadMapping[Key]
+  payload: EventPayloadMapping[Key],
 ) {
   webContents.send(key, payload);
 }
@@ -72,7 +72,7 @@ export function checkDirectories() {
   /* Check to see if the user has a custom hud loaded */
   const customHudData = path.join(
     app.getPath("home"),
-    "OpenHud-Huds/build/index.html"
+    "OpenHud-Huds/build/index.html",
   );
 
   if (fs.existsSync(customHudData)) {
@@ -82,10 +82,14 @@ export function checkDirectories() {
   }
 }
 
-
 export function showNotification(body: string) {
   new Notification({
     title: "OpenHud:",
     body,
   }).show();
+}
+
+export function openHudsDirectory() {
+  const customHudDir = path.join(app.getPath("home"), "OpenHud-Huds");
+  shell.openPath(customHudDir); // ✅ Correct way to open the folder
 }

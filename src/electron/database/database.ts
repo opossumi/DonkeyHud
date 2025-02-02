@@ -71,4 +71,18 @@ db.run(
   },
 );
 
+db.run(
+  `CREATE TABLE IF NOT EXISTS settings(
+    language TEXT,
+    layout TEXT,
+    autoSwitch BOOLEAN,
+    theme TEXT
+  )`,
+  (err) => {
+    if (err) {
+      console.error(err.message);
+    }
+  },
+);
+
 export default db;
