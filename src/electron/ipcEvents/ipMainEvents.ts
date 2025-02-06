@@ -7,7 +7,7 @@ import {
 import { createHudWindow } from "../hudWindow.js";
 import { getPlayers } from "../server/services/index.js";
 // Handle expects a response
-export function ipcMainOnEvents(mainWindow: BrowserWindow) {
+export function ipcMainEvents(mainWindow: BrowserWindow) {
   ipcMainHandle("getPlayers", async () => {
     const players = await getPlayers();
     return players;

@@ -7,5 +7,5 @@ import {
 export const settingsRoutes = Router();
 
 /* Settings */
-settingsRoutes.get("/coaches", getSettingsController);
-settingsRoutes.put("/coaches", updateSettingsController);
+settingsRoutes.get("/settings", getSettingsController);
+settingsRoutes.put("/settings", updateSettingsController);

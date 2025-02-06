@@ -48,7 +48,7 @@ const NavRoutes = ({ Icon, title, target, to }: RouteProps) => {
       to={to}
       target={target}
       className={({ isActive }) =>
-        `mb-1 flex w-[100%] items-center justify-start gap-4 rounded-lg px-6 py-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-background-hover text-text shadow" : "text-text-secondary shadow-none hover:bg-background-hover"}`
+        `mb-1 flex w-full items-center justify-start gap-4 rounded-lg px-6 py-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-background-hover text-text shadow" : "text-text-secondary shadow-none hover:bg-background-hover"}`
       }
     >
       {({ isActive }) => (

@@ -10,7 +10,7 @@ import { shutDown, startServer } from "./server/server.js";
 import { createTray } from "./tray.js";
 import { createMenu } from "./menu.js";
 import http from "http";
-import { ipcMainOnEvents } from "./ipcEvents/index.js";
+import { ipcMainEvents } from "./ipcEvents/index.js";
 
 let server: http.Server;
 let mainWindow: BrowserWindow;
@@ -22,7 +22,7 @@ app.on("ready", () => {
   createTray(mainWindow);
   createMenu(mainWindow);
   handleCloseEvents(mainWindow);
-  ipcMainOnEvents(mainWindow);
+  ipcMainEvents(mainWindow);
 });
 
 function createMainWindow() {

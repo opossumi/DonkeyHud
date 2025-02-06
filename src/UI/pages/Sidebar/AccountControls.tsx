@@ -17,7 +17,7 @@ export const AccountToggle = () => {
   return (
     <>
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <Settings />
+        <Settings onClose={() => setOpen(false)} />
       </Dialog>
       <div className="flex items-center justify-between rounded-lg bg-background-primary p-2 text-text">
         <div className="flex gap-1">

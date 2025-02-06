@@ -1,1 +1,1 @@
-export * from "./ipcOnEvents.js";
+export * from "./ipMainEvents.js";

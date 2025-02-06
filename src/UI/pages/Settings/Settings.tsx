@@ -1,67 +1,55 @@
-import React, { useState } from "react";
-import { ButtonContained, Container } from "../../components";
+import { useEffect, useState } from "react";
+import { ButtonContained } from "../../components";
+import axios from "axios";
+import { apiUrl } from "../../api/api";
 
-export const Settings = () => {
-  const [autoSwitch, setAutoSwitch] = useState(false);
-  const [layout, setLayout] = useState("horizontal");
+interface SettingsProps {
+  onClose: () => void;
+}
+
+export const Settings = ({ onClose }: SettingsProps) => {
+  const [autoSwitch, setAutoSwitch] = useState(true);
+  const [layout, setLayout] = useState("vertical");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleToggle = () => {
-    setAutoSwitch(!autoSwitch);
+  useEffect(() => {
+    getSettings();
+  }, []);
+
+  const getSettings = async () => {
+    try {
+      const response = await axios.get(`${apiUrl}/settings`);
+      if (response.data) {
+        setAutoSwitch(response.data.autoSwitch);
+        setLayout(response.data.layout);
+      }
+    } catch (error) {
+      console.error("Error fetching settings:", error);
+    }
   };
 
-  const handleLayoutChange = (e) => {
-    setLayout(e.target.value);
+  const saveSettings = async () => {
+    setIsSubmitting(true);
+    try {
+      await axios.put(`${apiUrl}/settings`, { autoSwitch, layout });
+      setIsSubmitting(false);
+    } catch (error) {
+      setErrorMessage("Error saving settings: " + error);
+      setIsSubmitting(false);
+    }
+    setIsSubmitting(false);
+    onClose();
+  };
+
+  const handleToggle = () => {
+    setAutoSwitch(!autoSwitch);
   };
 
   return (
     <div className="flex flex-col gap-6 overflow-y-auto">
       <h2 className="border-b border-border pb-2 font-bold">Settings</h2>
       <div className="container flex flex-col gap-6 overflow-y-auto">
-        <div className="rounded-lg bg-background-secondary p-6 shadow-md">
-          <h2 className="mb-4 text-xl font-semibold">File Status</h2>
-          <p className="text-text-secondary">
-            Check if the required files are installed:
-          </p>
-          <ul className="mt-2 list-inside list-disc">
-            <li className="text-text-secondary">
-              File 1: <span className="text-green-500">Installed</span>
-            </li>
-          </ul>
-          <button className="mt-4 rounded-lg bg-blue-500 px-4 py-2 text-white">
-            Install Files
-          </button>
-        </div>
-
-        <div className="rounded-lg bg-background-secondary p-6 shadow-md">
-          <h2 className="mb-4 text-xl font-semibold">Layout</h2>
-          <div className="flex items-center gap-2">
-            <input
-              type="radio"
-              id="horizontal"
-              name="layout"
-              value="horizontal"
-              checked={layout === "horizontal"}
-              onChange={handleLayoutChange}
-              className="mr-2"
-            />
-            <label htmlFor="horizontal" className="mr-4">
-              Horizontal
-            </label>
-            <input
-              type="radio"
-              id="vertical"
-              name="layout"
-              value="vertical"
-              checked={layout === "vertical"}
-              onChange={handleLayoutChange}
-              className="mr-2"
-            />
-            <label htmlFor="vertical">Vertical</label>
-          </div>
-        </div>
-
         <div className="rounded-lg bg-background-secondary p-6 shadow-md">
           <h2 className="mb-4 text-xl font-semibold">
             Select Language (Coming Soon)
@@ -101,7 +89,24 @@ export const Settings = () => {
             <span className="ml-2">{autoSwitch ? "On" : "Off"}</span>
           </div>
         </div>
+
+        <div className="rounded-lg bg-background-secondary p-6 shadow-md">
+          <h2 className="mb-4 text-xl font-semibold">
+            File Status (Not yet working)
+          </h2>
+          <p className="text-text-secondary">
+            Check if the required files are installed:
+          </p>
+          <ul className="mt-2 list-inside list-disc"></ul>
+          <button
+            disabled
+            className="mt-4 rounded-lg bg-gray-700 px-4 py-2 text-text-disabled"
+          >
+            Install Files
+          </button>
+        </div>
       </div>
+
       <div className="inline-flex w-full justify-end gap-2 border-t border-border p-2">
         {errorMessage && (
           <p className="my-1 text-end text-red-500">{errorMessage}</p>
@@ -110,9 +115,13 @@ export const Settings = () => {
           {isSubmitting ? (
             <ButtonContained disabled>Saving...</ButtonContained>
           ) : (
-            <ButtonContained>Save</ButtonContained>
+            <ButtonContained onClick={() => saveSettings()}>
+              Save
+            </ButtonContained>
           )}
-          <ButtonContained color="secondary">Cancel</ButtonContained>
+          <ButtonContained color="secondary" onClick={onClose}>
+            Cancel
+          </ButtonContained>
         </div>
       </div>
     </div>

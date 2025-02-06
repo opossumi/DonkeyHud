@@ -73,14 +73,37 @@ db.run(
 
 db.run(
   `CREATE TABLE IF NOT EXISTS settings(
-    language TEXT,
-    layout TEXT,
-    autoSwitch BOOLEAN,
-    theme TEXT
+    language TEXT DEFAULT 'en',
+    layout TEXT DEFAULT 'horizontal',
+    autoSwitch BOOLEAN DEFAULT 0,
+    theme TEXT DEFAULT 'dark'
   )`,
   (err) => {
     if (err) {
       console.error(err.message);
+    } else {
+      // Check if the settings table is empty
+      db.get(
+        `SELECT COUNT(*) as count FROM settings`,
+        (err, row: { count: number }) => {
+          if (err) {
+            console.error(err.message);
+          } else if (row.count === 0) {
+            // Insert default values if the table is empty
+            db.run(
+              `INSERT INTO settings (language, layout, autoSwitch, theme)
+             VALUES ('en', 'horizontal', 0, 'dark')`,
+              (err) => {
+                if (err) {
+                  console.error(err.message);
+                } else {
+                  console.log("Inserted default settings.");
+                }
+              },
+            );
+          }
+        },
+      );
     }
   },
 );
