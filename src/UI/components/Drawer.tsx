@@ -20,7 +20,7 @@ export const Drawer = ({ children, onClose, open }: DialogProps) => {
         onClick={onClose}
       />
       <div
-        className={`fixed left-0 top-0 z-30 flex h-screen w-[210px] flex-col bg-background-secondary transition-transform lg:hidden ${className} px-2`}
+        className={`fixed left-0 top-0 z-30 flex h-screen w-32 flex-col bg-background-secondary transition-transform lg:hidden ${className} px-2`}
       >
         {children}
       </div>

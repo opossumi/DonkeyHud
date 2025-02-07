@@ -27,7 +27,7 @@ export const Topbar = ({ header, buttonText, openForm }: TopBarProps) => {
   return (
     <div
       id="TopBar"
-      className="relative flex h-14 shrink-0 items-center justify-between border-b border-border px-4"
+      className="relative flex h-16 shrink-0 items-center justify-between border-b border-border px-4"
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4">

@@ -7,7 +7,6 @@ import {
   MdAddCircle,
   MdPlayArrow,
 } from "react-icons/md";
-import { ButtonContained } from "../../components";
 
 interface RouteProps {
   Icon: IconType;
@@ -31,13 +30,13 @@ export const RouteSelect = () => {
         {routes.map((route, index) => (
           <NavRoutes key={index} {...route} />
         ))}
-        <div className="mt-4 flex size-full justify-center border-t border-border pt-4">
+        <div className="mt-4 flex size-full justify-center border-t border-border pt-4 text-text">
           <button
-            className="flex w-full flex-col items-center justify-center gap-1 rounded-lg bg-primary p-1 transition-colors hover:bg-primary-dark"
+            className="flex w-full items-center justify-center gap-1 rounded-lg bg-primary p-1 transition-colors hover:bg-primary-dark"
             onClick={() => window.electron.startOverlay()}
           >
-            {/* <MdPlayArrow className="size-7" /> */}
-            <p className="font-semibold">Overlay</p>
+            <MdPlayArrow className="size-6" />
+            <p className="text-sm font-semibold uppercase">Overlay</p>
           </button>
         </div>
       </div>

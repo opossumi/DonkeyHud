@@ -2,7 +2,6 @@ import { FaGithub } from "react-icons/fa";
 import { MdClose, MdMenu } from "react-icons/md";
 import { VscChromeMinimize, VscChromeMaximize } from "react-icons/vsc";
 import { VscDebugConsole } from "react-icons/vsc";
-import { NavLink } from "react-router-dom";
 
 interface AppFrameProps {
   toggleDrawer?: (open: boolean) => void;
@@ -12,36 +11,32 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
   return (
     <div
       id="AppFrame"
-      className="flex h-8 w-full items-center justify-end gap-10 bg-background-secondary text-text lg:pl-4"
+      className="relative flex h-8 w-full items-center justify-center gap-10 bg-background-secondary text-text"
     >
       {toggleDrawer && (
-        <div className="noDrag flex items-center gap-2 lg:hidden">
+        <div className="noDrag absolute left-2 flex items-center gap-2 lg:hidden">
           <button
             className="noDrag flex items-center justify-center"
             onClick={() => toggleDrawer(true)}
           >
             <MdMenu className="noDrag size-7 transition-colors hover:text-gray-400" />
           </button>
-          <NavLink to="/" className="noDrag lg:hidden">
-            <span className="text-2xl font-bold text-primary-light">OPEN</span>
-            <span className="text-2xl font-bold">HUD</span>
-          </NavLink>
         </div>
       )}
-      <button
-        className="noDrag text-gray-400 transition-colors hover:text-secondary-light"
-        onClick={() => window.electron.sendFrameAction("CONSOLE")}
-      >
-        <VscDebugConsole className="size-6" />
-      </button>
       <div className="flex items-center gap-4">
+        <button
+          className="noDrag text-text-secondary transition-colors hover:text-secondary-light"
+          onClick={() => window.electron.sendFrameAction("CONSOLE")}
+        >
+          <VscDebugConsole className="size-5" />
+        </button>
         <button
           onClick={() =>
             window.electron.openExternalLink(
               "https://github.com/JohnTimmermann/OpenHud",
             )
           }
-          className="noDrag hidden text-primary-light transition-colors hover:text-primary-dark lg:block"
+          className="noDrag text-text-secondary transition-colors hover:text-secondary-light"
           rel="noreferrer"
         >
           <FaGithub className="size-5" />
@@ -50,7 +45,7 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
           onClick={() =>
             window.electron.openExternalLink("https://discord.gg/HApB9HyaWM")
           }
-          className="noDrag hidden text-primary-light transition-colors hover:text-primary-dark lg:block"
+          className="noDrag text-text-secondary transition-colors hover:text-secondary-light"
           rel="noreferrer"
         >
           <svg
@@ -65,7 +60,7 @@ export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
           </svg>
         </button>
       </div>
-      <div className="inline-flex h-full w-full justify-end lg:w-min">
+      <div className="absolute right-0 inline-flex h-full w-min justify-end">
         <button
           id="minimize"
           onClick={() => window.electron.sendFrameAction("MINIMIZE")}
