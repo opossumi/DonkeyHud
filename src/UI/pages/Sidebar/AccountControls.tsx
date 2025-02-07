@@ -19,7 +19,7 @@ export const AccountToggle = () => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <Settings onClose={() => setOpen(false)} />
       </Dialog>
-      <div className="flex items-center justify-between rounded-lg bg-background-primary p-2 text-text">
+      <div className="flex items-center justify-evenly rounded-lg bg-background-primary p-2 text-text">
         <div className="flex gap-1">
           <button
             onClick={() => setOpen(true)}
@@ -38,11 +38,6 @@ export const AccountToggle = () => {
             ) : (
               <MdOutlineColorLens className="size-5 shrink-0 rounded-full" />
             )}
-          </button>
-        </div>
-        <div className="relative flex items-center justify-center rounded-lg p-1 transition-colors hover:bg-red-400">
-          <button>
-            <MdLogout className="size-5 shrink-0 rounded-full" />
           </button>
         </div>
       </div>

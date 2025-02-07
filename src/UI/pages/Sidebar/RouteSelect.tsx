@@ -27,15 +27,18 @@ const routes: RouteProps[] = [
 export const RouteSelect = () => {
   return (
     <div className="h-full w-full overflow-y-auto">
-      <div className="py-4">
+      <div className="flex flex-col items-center justify-between py-4">
         {routes.map((route, index) => (
           <NavRoutes key={index} {...route} />
         ))}
         <div className="mt-4 flex size-full justify-center border-t border-border pt-4">
-          <ButtonContained onClick={() => window.electron.startOverlay()}>
-            <MdPlayArrow className="mr-2 size-5" />
-            Overlay
-          </ButtonContained>
+          <button
+            className="flex w-full flex-col items-center justify-center gap-1 rounded-lg bg-primary p-1 transition-colors hover:bg-primary-dark"
+            onClick={() => window.electron.startOverlay()}
+          >
+            {/* <MdPlayArrow className="size-7" /> */}
+            <p className="font-semibold">Overlay</p>
+          </button>
         </div>
       </div>
     </div>
@@ -48,7 +51,7 @@ const NavRoutes = ({ Icon, title, target, to }: RouteProps) => {
       to={to}
       target={target}
       className={({ isActive }) =>
-        `mb-1 flex w-full items-center justify-start gap-4 rounded-lg px-6 py-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-background-hover text-text shadow" : "text-text-secondary shadow-none hover:bg-background-hover"}`
+        `mb-1 flex w-full flex-col items-center rounded-lg p-2 transition-[box-shadow,_background-color,_color] ${isActive ? "bg-background-hover text-text shadow" : "text-text-secondary shadow-none hover:bg-background-hover"}`
       }
     >
       {({ isActive }) => (

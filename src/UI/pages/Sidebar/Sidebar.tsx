@@ -7,7 +7,7 @@ export const Sidebar = () => {
   return (
     <section
       id="Sidebar"
-      className="hidden w-52 flex-col justify-between bg-background-secondary px-4 pb-4 lg:flex"
+      className="hidden w-28 flex-col justify-between bg-background-secondary px-2 pb-4 lg:flex"
     >
       <NavLogo />
       <RouteSelect />
