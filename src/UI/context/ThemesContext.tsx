@@ -20,7 +20,6 @@ export const ThemesProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const response = await fetch(`${apiUrl}/settings`);
       const data = await response.json();
-      console.log(data);
       if (data) {
         setTheme("dark");
       } else {
