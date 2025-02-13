@@ -4,7 +4,6 @@ import {
   MdDarkMode,
   MdLightMode,
   MdOutlineColorLens,
-  MdLogout,
 } from "react-icons/md";
 import { Dialog } from "../../components";
 import { useThemes } from "../../hooks/useThemes";
