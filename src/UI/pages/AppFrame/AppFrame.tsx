@@ -1,28 +1,14 @@
 import { FaGithub } from "react-icons/fa";
-import { MdClose, MdMenu } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import { VscChromeMinimize, VscChromeMaximize } from "react-icons/vsc";
 import { VscDebugConsole } from "react-icons/vsc";
 
-interface AppFrameProps {
-  toggleDrawer?: (open: boolean) => void;
-}
-
-export const AppFrame = ({ toggleDrawer }: AppFrameProps) => {
+export const AppFrame = () => {
   return (
     <div
       id="AppFrame"
-      className="relative flex h-8 w-full items-center justify-center gap-10 bg-background-secondary text-text"
+      className="relative flex h-7 w-full items-center gap-10 bg-zinc-950 pl-4 text-text"
     >
-      {toggleDrawer && (
-        <div className="noDrag absolute left-2 flex items-center gap-2 lg:hidden">
-          <button
-            className="noDrag flex items-center justify-center"
-            onClick={() => toggleDrawer(true)}
-          >
-            <MdMenu className="noDrag size-7 transition-colors hover:text-gray-400" />
-          </button>
-        </div>
-      )}
       <div className="flex items-center gap-4">
         <button
           className="noDrag text-text-secondary transition-colors hover:text-secondary-light"

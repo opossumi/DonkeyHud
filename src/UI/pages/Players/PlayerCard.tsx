@@ -75,13 +75,13 @@ export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
         </button>
         <div className="inline-flex">
           <button
-            className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
+            className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary p-2 px-4 py-1 text-primary transition-colors hover:bg-primary-dark"
             onClick={() => handleEditClick()}
           >
             <MdEdit className="size-5" />
           </button>
           <button
-            className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
+            className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary p-2 px-4 py-1 text-primary transition-colors hover:bg-primary-dark"
             onClick={() => deletePlayer(player._id)}
           >
             <MdDelete className="size-5" />

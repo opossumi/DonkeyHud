@@ -18,7 +18,7 @@ export const MatchesTable = ({ onEdit }: MatchTableProps) => {
     });
   }, []);
   return (
-    <table className="table-fixed rounded-t-lg bg-background-secondary">
+    <table className="table-fixed rounded-lg bg-background-secondary">
       <thead className="border-b border-border">
         <tr className="p-2">
           <th className="p-4 text-sm" align="left">
@@ -102,7 +102,7 @@ const MatchRow = ({ match, onEdit }: MatchRowProps) => {
 
   return (
     <tr>
-      <td className="p-4 text-xl font-semibold md:text-2xl" align="left">
+      <td className="px-4 py-2 text-xl font-semibold md:text-2xl" align="left">
         <span className="mr-4">
           {teamOneName} vs {teamTwoName}
         </span>
@@ -112,10 +112,13 @@ const MatchRow = ({ match, onEdit }: MatchRowProps) => {
           ""
         )}
       </td>
-      <td className="p-4 font-semibold uppercase text-gray-400" align="center">
+      <td
+        className="px-4 py-2 font-semibold uppercase text-gray-400"
+        align="center"
+      >
         {match.matchType}
       </td>
-      <td className="p-4 text-lg font-semibold" align="center">
+      <td className="px-4 py-2 text-lg font-semibold" align="center">
         <h6 className="flex items-center justify-center gap-2">
           <img
             src={teamOneLogo}
@@ -130,7 +133,7 @@ const MatchRow = ({ match, onEdit }: MatchRowProps) => {
           />
         </h6>
       </td>
-      <td className="p-4" align="right">
+      <td className="px-4 py-2" align="right">
         {match.current ? (
           <div className="inline-flex">
             <button

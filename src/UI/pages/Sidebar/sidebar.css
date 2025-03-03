@@ -9,7 +9,7 @@
 
 /* Track */
 #Sidebar ::-webkit-scrollbar-track {
-  background: rgb(var(--border-color));
+  background: oklch(var(--border-color));
 }
 
 /* Handle */

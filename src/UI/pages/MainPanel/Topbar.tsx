@@ -27,11 +27,11 @@ export const Topbar = ({ header, buttonText, openForm }: TopBarProps) => {
   return (
     <div
       id="TopBar"
-      className="relative flex h-16 shrink-0 items-center justify-between border-b border-border px-4"
+      className="sticky top-0 z-10 flex h-16 w-full shrink-0 items-center justify-center bg-background-primary px-2 shadow-[0px_2px_2px_-2px_rgba(0,0,0,.5)]"
     >
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-4">
-          <h2 className="font-bold capitalize">{header}</h2>
+          <h3 className="noDrag font-light capitalize">{header}</h3>
           {location.pathname === "/players" && (
             <Searchbar dataSearch={searchPlayers} />
           )}

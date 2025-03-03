@@ -19,7 +19,7 @@ export const PlayersPage = () => {
   };
 
   return (
-    <section className="relative flex size-full flex-col gap-4">
+    <section className="relative flex size-full flex-col gap-1">
       <Topbar header="Players" buttonText="Player" openForm={setOpen} />
       <PlayerForm open={open} setOpen={setOpen} />
       <Container>
