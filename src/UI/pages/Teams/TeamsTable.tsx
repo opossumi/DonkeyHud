@@ -9,8 +9,8 @@ interface TeamsTableProps {
 export const TeamsTable = ({ onEdit }: TeamsTableProps) => {
   const { filteredTeams, deleteTeam } = useTeams();
   return (
-    <table className="table-fixed rounded-lg bg-background-secondary">
-      <thead className="border-b border-border">
+    <table className="relative table-fixed rounded-lg bg-background-secondary">
+      <thead className="sticky top-16 border-b border-border">
         <tr className="p-2">
           <th className="p-4 text-sm" align="left">
             Logo

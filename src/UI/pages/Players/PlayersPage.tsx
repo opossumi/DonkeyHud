@@ -27,7 +27,7 @@ export const PlayersPage = () => {
           className={
             filteredPlayers.length === 0
               ? "flex items-center justify-center"
-              : "grid grid-cols-1 justify-items-center gap-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
+              : "grid grid-cols-3 justify-items-center gap-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6"
           }
         >
           {players.length === 0 && filteredPlayers.length === 0 && (

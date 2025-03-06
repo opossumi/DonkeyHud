@@ -17,7 +17,7 @@ export const TeamsPage = () => {
   };
 
   return (
-    <div className="relative flex size-full flex-col gap-4">
+    <div className="relative flex size-full flex-col gap-1">
       <Topbar header="Teams" buttonText="Team" openForm={setOpen} />
       <TeamsForm open={open} setOpen={setOpen} />
       <TeamsTable onEdit={handleEditTeam} />

@@ -54,9 +54,7 @@ body,
   line-height: normal;
 }
 
-#AppFrame,
-#HomeLogo,
-#TopBar {
+#AppFrame {
   -webkit-app-region: drag;
 }
 
