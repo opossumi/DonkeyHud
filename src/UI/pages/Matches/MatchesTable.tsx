@@ -4,6 +4,7 @@ import axios from "axios";
 import { socket } from "../../api/socket";
 import { apiUrl } from "../../api/api";
 import { useMatches } from "../../hooks";
+import { PrimaryButton } from "../../components/PrimaryButton";
 
 interface MatchTableProps {
   onEdit: (match: Match) => void;
@@ -136,34 +137,22 @@ const MatchRow = ({ match, onEdit }: MatchRowProps) => {
       <td className="px-4 py-2" align="right">
         {match.current ? (
           <div className="inline-flex">
-            <button
-              onClick={handleStopMatch}
-              className="relative inline-flex min-w-[40px] items-center justify-center rounded border border-secondary/50 p-2 px-4 py-1 text-secondary transition-colors hover:bg-secondary/10"
-            >
-              <MdCancel className="size-6" />
-            </button>
+            <PrimaryButton onClick={handleStopMatch}>
+              <MdCancel className="size-6 text-secondary-light" />
+            </PrimaryButton>
           </div>
         ) : (
           <div className="inline-flex">
-            <button
-              onClick={handleStartMatch}
-              className="relative inline-flex min-w-[40px] items-center justify-center rounded-l border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
-            >
+            <PrimaryButton onClick={handleStartMatch}>
               <MdPlayArrow className="size-6" />
-            </button>
-            <button
-              className="relative inline-flex min-w-[40px] items-center justify-center border border-r-0 border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
-              onClick={() => handleEditClick()}
-            >
+            </PrimaryButton>
+            <PrimaryButton onClick={() => handleEditClick()}>
               <MdEdit className="size-6" />
-            </button>
+            </PrimaryButton>
 
-            <button
-              className="relative inline-flex min-w-[40px] items-center justify-center rounded-r border border-primary/50 p-2 px-4 py-1 text-primary transition-colors hover:bg-primary/10"
-              onClick={() => deleteMatch(match.id)}
-            >
+            <PrimaryButton onClick={() => deleteMatch(match.id)}>
               <MdDelete className="size-6" />
-            </button>
+            </PrimaryButton>
           </div>
         )}
       </td>

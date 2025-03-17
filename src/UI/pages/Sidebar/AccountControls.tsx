@@ -1,10 +1,5 @@
 import { useState } from "react";
-import {
-  MdSettings,
-  MdDarkMode,
-  MdLightMode,
-  MdOutlineColorLens,
-} from "react-icons/md";
+import { MdSettings, MdDarkMode, MdLightMode } from "react-icons/md";
 import { Dialog } from "../../components";
 import { useThemes } from "../../hooks/useThemes";
 import { Settings } from "../Settings";
@@ -27,10 +22,8 @@ export const AccountToggle = () => {
         >
           {theme === "dark" ? (
             <MdDarkMode className="size-7 shrink-0" />
-          ) : theme === "light" ? (
-            <MdLightMode className="size-7 shrink-0" />
           ) : (
-            <MdOutlineColorLens className="size-7 shrink-0" />
+            <MdLightMode className="size-7 shrink-0" />
           )}
           {isOpen && <p className="pl-2 font-semibold">Theme</p>}
         </button>

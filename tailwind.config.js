@@ -14,6 +14,7 @@ export default {
       },
       colors: {
         "background-primary": "oklch(var(--background-primary))",
+        "background-contrast": "oklch(var(--background-contrast))",
         "background-secondary": "oklch(var(--background-secondary))",
         "background-hover": "oklch(var(--background-hover))",
         "background-light": "oklch(var(--background-light))",
