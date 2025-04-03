@@ -19,7 +19,8 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
   const [country, setCountry] = useState("");
   const [logo, setLogo] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [teamNameError, setTeamNameError] = useState("");
+  const [logoError, setLogoError] = useState("");
 
   const {
     createTeam,
@@ -43,10 +44,16 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
 
   const validateForm = () => {
     let isValid = true;
-    setErrorMessage("");
+    setTeamNameError("");
+    setLogoError("");
 
-    if (!teamName || !logo) {
-      setErrorMessage("Team name and Logo required!");
+    if (!teamName) {
+      setTeamNameError("Team name is required");
+      isValid = false;
+    }
+
+    if (!logo) {
+      setLogoError("Logo URL is required");
       isValid = false;
     }
 
@@ -89,7 +96,8 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
     setShortName("");
     setCountry("");
     setLogo("");
-    setErrorMessage("");
+    setTeamNameError("");
+    setLogoError("");
   };
 
   return (
@@ -106,8 +114,8 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
             value={teamName}
             required
             onChange={(e) => setTeamName(e.target.value)}
-            error={!!errorMessage}
-            errorMessage={errorMessage}
+            error={!!teamNameError} // Set error state based on teamNameError
+            errorMessage={teamNameError} // Show error message below field
           />
           <TextInput
             label="Short Name"
@@ -133,15 +141,12 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
             value={logo}
             onChange={(e) => setLogo(e.target.value)}
             required
-            error={!!errorMessage} // Set error state based on errorMessage
-            errorMessage={errorMessage} // Show error message below field
+            error={!!logoError} // Set error state based on logoError
+            errorMessage={logoError} // Show error message below field
           />
         </div>
       </Container>
       <div className="flex w-full justify-end gap-2 border-t border-border p-2">
-        {errorMessage && (
-          <p className="my-1 text-end text-red-500">{errorMessage}</p>
-        )}
         <div className="mt-1 flex justify-end gap-1">
           {isSubmitting ? (
             <ButtonContained disabled>Submitting...</ButtonContained>

@@ -32,7 +32,9 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
   const [team, setTeam] = useState("");
   const [country, setCountry] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [steamIdError, setSteamIdError] = useState("");
+  const [steamIdFormatError, setSteamIdFormatError] = useState("");
 
   useEffect(() => {
     if (isEditing && selectedPlayer) {
@@ -51,15 +53,20 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
 
   const validateForm = () => {
     let isValid = true;
-    setErrorMessage(""); // Clear any previous error message
+    setUsernameError("");
+    setSteamIdError("");
+    setSteamIdFormatError("");
 
-    if (!username || !steamId) {
-      setErrorMessage("Alias and SteamID64 are required"); // Set error message
+    if (!username) {
+      setUsernameError("Username is required");
       isValid = false;
     }
 
-    if (steamId && !/^\d{17}$/.test(steamId)) {
-      setErrorMessage("SteamID64 must be 17 digits long"); // Set error message
+    if (!steamId) {
+      setSteamIdError("SteamID64 is required");
+      isValid = false;
+    } else if (!/^\d{17}$/.test(steamId)) {
+      setSteamIdFormatError("SteamID64 must be 17 digits long");
       isValid = false;
     }
 
@@ -108,7 +115,9 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
     setSteamId("");
     setTeam("");
     setCountry("");
-    setErrorMessage(""); // Clear any previous error message
+    setUsernameError("");
+    setSteamIdError("");
+    setSteamIdFormatError("");
   };
 
   return (
@@ -126,16 +135,16 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            error={!!errorMessage} // Set error state based on errorMessage
-            errorMessage={errorMessage} // Show error message below field
+            error={!!usernameError} // Set error state based on usernameError
+            errorMessage={usernameError} // Show error message below field
           />
           <TextInput
             label="SteamID64"
             value={steamId}
             onChange={(e) => setSteamId(e.target.value)}
             required
-            error={!!errorMessage} // Set error state based on errorMessage
-            errorMessage={errorMessage} // Show error message below field
+            error={!!steamIdError || !!steamIdFormatError} // Set error state based on steamIdError or steamIdFormatError
+            errorMessage={steamIdError || steamIdFormatError} // Show error message below field
           />
           <TextInput
             label="First Name"
@@ -176,7 +185,6 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
               ))}
             </select>
           </div>
-          {/* <input type="file" onChange={(e) => setFile(e.target.files?.[0])} /> */}
           <div className="mb-4">
             <label className="mb-2 block font-medium">Country</label>
             <select
@@ -194,9 +202,6 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
         </div>
       </Container>
       <div className="inline-flex w-full justify-end gap-2 border-t border-border p-2">
-        {errorMessage && (
-          <p className="my-1 text-end text-red-500">{errorMessage}</p>
-        )}
         <div className="mt-1 flex justify-end gap-1">
           {isSubmitting ? (
             <ButtonContained disabled>Submitting...</ButtonContained>
@@ -204,7 +209,7 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
             <ButtonContained onClick={handleSubmit}>Submit</ButtonContained>
           )}
           <ButtonContained onClick={handleReset}>Reset</ButtonContained>
-          {isEditing && ( // Conditionally render Cancel button if onCancel prop is provided
+          {isEditing && (
             <ButtonContained color="secondary" onClick={handleCancel}>
               Cancel
             </ButtonContained>
