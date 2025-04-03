@@ -7,7 +7,7 @@ export function getPreloadPath() {
   return path.join(
     app.getAppPath(),
     isDev() ? "." : "..",
-    "/dist-electron/preload.cjs"
+    "/dist-electron/preload.cjs",
   );
 }
 
@@ -35,8 +35,20 @@ export function getDefaultHUDPath() {
   return path.join(
     app.getAppPath(),
     isDev() ? "." : "..",
-    "/src/assets/defaultHud"
+    "/src/assets/defaultHud",
   );
+}
+
+export function getUploadsPath() {
+  return path.join(app.getPath("userData"), "uploads");
+}
+
+export function getPlayerPicturesPath() {
+  return path.join(getUploadsPath(), "player_pictures");
+}
+
+export function getTeamLogosPath() {
+  return path.join(getUploadsPath(), "team_logos");
 }
 
 /* If a user has a custom HUD, use that path, otherwise use the default path */

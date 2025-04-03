@@ -25,7 +25,7 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
   const { teams } = useTeams();
 
   const [username, setUsername] = useState("");
-  const [avatar, setAvatar] = useState("");
+  const [avatarFile, setAvatarFile] = useState<File | null>(null); // For file upload
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [steamId, setSteamId] = useState("");
@@ -40,7 +40,6 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
     if (isEditing && selectedPlayer) {
       // Update form fields when selectedPlayer prop changes
       setUsername(selectedPlayer.username);
-      setAvatar(selectedPlayer.avatar || "");
       setFirstName(selectedPlayer.firstName || "");
       setLastName(selectedPlayer.lastName || "");
       setSteamId(selectedPlayer.steamid);
@@ -77,27 +76,35 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
     if (!validateForm()) return; // Early return if validation fails
 
     setIsSubmitting(true);
-    const newPlayer: Player = {
-      _id: selectedPlayer?._id || "",
-      username,
-      avatar,
-      firstName: firstName,
-      lastName: lastName,
-      steamid: steamId,
-      team,
-      country: country,
-      extra: selectedPlayer?.extra || {},
-    };
 
+    // Create a FormData object to handle file upload
+    const formData = new FormData();
     if (isEditing && selectedPlayer) {
-      await updatePlayer(newPlayer);
-    } else if (createPlayer) {
-      await createPlayer(newPlayer);
+      formData.append("_id", selectedPlayer._id);
+    }
+    formData.append("username", username);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("steamid", steamId);
+    formData.append("team", team);
+    formData.append("country", country);
+    if (avatarFile) {
+      formData.append("avatar", avatarFile); // Append the file
     }
 
-    setIsSubmitting(false);
-    setOpen(false);
-    handleReset();
+    try {
+      if (isEditing && selectedPlayer) {
+        await updatePlayer(formData); // Pass FormData to updatePlayer
+      } else if (createPlayer) {
+        await createPlayer(formData); // Pass FormData to createPlayer
+      }
+      setOpen(false);
+      handleReset();
+    } catch (error) {
+      console.error("Error submitting player:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {
@@ -109,7 +116,7 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
     setIsEditing(false);
     setSelectedPlayer(null);
     setUsername("");
-    setAvatar("");
+    setAvatarFile(null); // Reset file input
     setFirstName("");
     setLastName("");
     setSteamId("");
@@ -156,12 +163,20 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
-          <TextInput
-            label="Avatar URL"
-            value={avatar}
-            onChange={(e) => setAvatar(e.target.value)}
-          />
-
+          <div>
+            <label
+              htmlFor="avatar"
+              className="mb-2 block font-medium text-text"
+            >
+              Avatar
+            </label>
+            <input
+              type="file"
+              id="avatar"
+              accept="image/*"
+              onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} // Handle file input
+            />
+          </div>
           <div>
             <label htmlFor="team" className="mb-2 block font-medium text-text">
               Team

@@ -2,6 +2,7 @@ import { PlayerSilhouette } from "./PlayersPage";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { usePlayers, useTeams } from "../../hooks";
+import { apiUrl } from "../../api/api";
 
 interface PlayerCardProps {
   player: Player;
@@ -9,7 +10,6 @@ interface PlayerCardProps {
 }
 
 export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
-  const [isCopied, setIsCopied] = useState(false);
   const [team, setTeam] = useState<Team | null>(null);
   const { deletePlayer } = usePlayers();
   const { getTeamById } = useTeams();
@@ -31,14 +31,6 @@ export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
     fetchTeam();
   }, [player, getTeamById]);
 
-  const handleCopyClick = (steamId: string) => {
-    navigator.clipboard.writeText(steamId);
-    setIsCopied(true);
-    setTimeout(() => {
-      setIsCopied(false);
-    }, 1250);
-  };
-
   const handleEditClick = () => {
     if (onEdit) {
       onEdit(player);
@@ -48,12 +40,12 @@ export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
   return (
     <div className="relative flex w-full flex-col rounded-lg border border-border bg-background-secondary px-2 py-2">
       {team?.logo && (
-        <img src={team.logo} className="absolute -top-2 size-14 opacity-15" />
+        <img src={team.logo} className="absolute top-2 size-8 opacity-15" />
       )}
       <div className="relative flex w-full justify-center">
         <img
           className="mx-4 size-24 rounded-lg"
-          src={player.avatar ? player.avatar : PlayerSilhouette}
+          src={player.avatar ? apiUrl + player.avatar : PlayerSilhouette}
           alt="Player Avatar"
         />
       </div>
