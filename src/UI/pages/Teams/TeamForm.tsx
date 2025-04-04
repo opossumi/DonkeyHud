@@ -17,7 +17,7 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
   const [teamName, setTeamName] = useState("");
   const [shortName, setShortName] = useState("");
   const [country, setCountry] = useState("");
-  const [logo, setLogo] = useState("");
+  const [logo, setLogo] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [teamNameError, setTeamNameError] = useState("");
   const [logoError, setLogoError] = useState("");
@@ -36,7 +36,6 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
       setTeamName(selectedTeam.name || "");
       setShortName(selectedTeam.shortName || "");
       setCountry(selectedTeam.country || "");
-      setLogo(selectedTeam.logo || "");
     } else {
       handleReset();
     }
@@ -64,19 +63,19 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    const newTeam: Team = {
-      _id: selectedTeam?._id || "",
-      name: teamName,
-      logo,
-      shortName: shortName || "",
-      country: country || "",
-      extra: selectedTeam?.extra || {},
-    };
+
+    const formData = new FormData();
+    if (isEditing && selectedTeam) {
+      formData.append("_id", selectedTeam._id);
+    }
+    formData.append("teamName", teamName);
+    formData.append("shortName", shortName);
+    formData.append("country", country);
 
     if (isEditing && selectedTeam) {
-      await updateTeam(newTeam);
+      await updateTeam(formData);
     } else if (createTeam) {
-      await createTeam(newTeam);
+      await createTeam(formData);
     }
 
     setIsSubmitting(false);
@@ -95,7 +94,7 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
     setTeamName("");
     setShortName("");
     setCountry("");
-    setLogo("");
+    setLogo(null);
     setTeamNameError("");
     setLogoError("");
   };
@@ -136,14 +135,25 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
               ))}
             </select>
           </form>
-          <TextInput
-            label="Logo URL"
-            value={logo}
-            onChange={(e) => setLogo(e.target.value)}
-            required
-            error={!!logoError} // Set error state based on logoError
-            errorMessage={logoError} // Show error message below field
-          />
+          <div>
+            <input
+              type="file"
+              id="logo"
+              accept="image/*"
+              onChange={(e) => setLogo(e.target.files?.[0] || null)}
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => document.getElementById("logo")?.click()}
+              className="rounded bg-primary px-4 py-2 text-white transition-colors hover:bg-primary-dark"
+            >
+              Upload Logo
+            </button>
+            {logo && (
+              <span className="text-sm text-text-secondary">{logo.name}</span>
+            )}
+          </div>
         </div>
       </Container>
       <div className="flex w-full justify-end gap-2 border-t border-border p-2">

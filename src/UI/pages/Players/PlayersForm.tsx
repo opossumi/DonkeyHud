@@ -164,20 +164,6 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
             onChange={(e) => setLastName(e.target.value)}
           />
           <div>
-            <label
-              htmlFor="avatar"
-              className="mb-2 block font-medium text-text"
-            >
-              Avatar
-            </label>
-            <input
-              type="file"
-              id="avatar"
-              accept="image/*"
-              onChange={(e) => setAvatarFile(e.target.files?.[0] || null)} // Handle file input
-            />
-          </div>
-          <div>
             <label htmlFor="team" className="mb-2 block font-medium text-text">
               Team
             </label>
@@ -213,6 +199,38 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <label
+              htmlFor="avatar"
+              className="mb-2 block font-medium text-text"
+            >
+              Avatar
+            </label>
+            <div className="flex items-center gap-4">
+              {/* Hidden file input */}
+              <input
+                type="file"
+                id="avatar"
+                accept="image/*"
+                onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
+                className="hidden" // Hide the default input
+              />
+
+              {/* Custom button to trigger file input */}
+              <button
+                type="button"
+                onClick={() => document.getElementById("avatar")?.click()} // Trigger the hidden input
+                className="rounded bg-primary px-4 py-2 text-white transition-colors hover:bg-primary-dark"
+              >
+                Upload Avatar
+              </button>
+
+              {/* Display the selected file name */}
+              {avatarFile && (
+                <span className="text-sm text-gray-500">{avatarFile.name}</span>
+              )}
+            </div>
           </div>
         </div>
       </Container>

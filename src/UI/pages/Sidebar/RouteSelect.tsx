@@ -27,7 +27,7 @@ const routes: RouteProps[] = [
 export const RouteSelect = () => {
   const { isOpen } = useDrawer();
   return (
-    <div className="relative h-full w-full overflow-y-auto">
+    <div className="relative size-full overflow-y-auto">
       <div className="relative flex flex-col items-center justify-between gap-4 py-5">
         {routes.map((route, index) => (
           <NavRoutes key={index} {...route} />

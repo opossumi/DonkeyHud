@@ -23,6 +23,7 @@
     @apply text-lg;
   }
   [type="text"],
+  [type="file"],
   [type="email"],
   [type="url"],
   [type="password"],

@@ -46,6 +46,10 @@ export const AppFrame = () => {
           </svg>
         </button>
       </div>
+      <div className="absolute left-1/2 flex">
+        <p>Open</p>
+        <p className="text-primary-light">Hud</p>
+      </div>
       <div className="absolute right-0 inline-flex h-full w-min justify-end">
         <button
           id="minimize"
