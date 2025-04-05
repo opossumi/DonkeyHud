@@ -39,19 +39,22 @@ export function getDefaultHUDPath() {
   );
 }
 
+/* If a user has a custom HUD, use that path, otherwise use the default path */
+export function getHudPath() {
+  return userHasCustomHud ? getCustomHudPath() : getDefaultHUDPath();
+}
+
+// Path for uploads folder
 export function getUploadsPath() {
   return path.join(app.getPath("userData"), "uploads");
 }
 
+// Path for player pictures (in uploads folder)
 export function getPlayerPicturesPath() {
   return path.join(getUploadsPath(), "player_pictures");
 }
 
+// Path for team logos (in uploads folder)
 export function getTeamLogosPath() {
   return path.join(getUploadsPath(), "team_logos");
-}
-
-/* If a user has a custom HUD, use that path, otherwise use the default path */
-export function getHudPath() {
-  return userHasCustomHud ? getCustomHudPath() : getDefaultHUDPath();
 }

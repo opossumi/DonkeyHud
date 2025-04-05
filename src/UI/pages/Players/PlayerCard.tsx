@@ -40,7 +40,10 @@ export const PlayerCard = ({ player, onEdit }: PlayerCardProps) => {
   return (
     <div className="relative flex w-full flex-col rounded-lg border border-border bg-background-secondary px-2 py-2">
       {team?.logo && (
-        <img src={team.logo} className="absolute top-2 size-8 opacity-15" />
+        <img
+          src={apiUrl + team.logo}
+          className="absolute top-2 size-8 opacity-15"
+        />
       )}
       <div className="relative flex w-full justify-center">
         <img

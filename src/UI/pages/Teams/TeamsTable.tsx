@@ -1,6 +1,7 @@
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useTeams } from "../../hooks";
 import { PrimaryButton } from "../../components/PrimaryButton";
+import { apiUrl } from "../../api/api";
 
 interface TeamsTableProps {
   onEdit: (team: Team) => void;
@@ -11,7 +12,7 @@ export const TeamsTable = ({ onEdit }: TeamsTableProps) => {
   return (
     <table className="relative table-fixed rounded-lg bg-background-secondary">
       <thead className="sticky top-16 border-b border-border">
-        <tr className="p-2">
+        <tr className="bg-background-secondary p-2 shadow">
           <th className="p-4 text-sm" align="left">
             Logo
           </th>
@@ -59,7 +60,7 @@ const TeamRow = ({ team, onEdit, deleteTeam }: TeamRowProps) => {
   return (
     <tr>
       <td className="px-4 py-2" align="left">
-        <img src={team.logo} alt="Team Logo" className="size-12" />
+        <img src={apiUrl + team.logo} alt="Team Logo" className="size-12" />
       </td>
       <td className="px-4 py-2 text-lg font-semibold" align="center">
         {team.name}

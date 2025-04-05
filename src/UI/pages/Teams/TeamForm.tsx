@@ -68,12 +68,15 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
     if (isEditing && selectedTeam) {
       formData.append("_id", selectedTeam._id);
     }
-    formData.append("teamName", teamName);
+    formData.append("name", teamName);
     formData.append("shortName", shortName);
     formData.append("country", country);
+    if (logo) {
+      formData.append("logo", logo);
+    }
 
     if (isEditing && selectedTeam) {
-      await updateTeam(formData);
+      await updateTeam(selectedTeam._id, formData);
     } else if (createTeam) {
       await createTeam(formData);
     }
@@ -87,7 +90,6 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
     handleReset();
     setOpen(false);
   };
-
   const handleReset = () => {
     setIsEditing(false);
     setSelectedTeam(null);
@@ -152,6 +154,9 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
             </button>
             {logo && (
               <span className="text-sm text-text-secondary">{logo.name}</span>
+            )}
+            {logoError && (
+              <p className="pt-2 text-sm text-red-500">{logoError}</p>
             )}
           </div>
         </div>

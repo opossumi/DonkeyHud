@@ -94,7 +94,7 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
 
     try {
       if (isEditing && selectedPlayer) {
-        await updatePlayer(formData); // Pass FormData to updatePlayer
+        await updatePlayer(selectedPlayer._id, formData); // Pass FormData to updatePlayer
       } else if (createPlayer) {
         await createPlayer(formData); // Pass FormData to createPlayer
       }

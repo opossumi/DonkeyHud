@@ -176,7 +176,11 @@ export const MatchCard = ({ match }: MatchCardProps) => {
           <div id="Score" className="mb-2 flex p-2">
             <div id="Teams" className="flex gap-6">
               <div id="TeamOne" className="flex flex-col items-center gap-1">
-                <img src={teamOneLogo} alt="team1" className="size-14" />
+                <img
+                  src={apiUrl + teamOneLogo}
+                  alt="team1"
+                  className="size-14"
+                />
                 <h1 className="text-6xl font-bold">{match.left.wins}</h1>
                 <div className="inline-flex rounded-lg">
                   <PrimaryButton
@@ -199,7 +203,11 @@ export const MatchCard = ({ match }: MatchCardProps) => {
                 <h5 className="text-text-secondary">{match.matchType}</h5>
               </div>
               <div id="TeamTwo" className="flex flex-col items-center gap-1">
-                <img src={teamTwoLogo} alt="team2" className="size-14" />
+                <img
+                  src={apiUrl + teamTwoLogo}
+                  alt="team2"
+                  className="size-14"
+                />
                 <h1 className="text-6xl font-bold">{match.right.wins}</h1>
                 <div className="inline-flex rounded-lg">
                   <PrimaryButton
@@ -289,9 +297,9 @@ export const MatchCard = ({ match }: MatchCardProps) => {
                   <img
                     src={
                       veto.teamId === teamOneId
-                        ? teamOneLogo
+                        ? apiUrl + teamOneLogo
                         : veto.teamId === teamTwoId
-                          ? teamTwoLogo
+                          ? apiUrl + teamTwoLogo
                           : knifeImage
                     }
                     alt="team"

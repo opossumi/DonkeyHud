@@ -122,14 +122,14 @@ const MatchRow = ({ match, onEdit }: MatchRowProps) => {
       <td className="px-4 py-2 text-lg font-semibold" align="center">
         <h6 className="flex items-center justify-center gap-2">
           <img
-            src={teamOneLogo}
+            src={apiUrl + teamOneLogo}
             className="hidden size-12 md:block"
             alt="Team One Logo"
           />{" "}
           {match.left.wins} - {match.right.wins}{" "}
           <img
             className="hidden size-12 md:block"
-            src={teamTwoLogo}
+            src={apiUrl + teamTwoLogo}
             alt="Team Two Logo"
           />
         </h6>

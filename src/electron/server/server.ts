@@ -25,7 +25,7 @@ export const startServer = (mainWindow: BrowserWindow) => {
   expressApp.use(express.json());
   expressApp.use(express.static(getHudPath()));
 
-  // Serve static files from the uploads directory
+  /* Serve static files from the uploads directory */
   expressApp.use("/uploads", express.static(getUploadsPath()));
 
   /* Game Data */
