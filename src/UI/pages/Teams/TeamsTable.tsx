@@ -10,9 +10,9 @@ interface TeamsTableProps {
 export const TeamsTable = ({ onEdit }: TeamsTableProps) => {
   const { filteredTeams, deleteTeam } = useTeams();
   return (
-    <table className="relative table-fixed rounded-lg bg-background-secondary">
-      <thead className="sticky top-16 border-b border-border">
-        <tr className="bg-background-secondary p-2 shadow">
+    <table className="table-fixed">
+      <thead className="sticky top-16 border-b border-border bg-background-secondary shadow">
+        <tr>
           <th className="p-4 text-sm" align="left">
             Logo
           </th>
@@ -30,7 +30,7 @@ export const TeamsTable = ({ onEdit }: TeamsTableProps) => {
           </th>
         </tr>
       </thead>
-      <tbody className="divide-y divide-border">
+      <tbody className="divide-y divide-border bg-background-secondary">
         {filteredTeams.map((team: Team, index) => (
           <TeamRow
             key={index}

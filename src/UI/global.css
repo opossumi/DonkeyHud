@@ -107,9 +107,9 @@ body,
 }
 
 .light {
-  --background-primary: 1 0 0; /* White */
+  --background-primary: 0.94 0 0;
   --background-contrast: 0.871 0.006 286.286;
-  --background-secondary: 0.94 0 0; /* Light Gray */
+  --background-secondary: 1 0 0;
   --background-hover: 0.86 0 0; /* Gray */
   --background-light: 0.78 0 0; /* Darker Gray */
   --text-color: 0 0 0; /* Black */

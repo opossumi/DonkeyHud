@@ -1,14 +1,23 @@
 import { ButtonContained, Searchbar } from "../../components";
 import { useLocation } from "react-router-dom";
 import { usePlayers, useTeams } from "../../hooks";
+import { MdOutlineTableRows, MdOutlineRememberMe } from "react-icons/md";
 
 interface TopBarProps {
   header: string;
   buttonText?: string;
   openForm?: (open: boolean) => void;
+  layout: "card" | "table";
+  setLayout: (layout: "card" | "table") => void;
 }
 
-export const Topbar = ({ header, buttonText, openForm }: TopBarProps) => {
+export const Topbar = ({
+  header,
+  buttonText,
+  openForm,
+  layout,
+  setLayout,
+}: TopBarProps) => {
   const location = useLocation();
   const { searchPlayers } = usePlayers();
   const { searchTeams } = useTeams();
@@ -39,11 +48,25 @@ export const Topbar = ({ header, buttonText, openForm }: TopBarProps) => {
             <Searchbar dataSearch={searchTeams} />
           )}
         </div>
-        {openForm && (
-          <ButtonContained onClick={() => openForm(true)}>
-            Create {buttonText}
-          </ButtonContained>
-        )}
+        <div className="flex items-center justify-center gap-4">
+          {location.pathname === "/players" &&
+            (layout == "card" ? (
+              <MdOutlineTableRows
+                onClick={() => setLayout("table")}
+                className="flex size-12 cursor-pointer items-center justify-center self-end rounded-lg p-2 hover:bg-background-light"
+              />
+            ) : (
+              <MdOutlineRememberMe
+                onClick={() => setLayout("card")}
+                className="flex size-12 cursor-pointer items-center justify-center self-end rounded-lg p-2 hover:bg-background-light"
+              />
+            ))}
+          {openForm && (
+            <ButtonContained onClick={() => openForm(true)}>
+              Create {buttonText}
+            </ButtonContained>
+          )}
+        </div>
       </div>
     </div>
   );

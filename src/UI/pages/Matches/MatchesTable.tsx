@@ -19,9 +19,9 @@ export const MatchesTable = ({ onEdit }: MatchTableProps) => {
     });
   }, []);
   return (
-    <table className="table-fixed rounded-lg bg-background-secondary">
-      <thead className="border-b border-border">
-        <tr className="p-2">
+    <table className="table-fixed">
+      <thead className="sticky top-16 border-b border-border bg-background-secondary shadow">
+        <tr>
           <th className="p-4 text-sm" align="left">
             Match
           </th>
@@ -36,7 +36,7 @@ export const MatchesTable = ({ onEdit }: MatchTableProps) => {
           </th>
         </tr>
       </thead>
-      <tbody className="divide-y divide-border">
+      <tbody className="divide-y divide-border bg-background-secondary">
         {matches.map((match: Match, index) => (
           <MatchRow key={index} match={match} onEdit={onEdit} />
         ))}

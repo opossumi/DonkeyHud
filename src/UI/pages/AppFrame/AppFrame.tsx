@@ -1,9 +1,20 @@
+import { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { MdClose } from "react-icons/md";
 import { VscChromeMinimize, VscChromeMaximize } from "react-icons/vsc";
 import { VscDebugConsole } from "react-icons/vsc";
 
 export const AppFrame = () => {
+  const [maximized, setMaximized] = useState<boolean>(false);
+
+  const handle_maximize = () => {
+    if (maximized || screen.availWidth - window.innerWidth === 0) {
+      window.electron.sendFrameAction("RESET");
+    } else {
+      window.electron.sendFrameAction("MAXIMIZE");
+    }
+    setMaximized(!maximized);
+  };
   return (
     <div
       id="AppFrame"
@@ -60,7 +71,7 @@ export const AppFrame = () => {
         </button>
         <button
           id="maximize"
-          onClick={() => window.electron.sendFrameAction("MAXIMIZE")}
+          onClick={handle_maximize}
           className="noDrag flex w-12 items-center justify-center transition-colors hover:bg-border hover:text-primary"
         >
           <VscChromeMaximize className="size-5" />
