@@ -3,6 +3,7 @@ import { usePlayers, useTeams } from "../../hooks";
 import { PrimaryButton } from "../../components/PrimaryButton";
 import { apiUrl } from "../../api/api";
 import { useState, useEffect } from "react";
+import { PlayerSilhouette } from "./PlayersPage";
 
 interface PlayersTableProps {
   onEdit: (player: Player) => void;
@@ -77,7 +78,7 @@ const PlayerRow = ({ player, onEdit }: PlayerRowProps) => {
     <tr>
       <td className="px-4 py-2" align="left">
         <img
-          src={apiUrl + player.avatar}
+          src={player.avatar ? apiUrl + player.avatar : PlayerSilhouette}
           alt="Player avatar"
           className="size-20"
         />

@@ -7,6 +7,7 @@ import {
 } from "../../components";
 import { countries } from "../../api/countries";
 import { usePlayers, useTeams } from "../../hooks";
+import { apiUrl } from "../../api/api";
 
 interface PlayerFormProps {
   open: boolean;
@@ -207,20 +208,29 @@ export const PlayerForm = ({ open, setOpen }: PlayerFormProps) => {
             >
               Avatar
             </label>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-col items-start gap-4">
+              {/* Show current avatar if editing and player has one */}
+              {isEditing && selectedPlayer?.avatar && (
+                <img
+                  src={apiUrl + selectedPlayer.avatar}
+                  alt="Current Avatar"
+                  className="size-36 rounded border object-cover"
+                />
+              )}
+
               {/* Hidden file input */}
               <input
                 type="file"
                 id="avatar"
                 accept="image/*"
                 onChange={(e) => setAvatarFile(e.target.files?.[0] || null)}
-                className="hidden" // Hide the default input
+                className="hidden"
               />
 
               {/* Custom button to trigger file input */}
               <button
                 type="button"
-                onClick={() => document.getElementById("avatar")?.click()} // Trigger the hidden input
+                onClick={() => document.getElementById("avatar")?.click()}
                 className="rounded bg-primary px-4 py-2 text-white transition-colors hover:bg-primary-dark"
               >
                 Upload Avatar

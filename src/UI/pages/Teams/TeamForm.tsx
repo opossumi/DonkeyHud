@@ -7,6 +7,7 @@ import {
 } from "../../components";
 import { countries } from "../../api/countries";
 import { useTeams } from "../../hooks";
+import { apiUrl } from "../../api/api";
 
 interface TeamsFormProps {
   open: boolean;
@@ -137,7 +138,15 @@ export const TeamsForm = ({ open, setOpen }: TeamsFormProps) => {
               ))}
             </select>
           </form>
-          <div>
+          <div className="flex flex-col items-center gap-4">
+            {/* Show current avatar if editing and player has one */}
+            {isEditing && selectedTeam?.logo && (
+              <img
+                src={apiUrl + selectedTeam?.logo}
+                alt="Current Logo"
+                className="size-36 rounded border object-cover"
+              />
+            )}
             <input
               type="file"
               id="logo"

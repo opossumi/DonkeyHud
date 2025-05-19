@@ -57,7 +57,7 @@ export const AppFrame = () => {
           </svg>
         </button>
       </div>
-      <div className="absolute left-1/2 flex">
+      <div className="absolute left-1/2 flex font-semibold">
         <p>Open</p>
         <p className="text-primary-light">Hud</p>
       </div>
