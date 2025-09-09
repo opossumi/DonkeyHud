@@ -1,6 +1,7 @@
 import { useTeamsContext } from "../context/TeamsContext";
 import axios from "axios";
 import { apiUrl } from "../api/api";
+import { Team } from "../api/types";
 
 export const useTeams = () => {
   const {
@@ -27,12 +28,13 @@ export const useTeams = () => {
     }
   };
 
-  const createTeam = async (team: FormData) => {
+  const createTeam = async (team: FormData): Promise<Team> => {
     // Handle create or update player logic
     setIsLoading(true);
-    await axios.post(`${apiUrl}/teams`, team);
+    const resp = await axios.post(`${apiUrl}/teams`, team);
     fetchTeams();
     setIsLoading(false);
+    return resp.data;
   };
 
   const updateTeam = async (team_id: string, team: FormData) => {

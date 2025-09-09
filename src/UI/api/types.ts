@@ -170,3 +170,47 @@ export type Knife =
   | "knife_ursus" //
   | "knife_widowmaker" //
   | "knife_canis"; //
+
+export interface FaceitEntity {
+  type: string; // "championship"
+  id: string;
+  name: string;
+}
+
+export interface FaceitPlayer {
+  id: string;
+  nickname: string; // Faceit username
+  gameId: string; // SteamID
+  gameName: string;
+  avatar?: string; // Avatar URL
+  elo: number;
+  gameSkillLevel: number;
+}
+
+export interface FaceitTeam {
+  id: string;
+  type: string; // "premade"
+  name: string;
+  avatar: string; // Avatar URL
+  leader: string; // Faceit player ID
+  roster: FaceitPlayer[];
+  substitutes: FaceitPlayer[];
+}
+
+export interface FaceitMatch {
+  id: string;
+  organizerId: string;
+  entity: FaceitEntity;
+  schedule: string; // "2025-09-10T17:00:00Z"
+  teams: {
+    faction1: FaceitTeam;
+    faction2: FaceitTeam;
+  }
+}
+
+export interface FaceitResponse<T> {
+  code: string;
+  message: string;
+  payload: T;
+  time: number;
+}

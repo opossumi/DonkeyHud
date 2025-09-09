@@ -18,6 +18,7 @@ interface RouteProps {
 
 const routes: RouteProps[] = [
   /* Matches redirect to home (/) */
+  { Icon: MdAddCircle, title: "Faceit import", to: "import" },
   { Icon: MdAddCircle, title: "Matches", to: "" },
   { Icon: MdOutlinePerson, title: "Players", to: "players" },
   { Icon: MdGroups, title: "Teams", to: "teams" },

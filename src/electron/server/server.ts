@@ -4,6 +4,7 @@ import http from "http";
 import { initializeSocket } from "./sockets/socket.js";
 import { readGameData } from "./sockets/GSI.js";
 import {
+  faceitRoutes,
   playerRoutes,
   teamRoutes,
   matchRoutes,
@@ -37,6 +38,7 @@ export const startServer = (mainWindow: BrowserWindow) => {
   });
 
   /* Routes */
+  expressApp.use(faceitRoutes);
   expressApp.use(playerRoutes);
   expressApp.use(teamRoutes);
   expressApp.use(matchRoutes);

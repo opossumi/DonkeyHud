@@ -19,7 +19,22 @@ export async function apiV2(url: string, method = "GET", body?: any) {
   });
 }
 
+export async function apiV2Blob(url: string, method = "GET") {
+  const options: RequestInit = {
+    method,
+    headers: { Accept: "*/*" }
+  };
+  return fetch(`${apiUrl}${url}`, options).then((res) => {
+    return res.blob();
+  });
+}
+
 const api = {
+  faceit: {
+    getCdnImage: async (url: string): Promise<Blob> => apiV2Blob(`/faceit/images?` + new URLSearchParams({ url: encodeURIComponent(url) })),
+    getMatch: async (matchId: string): Promise<I.FaceitResponse<I.FaceitMatch>> =>
+      apiV2(`/faceit/match/${matchId}`),
+  },
   match: {
     getAll: async (): Promise<I.Match[]> => apiV2(`/matches`),
     getCurrent: async (): Promise<I.Match> => apiV2(`/current_match`),
@@ -35,6 +50,7 @@ const api = {
     getAll: (): Promise<I.Team[]> => apiV2(`/teams`),
   },
   players: {
+    get: async (id: string): Promise<I.Player> => apiV2(`/players/${id}`),
     getAll: async (steamids?: string[]): Promise<I.Player[]> =>
       apiV2(steamids ? `/players?steamids=${steamids.join(";")}` : `/players`),
     getAvatarURLs: async (
