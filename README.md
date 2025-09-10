@@ -1,6 +1,6 @@
-# OpenHud - An open source CS2 Custom Hud.
+# DonkeyHud - An open source CS2 Custom Hud.
 
-Join the community [Discord](https://discord.gg/HApB9HyaWM)!
+Based on [OpenHud](https://github.com/JohnTimmermann/OpenHud)
 
 - Tech: Electron, React, Typescript, NodeJS, Express, Socketio, SQLite3
 - Styling: TailwindCSS (admin panel) / Sass (hud)
