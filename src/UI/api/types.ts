@@ -94,6 +94,7 @@ export interface Veto {
 
 export interface Match {
   id: string;
+  matchId?: string;
   current: boolean;
   left: {
     id: string | null;
@@ -205,12 +206,37 @@ export interface FaceitMatch {
   teams: {
     faction1: FaceitTeam;
     faction2: FaceitTeam;
+  },
+  matchCustom: {
+    overview: {
+      round: {
+        to_play: 1 | 2 | 3 | 5, // Is this really not anywhere else? :D
+      }
+    }
   }
 }
 
+export interface FaceitDemocracyTicketEntity {
+  guid: string; // map
+  status: "drop" | "pick";
+  random: boolean;
+  round: number;
+  selected_by: "faction1" | "faction2";
+}
+
+export interface FaceitDemocracyTicket {
+  entity_type: "location" | "map";
+  vote_type: "drop_pick";
+}
+
+export interface FaceitDemocrayHistory {
+  match_id: string;
+  tickets: FaceitDemocracyTicket[];
+}
+
 export interface FaceitResponse<T> {
-  code: string;
-  message: string;
+  code?: string;
+  message?: string;
   payload: T;
-  time: number;
+  time?: number;
 }

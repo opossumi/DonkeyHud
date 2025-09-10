@@ -56,6 +56,7 @@ export const db = new sqlite3.Database(dbPath, (err) => {
 db.run(
   `CREATE TABLE IF NOT EXISTS matches(
     id TEXT PRIMARY KEY,
+    match_id TEXT,
     current BOOLEAN,
     left_id TEXT,
     left_wins INTEGER,

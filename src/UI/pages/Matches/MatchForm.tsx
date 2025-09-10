@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { MatchTypes } from "./MatchPage";
 import { VetoRow } from "./VetoRow";
-import { ButtonContained, Container, Dialog } from "../../components";
+import { ButtonContained, Container, Dialog, TextInput } from "../../components";
 import { useTeams, useMatches } from "../../hooks";
 
 interface MatchFormProps {
@@ -22,6 +22,7 @@ export const MatchForm = ({
   const [matchType, setMatchType] = useState<"bo1" | "bo2" | "bo3" | "bo5">(
     "bo1",
   );
+  const [matchId, setMatchId] = useState<string | null>(null);
   const [leftTeamId, setLeftTeamId] = useState<string | null>(null);
   const [leftTeamWins, setLeftTeamWins] = useState<number>(0);
   const [rightTeamId, setRightTeamId] = useState<string | null>(null);
@@ -49,6 +50,7 @@ export const MatchForm = ({
 
   useEffect(() => {
     if (isEditing && match) {
+      setMatchId(match.matchId || null);
       setLeftTeamId(match.left.id);
       setRightTeamId(match.right.id);
       setLeftTeamWins(match.left.wins);
@@ -90,6 +92,7 @@ export const MatchForm = ({
     setIsSubmitting(true);
     const newMatch: Match = {
       id: match?.id || "",
+      matchId: matchId || undefined,
       left: { id: leftTeamId, wins: leftTeamWins },
       right: { id: rightTeamId, wins: rightTeamWins },
       matchType: matchType as "bo1" | "bo2" | "bo3" | "bo5",
@@ -146,6 +149,16 @@ export const MatchForm = ({
       </div>
       <Container>
         <div className="flex flex-1 flex-col overflow-y-scroll p-6">
+          <div className="my-2 flex items-center justify-center gap-4">
+            <div className="my-2 flex gap-4">
+              <TextInput
+                label="Match Id"
+                placeholder="1-xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                value={matchId || ""}
+                onChange={(e) => setMatchId(e.target.value)}
+              />
+            </div>
+          </div>
           <div className="my-2 flex items-center justify-center gap-4">
             <div className="bg-background-primary">
               <select

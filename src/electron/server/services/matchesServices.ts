@@ -12,6 +12,7 @@ export const getMatches = () => {
       } else {
         const matches: Match[] = rows.map((row: any) => ({
           id: row.id,
+          matchId: row.match_id,
           current: row.current,
           left: { id: row.left_id, wins: row.left_wins },
           right: { id: row.right_id, wins: row.right_wins },
@@ -26,14 +27,15 @@ export const getMatches = () => {
 
 export const createMatch = (match: Match) => {
   const sql = `
-  INSERT INTO matches (id, current, left_id, left_wins, right_id, right_wins, matchType, vetos)
-  VALUES (?, ?, ?, ?, ?, ?, ? , ?)
+  INSERT INTO matches (id, match_id, current, left_id, left_wins, right_id, right_wins, matchType, vetos)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
   return new Promise((resolve, reject) => {
     db.run(
       sql,
       [
         match.id,
+        match.matchId,
         match.current,
         match.left.id,
         match.left.wins,
@@ -65,6 +67,7 @@ export const getMatchById = (id: string) => {
       } else {
         const match: Match = {
           id: row.id,
+          matchId: row.match_id,
           current: row.current,
           left: { id: row.left_id, wins: row.left_wins },
           right: { id: row.right_id, wins: row.right_wins },
@@ -93,11 +96,12 @@ export const deleteMatch = (id: string) => {
 };
 
 export const updateMatch = (id: string, match: Match) => {
-  const sql = `UPDATE matches SET current = ?, left_id = ?, left_wins = ?, right_id = ?, right_wins = ?, matchType = ?, vetos = ? WHERE id = ?`;
+  const sql = `UPDATE matches SET match_id = ?, current = ?, left_id = ?, left_wins = ?, right_id = ?, right_wins = ?, matchType = ?, vetos = ? WHERE id = ?`;
   return new Promise((resolve, reject) => {
     db.run(
       sql,
       [
+        match.matchId,
         match.current,
         match.left.id,
         match.left.wins,
@@ -133,6 +137,7 @@ export const getCurrentMatch = () => {
       } else {
         const match: Match = {
           id: row.id,
+          matchId: row.match_id,
           current: row.current,
           left: { id: row.left_id, wins: row.left_wins },
           right: { id: row.right_id, wins: row.right_wins },
@@ -172,7 +177,7 @@ export const setCurrentMatch = (id: string, current: boolean) => {
 };
 
 export const updateCurrentMatch = (match: Match) => {
-  const sql = `UPDATE matches SET current = ?, left_id = ?, left_wins = ?, right_id = ?, right_wins = ?, matchType = ?, vetos = ? WHERE current = 1`;
+  const sql = `UPDATE matches SET match_id = ?, current = ?, left_id = ?, left_wins = ?, right_id = ?, right_wins = ?, matchType = ?, vetos = ? WHERE current = 1`;
   return new Promise((resolve, reject) => {
     const updatedMatch = {
       ...match,
@@ -182,6 +187,7 @@ export const updateCurrentMatch = (match: Match) => {
     db.run(
       sql,
       [
+        updatedMatch.matchId,
         updatedMatch.current,
         updatedMatch.left.id,
         updatedMatch.left.wins,

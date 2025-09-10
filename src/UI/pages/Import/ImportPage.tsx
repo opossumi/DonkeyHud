@@ -3,7 +3,7 @@ import { Topbar } from "../MainPanel/Topbar";
 import { ButtonContained, TextInput } from "../../components";
 import api from "../../api/api";
 import { FaceitPlayer, FaceitTeam, Team } from "../../api/types";
-import { usePlayers, useTeams } from "../../hooks";
+import { useMatches, usePlayers, useTeams } from "../../hooks";
 
 export const ImportPage = () => {
   const [importLog, setImportLog] = useState("");
@@ -20,6 +20,10 @@ export const ImportPage = () => {
     createPlayer,
     updatePlayer
   } = usePlayers();
+
+  const {
+    createMatch,
+  } = useMatches();
 
   const validateForm = () => {
     let isValid = true;
@@ -101,19 +105,41 @@ export const ImportPage = () => {
     }
   }
 
-  const importMatch = async (matchID: string) => {
-    const matchData = await fetchMatch(matchID);
+  const importMatch = async (matchId: string) => {
+    const matchData = await fetchMatch(matchId);
     if (matchData.code !== "OPERATION-OK") {
       setMatchroomURLError(`Error fetching match: ${matchData.message}`);
       return;
     }
 
     const data = matchData.payload;
-    const teams = await api.teams.getAll();
+    let teams = await api.teams.getAll();
     const players = await api.players.getAll();
     
     await importTeam(teams, players, data.teams.faction1);
     await importTeam(teams, players, data.teams.faction2);
+    teams = await api.teams.getAll();
+
+    const team1 = teams.find(t => t.name === data.teams.faction1.name)!;
+    const team2 = teams.find(t => t.name === data.teams.faction2.name)!;
+    await createMatch({
+      id: data.id,
+      matchId: matchId,
+      current: false,
+      left: { id: team1._id, wins: 0 },
+      right: { id: team2._id, wins: 0 },
+      matchType: `bo${data.matchCustom.overview.round.to_play}` as "bo1" | "bo2" | "bo3" | "bo5",
+      vetos: Array(9)
+        .fill(null)
+        .map(() => ({
+          teamId: "",
+          mapName: "",
+          side: "NO",
+          type: "ban",
+          mapEnd: false,
+        }))
+    });
+    log(`Created match ${team1.name} vs ${team2.name}`);
   }
 
   const handleSubmit = async () => {
@@ -123,8 +149,9 @@ export const ImportPage = () => {
 
     let matchroomID = "";
 
-    // https://www.faceit.com/en/cs2/room/1-xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-    // https://www.faceit.com/api/match/v2/match/1-xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    // https://www.faceit.com/en/cs2/room/1-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    // https://www.faceit.com/api/match/v2/match/1-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    // https://www.faceit.com/api/democracy/v1/match/1-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/history
     let match = matchroomURL.match(/^https:\/\/www.faceit.com\/en\/cs2\/room\/(1-.*)$/)
     if (match && match[1]) {
       matchroomID = match[1];
@@ -148,8 +175,8 @@ export const ImportPage = () => {
     <section id="MatchPage" className="relative flex size-full flex-col gap-1">
       <Topbar header="Faceit Import" />
       <TextInput
-        label="Matchroom URL"
-        placeholder="https://www.faceit.com/en/cs2/room/1-xxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        label="Matchroom URL / ID"
+        placeholder="https://www.faceit.com/en/cs2/room/1-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
         value={matchroomURL}
         onChange={(e) => setMatchroomURL(e.target.value)}
         required

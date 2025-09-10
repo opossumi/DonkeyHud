@@ -133,6 +133,7 @@ interface Veto {
 
 interface Match {
   id: string;
+  matchId?: string;
   current: boolean;
   left: {
     id: string | null;
