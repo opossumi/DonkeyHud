@@ -1,13 +1,13 @@
 {
-  "appId": "com.openhud.electron-app",
-  "productName": "OpenHud",
+  "appId": "fi.0mk.donkeyhud.electron-app",
+  "productName": "DonkeyHud",
   "files": ["dist-electron", "dist-react"],
   "extraResources": ["dist-electron/preload.cjs", "src/assets/**"],
   "icon": "./desktopIcon.png",
   "publish": {
     "provider": "github",
-    "owner": "JohnTimmermann",
-    "repo": "OpenHud",
+    "owner": "opossumi",
+    "repo": "DonkeyHud",
     "releaseType": "release"
   },
   "mac": {

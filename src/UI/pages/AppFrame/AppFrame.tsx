@@ -30,7 +30,7 @@ export const AppFrame = () => {
         <button
           onClick={() =>
             window.electron.openExternalLink(
-              "https://github.com/JohnTimmermann/OpenHud",
+              "https://github.com/opossumi/DonkeyHud",
             )
           }
           className="noDrag text-text-secondary transition-colors hover:text-secondary-light"
@@ -39,9 +39,9 @@ export const AppFrame = () => {
           <FaGithub className="size-5" />
         </button>
         <button
-          onClick={() =>
-            window.electron.openExternalLink("https://discord.gg/HApB9HyaWM")
-          }
+          onClick={() => {
+            //window.electron.openExternalLink("https://discord.gg/...")
+          }}
           className="noDrag text-text-secondary transition-colors hover:text-secondary-light"
           rel="noreferrer"
         >
@@ -58,7 +58,7 @@ export const AppFrame = () => {
         </button>
       </div>
       <div className="absolute left-1/2 flex font-semibold">
-        <p>Open</p>
+        <p>Donkey</p>
         <p className="text-primary-light">Hud</p>
       </div>
       <div className="absolute right-0 inline-flex h-full w-min justify-end">

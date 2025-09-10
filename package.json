@@ -1,15 +1,14 @@
 {
-  "name": "openhud",
+  "name": "donkeyhud",
   "private": true,
   "version": "3.0.7",
   "type": "module",
   "main": "dist-electron/main.js",
   "author": {
-    "name": "JohnTimmermann",
-    "email": "johnwtimmermann@yahoo.com"
+    "name": "opossumi"
   },
-  "description": "OpenHud - CS2 Admin Panel / HUD",
-  "repository": "https://github.com/JohnTimmermann/OpenHud",
+  "description": "DonkeyHud - CS2 Admin Panel / HUD",
+  "repository": "https://github.com/opossumi/DonkeyHud",
   "scripts": {
     "dev": "npm-run-all --parallel dev:react dev:electron",
     "dev:react": "vite",
